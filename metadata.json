@@ -16,13 +16,13 @@
     }
   ],
   "name": "pltraining-classroom",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",
-  "source": "https://github.com/puppetlabs/puppetlabs-training-bootstrap/tree/master/modules/classroom",
-  "project_page": "https://github.com/puppetlabs/puppetlabs-training-bootstrap/tree/master/modules/classroom",
-  "issues_url": "https://github.com/puppetlabs/puppetlabs-training-bootstrap/issues",
+  "source": "https://github.com/puppetlabs/pltraining-classroom",
+  "project_page": "https://github.com/puppetlabs/pltraining-classroom",
+  "issues_url": "https://github.com/puppetlabs/pltraining-classroom/issues",
   "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching Puppet Labs training courses!\n    - Configures and sets up classroom environment for Puppet Classroom trainings.",
   "dependencies": [
     {"name":"hunner/wordpress",     "version_requirement":">= 0.6.0"},
