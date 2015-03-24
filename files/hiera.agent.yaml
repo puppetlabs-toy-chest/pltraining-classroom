@@ -7,4 +7,5 @@
 
 :hierarchy:
   - "%{clientcert}"
+  - "%{osfamily}"
   - defaults
