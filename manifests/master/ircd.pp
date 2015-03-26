@@ -17,4 +17,11 @@ class classroom::master::ircd {
     enable    => true,
     subscribe => File['/etc/ngircd.conf'],
   }
+
+  # gems used by the irc report handler.
+  package { 'carrier-pigeon':
+    ensure   => present,
+    provider => pe_puppetserver_gem,
+  }
+
 }
