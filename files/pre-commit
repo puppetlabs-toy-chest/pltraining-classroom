@@ -21,6 +21,9 @@ do
     "erb") /opt/puppet/bin/erb -P -x -T '-' ${file} | /opt/puppet/bin/ruby -c >/dev/null
            ;;
 
+    "yaml") /opt/puppet/bin/uby -ryaml -e "YAML.load_file '${file}'" >/dev/null
+           ;;
+
   esac
 
   EXITCODE=$((EXITCODE + $?))
