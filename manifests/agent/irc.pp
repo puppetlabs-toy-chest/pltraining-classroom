@@ -25,12 +25,6 @@ class classroom::agent::irc {
       content => template('classroom/irc.yaml.erb'),
     }
 
-    # gems used by the irc report handler.
-    package { 'carrier-pigeon':
-      ensure   => present,
-      provider => pe_gem,
-    }
-
     # configure the client connection to the irc server
     package { 'irssi':
       ensure => present,
