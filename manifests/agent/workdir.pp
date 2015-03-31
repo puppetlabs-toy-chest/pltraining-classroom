@@ -52,6 +52,12 @@ define classroom::agent::workdir (
         replace => false,
       }
 
+      file { "${workdir}/manifests/classroom.pp":
+        ensure  => file,
+        source  => 'puppet:///modules/classroom/classroom.pp',
+        replace => false,
+      }
+
       # https://docs.puppetlabs.com/puppet/latest/reference/environments_configuring.html#environmenttimeout
       # suggests that this setting can be pushed up to puppet.conf globally.
       # Initial testing appears to confirm that. If this proves problematic, then
