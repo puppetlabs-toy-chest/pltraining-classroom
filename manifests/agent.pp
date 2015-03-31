@@ -31,6 +31,17 @@ class classroom::agent (
     Classroom::Dns_server <<||>>
   }
 
+  # Non-windows agents
+  unless $::osfamily == 'windows' {
+    include classroom::agent::reporting
+    # /etc/puppet/ssl is confusing to have around. Sloppy. Kill.
+    file {'/etc/puppet':
+      ensure  => absent,
+      recurse => true,
+      force   => true,
+    }
+  }
+
   # make sure our git environment is set up and usable
   include classroom::agent::git
 
@@ -66,14 +77,4 @@ class classroom::agent (
     # If we have teams defined for this node, build a working directory for each.
     include classroom::agent::teams
   }
-
-  # /etc/puppet/ssl is confusing to have around. Sloppy. Kill.
-  unless $::osfamily == 'windows' {
-    file {'/etc/puppet':
-      ensure  => absent,
-      recurse => true,
-      force   => true,
-    }
-  }
-
 }
