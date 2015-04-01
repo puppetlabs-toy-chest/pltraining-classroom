@@ -66,4 +66,10 @@ class classroom::agent::git {
     unless  => 'git config --global user.email',
     require => Exec['generate_key'],
   }
+
+  exec { 'git config --global color.ui always':
+    unless  => 'git config --global color.ui',
+    require => Exec['generate_key'],
+  }
+
 }
