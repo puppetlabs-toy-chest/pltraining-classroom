@@ -6,6 +6,10 @@ class classroom::master (
   $managerepos = $classroom::managerepos,
 ) inherits classroom {
 
+  # Add the installer files for 32bit agents
+  # These files are cached by the build, so this will work offline
+  include pe_repo::platform::el_6_i386
+
   File {
     owner  => 'root',
     group  => 'root',
