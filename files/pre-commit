@@ -4,12 +4,14 @@
 git show > /dev/null 2>&1
 if [ $? -ne 0 ]; then exit 0; fi
 
-# first stash any on-disk changes so we're actually validating
-# what's staged to be committed and not just what's on disk.
-git diff --full-index --binary > /tmp/stash.$$
+# Manually stash working changes
+git diff --binary > /tmp/stash.$$
+
 if [[ -s /tmp/stash.$$ ]]
 then
-  git stash -q --keep-index
+  STASH_EXISTS=true
+else
+  STASH_EXISTS=false
 fi
 
 EXITCODE=0
@@ -38,7 +40,7 @@ then
   echo "################################################################"
   echo -e "### \033[31mPlease fix the errors above before committing your code.\033[0m ###"
   echo "################################################################"
-  if [[ -s /tmp/stash.$$ ]]
+  if $STASH_EXISTS
   then
     echo "###                                                          ###"
     echo -e "###     \033[31mDid you remember to git add your updated code?\033[0m       ###"
@@ -48,10 +50,10 @@ then
   echo
 fi
 
-# now recover diffs to get back to pre commit state if needed.
-if [[ -s /tmp/stash.$$ ]]
+# Now recover the working files
+if $STASH_EXISTS
 then
-  git apply --whitespace=nowarn < /tmp/stash.$$ && git stash drop -q
+  git apply --whitespace=nowarn < /tmp/stash.$$
   rm /tmp/stash.$$
 fi
 
