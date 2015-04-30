@@ -54,8 +54,10 @@ fi
 if $STASH_EXISTS
 then
   git apply --whitespace=nowarn < /tmp/stash.$$
-  rm /tmp/stash.$$
 fi
+
+# Delete the stash even if it's empty
+rm /tmp/stash.$$
 
 exit $EXITCODE
 
