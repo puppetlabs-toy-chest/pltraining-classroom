@@ -11,3 +11,4 @@
   - "environments/%{environment}/hieradata/%{clientcert}"
   - "environments/%{environment}/hieradata/defaults"
   - teams
+  - tuning
