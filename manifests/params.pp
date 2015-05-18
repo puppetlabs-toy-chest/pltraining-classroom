@@ -48,11 +48,15 @@ class classroom::params {
 
   # list of module repositorites that should be precreated for the virtual courses
   $precreated_repositories = [ 'critical_policy', 'registry', 'profiles' ]
-  
+
   # Windows active directory setup parameters
   $ad_domainname           = 'CLASSROOM.local'
   $ad_netbiosdomainname    = 'CLASSROOM'
   $ad_dsrmpassword         = 'Puppetlabs1'
+
+  # Tuning parameters for classroom master performance
+  $jruby_purge        = false    # See https://tickets.puppetlabs.com/browse/PE-9704
+  $jvm_tuning_profile = false    # Set to 'lvm', 'minimal', 'moderate', 'aggressive', or false to disable
 
   # Certname and machine name from cert
   if is_domain_name("${::clientcert}") {
@@ -62,7 +66,7 @@ class classroom::params {
   else {
     $machine_name = $::clientcert
   }
-  
+
   # is this a student's tier3 agent in Architect?
   if $fqdn =~ /^\S+\.\S+\.puppetlabs\.vm$/ {
     $role = 'tier3'

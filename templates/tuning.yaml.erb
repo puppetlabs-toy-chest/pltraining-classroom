@@ -1,0 +1,16 @@
+---
+puppet_enterprise::profile::puppetdb::listen_address: '0.0.0.0'
+puppet_enterprise::profile::amq::broker::heap_mb: '<%= @amq_heap_mb %>'
+puppet_enterprise::profile::master::java_args:
+  Xmx: '<%= @master_Xmx %>'
+  Xms: '<%= @master_Xms %>'
+  'XX:MaxPermSize': '=<%= @master_MaxPermSize %>'     <%# Yes, the weird extra equal sign is intentional %>
+  'XX:PermSize': '=<%= @master_PermSize %>'           <%# Yes, the weird extra equal sign is intentional %>
+puppet_enterprise::profile::puppetdb::java_args:
+  Xmx: '<%= @puppetdb_Xmx %>'
+  Xms: '<%= @puppetdb_Xms %>'
+puppet_enterprise::profile::console::java_args:
+  Xmx: '<%= @console_Xmx %>'
+  Xms: '<%= @console_Xms %>'
+puppet_enterprise::master::puppetserver::jruby_max_active_instances: <%= @jruby_max_active_instances %>
+puppet_enterprise::profile::console::delayed_job_workers: <%= @delayed_job_workers %>
