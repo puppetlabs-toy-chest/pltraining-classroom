@@ -155,5 +155,8 @@ class classroom::master (
 
     # Add any classes defined to the console
     classroom::console::class { $classes: }
+
+    # Add autoteam yaml
+    include classroom::master::autoteam
   }
 }
