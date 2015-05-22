@@ -3,6 +3,8 @@ class classroom::master::tuning (
   $jvm_tuning_profile  = $classroom::params::jvm_tuning_profile,
 ) inherits classroom::params {
 
+  include classroom::master::hiera
+
   # See https://tickets.puppetlabs.com/browse/PE-9704
   if $jruby_purge {
     $cert   = '/etc/puppetlabs/puppet/ssl/certs/pe-internal-classifier.pem'
@@ -57,6 +59,7 @@ class classroom::master::tuning (
       mode    => '0644',
       content => template('classroom/tuning.yaml.erb'),
       before  => Class['puppet_enterprise::profile::master', 'puppet_enterprise::profile::console'],
+      require => File['/etc/puppetlabs/puppet/hieradata/'],
     }
   }
 }
