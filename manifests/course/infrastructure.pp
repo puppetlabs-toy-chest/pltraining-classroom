@@ -13,7 +13,7 @@ class classroom::course::infrastructure {
 
   docker::image {'agent':
     docker_dir => '/etc/docker/agent/',
-    require    => File['/etc/docker/agent/Dockerfile'],
+    require    => File['/etc/docker/agent/'],
   }
 
   docker::run { 'agent1':
@@ -22,7 +22,7 @@ class classroom::course::infrastructure {
     hostname         => 'agent1',
     use_name         => true,
     volumes          => ['/va/yum:/var/yum'],
-    extra_parameters => '--add-host "master.puppetlabs.vm puppet:172.16.42.1"',
+    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
     require          => Docker::Image['agent'],
   }
 
