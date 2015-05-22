@@ -47,6 +47,7 @@
     {"name":"jriviere/windows_ad",            "version_requirement":">= 0.2.0"},
     {"name":"badgerious/windows_env",         "version_requirement":">= 2.2.1"},
     {"name":"jordan/fileshare",               "version_requirement":">= 1.1.1"},
-    {"name":"puppetlabs/windows",             "version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs/windows",             "version_requirement":">= 1.0.0"},
+    {"name":"garethr/docker",             "version_requirement":">= 4.0.2"}
   ]
 }
