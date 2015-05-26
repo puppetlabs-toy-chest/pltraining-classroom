@@ -26,22 +26,9 @@ class classroom::master::tuning (
 
     case $jvm_tuning_profile {
       'lvm': {
-        $amq_heap_mb                = '96'
-        $master_Xmx                 = '128m'
-        $master_Xms                 = '32m'
-        $master_MaxPermSize         = '96m'
-        $master_PermSize            = '96m'
-        $puppetdb_Xmx               = '64m'
-        $puppetdb_Xms               = '32m'
-        $console_Xmx                = '64m'
-        $console_Xms                = '32m'
-        $jruby_max_active_instances = 1
-        $delayed_job_workers        = 1
-      }
-      'minimal': {
         $amq_heap_mb                = '32'
-        $master_Xmx                 = '192m'
-        $master_Xms                 = '192m'
+        $master_Xmx                 = '256m'
+        $master_Xms                 = '256m'
         $master_MaxPermSize         = '96m'
         $master_PermSize            = '96m'
         $puppetdb_Xmx               = '64m'
@@ -51,11 +38,12 @@ class classroom::master::tuning (
         $jruby_max_active_instances = 1
         $delayed_job_workers        = 1
       }
+      'minimal': {
+      }
       'moderate': {
 
       }
       'aggressive': {
-
       }
       default : {
         fail("Unknown tuning level, choose one of: 'lvm', 'minimal', 'moderate', 'aggressive', false")
