@@ -21,7 +21,7 @@ class classroom::course::infrastructure {
     command          => '/sbin/init 3',
     hostname         => 'agent1',
     use_name         => true,
-    volumes          => ['/va/yum:/var/yum'],
+    volumes          => ['/var/yum:/var/yum' '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
     extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
     require          => Docker::Image['agent'],
   }
