@@ -39,7 +39,17 @@ class classroom::master::tuning (
         $delayed_job_workers        = 1
       }
       'minimal': {
-
+        $amq_heap_mb                = '32'
+        $master_Xmx                 = '192m'
+        $master_Xms                 = '192m'
+        $master_MaxPermSize         = '96m'
+        $master_PermSize            = '96m'
+        $puppetdb_Xmx               = '64m'
+        $puppetdb_Xms               = '64m'
+        $console_Xmx                = '64m'
+        $console_Xms                = '64m'
+        $jruby_max_active_instances = 1
+        $delayed_job_workers        = 1
       }
       'moderate': {
 
