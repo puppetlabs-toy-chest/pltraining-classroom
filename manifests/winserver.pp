@@ -80,7 +80,7 @@ class classroom::winserver inherits classroom::params {
   # Add "CLASSROOM\admin" user to domain
   windows_ad::user{'admin':
     ensure               => present,
-    domainname           => 'CLASSROM.local',
+    domainname           => 'CLASSROOM.local',
     path                 => 'OU=STUDENTS,DC=CLASSROOM,DC=local',
     accountname          => 'admin',
     lastname             => 'Admin',
