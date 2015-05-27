@@ -4,7 +4,7 @@ FROM centos:7
 MAINTAINER Josh Samuelson <js@puppetlabs.com>
 ENV HOME /root/
 ENV TERM xterm
-RUN yum -y install sudo tar dmidecode which logrotate cyrus-sasl libxslt cronie pciutils git rubygems vim tree csh zsh
+RUN yum -y install sudo tar dmidecode which logrotate cyrus-sasl libxslt cronie pciutils git rubygems vim tree csh zsh net-tools
 RUN gem install multipart-post -v 1.2.0
 RUN gem install r10k
 RUN rm /etc/yum.repos.d/CentOS*
