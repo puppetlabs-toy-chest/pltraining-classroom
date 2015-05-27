@@ -1,0 +1,6 @@
+[epel_local]
+baseurl=file:///var/yum/mirror/epel/7/local/x86_64
+gpgcheck=0
+enabled=1
+name=Locally stored packages for epel_local
+priority=10
