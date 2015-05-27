@@ -10,7 +10,7 @@ class classroom::master::tuning (
     $cert   = '/etc/puppetlabs/puppet/ssl/certs/pe-internal-classifier.pem'
     $key    = '/etc/puppetlabs/puppet/ssl/private_keys/pe-internal-classifier.pem'
     $cacert = '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
-    $master = 'https://master.puppetlabs.vm:8140'
+    $master = 'https://${::fqdn}:8140'
     $api    = 'puppet-admin-api/v1/jruby-pool'
 
     cron { 'purge jruby pool':
