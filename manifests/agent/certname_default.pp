@@ -1,6 +1,4 @@
-class classroom::agent::certname_default (
-  $timeout = $classroom::params::timeout,
-) inherits classroom::params {
+class classroom::agent::certname_default {
 
   if $::osfamily == 'windows' {
     ini_setting { 'certname':

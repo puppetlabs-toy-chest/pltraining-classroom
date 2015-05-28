@@ -1,6 +1,4 @@
-class classroom::agent::shortcuts (
-  $timeout = $classroom::params::timeout,
-) inherits classroom::params {
+class classroom::agent::shortcuts {
 
   if $::osfamily == 'windows' {
     # Symlinks on desktp

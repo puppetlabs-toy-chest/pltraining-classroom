@@ -19,8 +19,8 @@ class classroom::master::repositories {
   include classroom::master::hiera
 
   # if we've gotten to the Capstone and teams are defined, create our teams!
-  $teams = hierasafe('teams', undef)
-  if $teams {
+  $teams = hiera('teams', undef)
+  if is_hash($teams) {
     $teamnames = keys($teams)
 
     # create each team. Pass in the full hash so that team can set its members

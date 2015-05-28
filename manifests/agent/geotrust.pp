@@ -7,6 +7,7 @@ class classroom::agent::geotrust (
       command  => 'Invoke-Webrequest https://www.geotrust.com/resources/root_certificates/certificates/GeoTrust_Global_CA.pem -outfile c:\windows\temp\GeoTrust_Glocal_CA.pem',
       creates  => 'c:/windows/temp/GeoTrust_Glocal_CA.pem',
       provider => powershell,
+      timeout  => $timeout,
     }
     exec { 'install-geotrust-cert':
       command  => 'certutil -addstore root c:\windows\temp\GeoTrust_Glocal_CA.pem',
