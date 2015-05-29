@@ -33,7 +33,6 @@ class classroom::agent (
 
   # Non-windows agents
   unless $::osfamily == 'windows' {
-    include classroom::agent::reporting
     # /etc/puppet/ssl is confusing to have around. Sloppy. Kill.
     file {'/etc/puppet':
       ensure  => absent,
@@ -67,7 +66,7 @@ class classroom::agent (
 
   # if we are managing git repositories, then build out all this
   if $managerepos {
-    
+
     classroom::agent::workdir { $workdir:
       ensure   => present,
       username => $classroom::params::machine_name,
