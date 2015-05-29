@@ -1,6 +1,4 @@
-class classroom::agent::password_policy (
-  $timeout = $classroom::params::timeout,
-) inherits classroom::params {
+class classroom::agent::password_policy {
 
   if $::osfamily == 'windows' {
     # Disable draconian password policy

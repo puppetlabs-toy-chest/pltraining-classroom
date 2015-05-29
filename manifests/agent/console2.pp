@@ -1,6 +1,4 @@
-class classroom::agent::console2 (
-  $timeout = $classroom::params::timeout,
-) inherits classroom::params {
+class classroom::agent::console2 {
 
   if $::osfamily == 'windows' {
     package { 'console2':

@@ -1,6 +1,4 @@
-class classroom::agent::putty (
-  $timeout = $classroom::params::timeout,
-) inherits classroom::params {
+class classroom::agent::putty {
 
   if $::osfamily == 'windows' {
     package { 'putty':
