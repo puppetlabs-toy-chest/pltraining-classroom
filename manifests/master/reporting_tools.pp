@@ -12,11 +12,8 @@ class classroom::master::reporting_tools {
     source => 'puppet:///modules/classroom/get_environment_version.sh',
   }
 
-  # this gives me a sad. We need some refactoring. Serious refactoring.
-  if ! defined(File['/usr/local/bin/process_reports.rb']) {
-    file { '/usr/local/bin/process_reports.rb':
-      ensure => file,
-      source => 'puppet:///modules/classroom/process_reports.rb',
-    }
+  file { '/usr/local/bin/process_reports.rb':
+    ensure => file,
+    source => 'puppet:///modules/classroom/process_reports.rb',
   }
 }
