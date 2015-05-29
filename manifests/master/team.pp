@@ -15,6 +15,6 @@ define classroom::master::team ($teams) {
   # We can't just use exported ssh keys because we may need multiple instantiations.
   classroom::master::team::membership { $members:
 #    require => Classroom::User[$name],
-    require => File["/home/${name}/.ssh/"], # future parser is broken
+    require => File["/home/${name}/.ssh/"], # future parser is broken: PUP-4668
   }
 }
