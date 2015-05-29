@@ -1,0 +1,8 @@
+# pltraining/classroom
+
+## Release Notes
+
+### v1.2.11
+* Future parser fixes
+* Update tuning profiles slightly
+
