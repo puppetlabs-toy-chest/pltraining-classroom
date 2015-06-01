@@ -38,6 +38,8 @@ class classroom::master::tuning (
         $jruby_max_active_instances = 1
         $delayed_job_workers        = 1
       }
+      #Note: 'minimal' setting must be combined with
+      #      $jruby_purge=true
       'minimal': {
         $amq_heap_mb                = '32'
         $master_Xmx                 = '128m'
