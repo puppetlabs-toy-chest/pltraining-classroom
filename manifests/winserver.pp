@@ -43,7 +43,7 @@ class classroom::winserver inherits classroom::params {
     require     => Class['staging'],
   }
 
-  # Windows file share for filezilla lab
+  # Windows file share for UNC lab
   fileshare { 'installer':
     ensure => present,
     path => 'C:\shares\classroom',
