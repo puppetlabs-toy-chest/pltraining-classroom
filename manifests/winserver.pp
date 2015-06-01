@@ -33,28 +33,28 @@ class classroom::winserver inherits classroom::params {
     require   => Class['windows_ad'],
   }
 
-  # Download install for filezilla lab
+  # Download install for brackets lab
   class { 'staging':
     path  => 'C:/shares/',
     require => Class['windows_ad'],
   }
-  staging::file { 'FileZilla-setup.exe':
-    source      => 'http://superb-dca3.dl.sourceforge.net/project/filezilla/FileZilla_Client/3.9.0.6/FileZilla_3.9.0.6_win32-setup.exe',
+  staging::file { 'Brackets.msi':
+    source      => 'https://github.com/adobe/brackets/releases/download/release-1.3/Brackets.Release.1.3.msi',
     require     => Class['staging'],
   }
 
-  # Windows file share for filezilla lab
+  # Windows file share for UNC lab
   fileshare { 'installer':
     ensure => present,
     path => 'C:\shares\classroom',
     require => Class['staging'],
   }
-  acl { 'c:/shares/classroom/FileZilla-setup.exe':
+  acl { 'c:/shares/classroom/Brackets.msi':
     permissions => [
       { identity => 'Administrator', rights => ['full'] },
       { identity => 'Everyone', rights => ['read','execute'] }
     ],
-    require => Staging::File['FileZilla-setup.exe'],
+    require => Staging::File['Brackets.msi'],
   }
 
   # Export AD server IP to be DNS server for agents
