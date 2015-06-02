@@ -16,7 +16,7 @@ class classroom::master::tuning (
     cron { 'purge jruby pool':
       ensure  => 'present',
       command => "curl -i --cert ${cert} --key ${key} --cacert ${cacert} -X DELETE ${master}/${api}",
-      minute  => ['0', '30'],
+      minute  => ['0','10','20','30','40','50'],
       target  => 'root',
       user    => 'root',
     }
@@ -39,6 +39,23 @@ class classroom::master::tuning (
         $delayed_job_workers        = 1
       }
       'minimal': {
+        if $jurby_purge {
+          $amq_heap_mb                = '32'
+          $master_Xmx                 = '128m'
+          $master_Xms                 = '128m'
+          $master_MaxPermSize         = '96m'
+          $master_PermSize            = '96m'
+          $puppetdb_Xmx               = '64m'
+          $puppetdb_Xms               = '64m'
+          $console_Xmx                = '64m'
+          $console_Xms                = '64m'
+          $jruby_max_active_instances = 1
+          $delayed_job_workers        = 1
+        }
+        else
+        {
+          fail("Minimal tuning profile requires `jruby_purge => true`.")
+        }
       }
       'moderate': {
 
