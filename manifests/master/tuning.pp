@@ -38,9 +38,8 @@ class classroom::master::tuning (
         $jruby_max_active_instances = 1
         $delayed_job_workers        = 1
       }
-      #Note: 'minimal' setting must be combined with
-      #      $jruby_purge=true
       'minimal': {
+        if $jurby_purge {
         $amq_heap_mb                = '32'
         $master_Xmx                 = '128m'
         $master_Xms                 = '128m'
@@ -52,6 +51,11 @@ class classroom::master::tuning (
         $console_Xms                = '64m'
         $jruby_max_active_instances = 1
         $delayed_job_workers        = 1
+        }
+        else
+        {
+          fail("Minimal tuning profile requires `jruby_purge => true`.")
+        }
       }
       'moderate': {
 
