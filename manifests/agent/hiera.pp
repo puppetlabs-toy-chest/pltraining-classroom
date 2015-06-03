@@ -38,7 +38,7 @@ class classroom::agent::hiera (
 
     file { "${workdir}/hiera.yaml":
       ensure => file,
-      source => 'puppet:///modules/classroom/hiera.agent.yaml',
+      source => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
       replace => false,
     }
 
@@ -51,13 +51,13 @@ class classroom::agent::hiera (
     # Because PE writes a default, we cannot use replace => false
     file { "${etcpath}/hiera.yaml":
       ensure => file,
-      source => 'puppet:///modules/classroom/hiera.agent.yaml',
+      source => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
     }
   }
 
   file { "${etcpath}/hieradata/defaults.yaml":
     ensure  => file,
-    source  => 'puppet:///modules/classroom/defaults.yaml',
+    source  => 'puppet:///modules/classroom/hiera/data/defaults.yaml',
     replace => false,
   }
 }

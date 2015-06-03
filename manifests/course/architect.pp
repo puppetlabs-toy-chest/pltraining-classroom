@@ -20,7 +20,6 @@ class classroom::course::architect (
   if $role == 'master' {
     # master gets the IRC server and reporting scripts
     include classroom::master::ircd
-    include classroom::master::puppetdb
 
     # Include the Irssi setup and collect all hosts
     include classroom::agent::irc
