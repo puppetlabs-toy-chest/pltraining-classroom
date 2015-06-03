@@ -17,7 +17,7 @@ class classroom::agent::teams (
 
   # If we have teams defined for this student, build a working directory for each.
   $teams = teams($classroom::params::machine_name)
-  if $teams {
+  if is_hash($teams) {
     $repos = prefix($teams, '/root/')
     classroom::agent::workdir { $repos:
       ensure   => present,
