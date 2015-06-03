@@ -16,38 +16,27 @@ class classroom::master (
     mode   => '0644',
   }
 
+  # classroom parameters
+  file { '/etc/puppetlabs/puppet/hieradata/classroom.yaml':
+    ensure => file,
+    source => 'puppet:///modules/classroom/hiera/data/classroom.yaml',
+  }
+
+  # overrides for the master, but allow the instructor to edit
+  file { '/etc/puppetlabs/puppet/hieradata/master.puppetlabs.vm.yaml':
+    ensure  => file,
+    source  => 'puppet:///modules/classroom/hiera/data/master.puppetlabs.vm.yaml',
+    replace => false,
+  }
+
   # we know that you all love logging back into the Console every time you do a
   # demo, but we're sadists, so we're going to take that pleasure away from you.
-  if versioncmp($::pe_version, '3.7.0') > 0 {
-    classroom::console::groupparam { 'session timeout':
-      group     => 'PE Console',
-      classname => 'puppet_enterprise::profile::console',
-      parameter => 'rbac_session_timeout',
-      value     => '4320',
-    }
-  }
-  elsif versioncmp($::pe_version, '3.4.0') >= 0 {
+  # Newer PE versions are configured via Hiera key
+  if versioncmp($::pe_version, '3.7.0') < 0 {
     file { '/etc/puppetlabs/console-services/conf.d/rbac-session.conf':
       ensure => file,
       source => 'puppet:///modules/classroom/rbac-session.conf',
       notify => Service['pe-console-services'],
-    }
-  }
-  else {
-    file_line { 'rubycas_server_console_session_lifetime':
-      ensure => present,
-      path   => '/etc/puppetlabs/rubycas-server/config.yml',
-      match  => '^maximum_session_lifetime:',
-      line   => "maximum_session_lifetime: 1000000",
-      notify => Service['pe-httpd'],
-    }
-
-    file_line { 'console_auth_session_lifetime':
-      ensure => present,
-      path   => '/etc/puppetlabs/console-auth/cas_client_config.yml',
-      match  => '\s*session_lifetime:',
-      line   => "  session_lifetime: 1000000",
-      notify => Service['pe-httpd'],
     }
   }
 
@@ -68,7 +57,11 @@ class classroom::master (
     section => 'main',
     setting => 'environment_timeout',
     value   => '0',
-#    notify  => Service['pe-puppetserver'],
+    notify  => Service['pe-puppetserver'],
+  }
+
+  file { '/etc/puppetlabs/puppet/environments/production/manifests':
+    ensure => directory,
   }
 
   # Anything that needs to be top scope
@@ -95,58 +88,12 @@ class classroom::master (
   # Now create all of the users who've checked in
   Classroom::User <<||>>
 
-  if versioncmp($::pe_version, '3.4.0') >= 0 {
-    # The new PE stack takes a very long time to startup, which can cause
-    # disconcerting errors. This simply schedules that to the end of the run
-    # and waits for the service to resume servicing requests before allowing
-    # the run to complete
-    include classroom::master::wait_for_startup
+  # The new PE stack takes a very long time to startup, which can cause
+  # disconcerting errors. This simply schedules that to the end of the run
+  # and waits for the service to resume servicing requests before allowing
+  # the run to complete
+  include classroom::master::wait_for_startup
 
-    # service name change
-    Ini_setting['environment timeout'] -> Service['pe-puppetserver']
-  }
-  else {
-    # service name change
-    Ini_setting['environment timeout'] -> Service['pe-httpd']
-
-    # Remainder of manifest is manual fiddling not needed on current PE
-
-    # create environments direectory and directory or production environment
-    file {['/etc/puppetlabs/puppet/environments','/etc/puppetlabs/puppet/environments/production']:
-      ensure => directory,
-    }
-
-    # create modules, manifests and config links/files for production environment
-    file {'/etc/puppetlabs/puppet/environments/production/modules':
-      ensure => link,
-      target => '/etc/puppetlabs/puppet/modules',
-    }
-
-    file {'/etc/puppetlabs/puppet/environments/production/manifests':
-      ensure => link,
-      target => '/etc/puppetlabs/puppet/manifests',
-    }
-
-    ini_setting { 'puppet.conf.environmentpath':
-      ensure  => present,
-      path    => '/etc/puppetlabs/puppet/puppet.conf',
-      section => 'main',
-      setting => 'environmentpath',
-      value   => '$confdir/environments',
-      notify  => Service['pe-httpd'],
-    }
-
-    # we need to restart the pe-httpd service when we change puppet.conf
-    # it is not under Puppet control in PE, so let's do it here
-    service {'pe-httpd':
-      ensure => running,
-      enable => true,
-    }
-
-    # Add any classes defined to the console
-    classroom::console::class { $classes: }
-
-    # Add autoteam yaml
-    include classroom::master::autoteam
-  }
+  # Add autoteam yaml
+  include classroom::master::autoteam
 }

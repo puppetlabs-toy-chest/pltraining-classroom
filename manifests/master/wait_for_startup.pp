@@ -15,7 +15,6 @@ class classroom::master::wait_for_startup {
 
   File <| |>                           -> Service['pe-puppetserver']
   Classroom::Console::User <| |>       -> Service['pe-console-services']
-  Classroom::Console::Groupparam <| |> -> Service['pe-console-services']
 
   exec { 'wait for PE stack to startup':
     path        => '/opt/puppet/bin:/bin:/usr/bin',

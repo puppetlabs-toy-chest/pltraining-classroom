@@ -1,9 +1,5 @@
 # Configure the classroom so that any secondary masters will get the
 # agent tarball from the classroom master.
-#
-# GIANT WARNING: This class will effectively prevent you from being able to
-# GIANT WARNING: add any other platform repositories to the classroom master!
-#
 class classroom::master::agent_tarball (
   $version   = $::pe_version,
   $platform  = $::platform_tag,
@@ -30,14 +26,6 @@ class classroom::master::agent_tarball (
     file { "${publicdir}/${version}/${filename}":
       ensure => file,
       source => "${cachedir}/${filename}",
-    }
-
-    # Secondary masters should get the tarball from the classroom master
-    classroom::console::groupparam { 'pe_repo tarball download':
-      group     => 'PE Master',
-      classname => 'pe_repo',
-      parameter => 'base_path',
-      value     => 'https://master.puppetlabs.vm:8140/packages/classroom',
     }
   }
 }

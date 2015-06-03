@@ -16,7 +16,7 @@ class classroom::master::hiera {
 
   file { '/etc/puppetlabs/puppet/hieradata/defaults.yaml':
     ensure  => file,
-    source  => 'puppet:///modules/classroom/defaults.yaml',
+    source  => 'puppet:///modules/classroom/hiera/data/defaults.yaml',
     replace => false,
   }
 
@@ -28,7 +28,7 @@ class classroom::master::hiera {
 
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => file,
-    source => 'puppet:///modules/classroom/hiera.master.yaml',
+    source => 'puppet:///modules/classroom/hiera/hiera.master.yaml',
   }
 
 }
