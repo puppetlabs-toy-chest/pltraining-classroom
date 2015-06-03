@@ -16,16 +16,6 @@ class classroom::master (
     mode   => '0644',
   }
 
-  # This wonkiness is due to the fact that puppet_enterprise::license class
-  # manages this file only if it exists on the master. So we do the opposite.
-  if ( file('/etc/puppetlabs/license.key', '/dev/null') == undef ) {
-    # Write out our edu license file to prevent console noise
-    file { '/etc/puppetlabs/license.key':
-      ensure => file,
-      source => 'puppet:///modules/classroom/license.key',
-    }
-  }
-
   # we know that you all love logging back into the Console every time you do a
   # demo, but we're sadists, so we're going to take that pleasure away from you.
   if versioncmp($::pe_version, '3.7.0') > 0 {
