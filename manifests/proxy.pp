@@ -1,5 +1,6 @@
 class classroom::proxy {
   include '::haproxy'
+  include classroom::agent::time
 
   haproxy::listen { 'puppet00':
     ipaddress => $::ipaddress,
