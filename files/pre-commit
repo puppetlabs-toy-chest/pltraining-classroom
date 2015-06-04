@@ -52,5 +52,7 @@ then
   rm /tmp/stash.$$
 fi
 
+# I don't know why, but somehow we're losing CWD and this gets it back
+cd .
 exit $EXITCODE
 
