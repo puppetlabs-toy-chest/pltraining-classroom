@@ -11,4 +11,4 @@ RUN rm /etc/yum.repos.d/CentOS*
 ADD base_local.repo /etc/yum.repos.d/base_local.repo
 ADD epel_local.repo /etc/yum.repos.d/epel_local.repo
 ADD updates_local.repo /etc/yum.repos.d/updates_local.repo
-RUN echo 'if ! hash puppet; then curl -k https://master.puppetlabs.vm:8140/packages/current/install.bash | sudo bash; fi' >> /etc/rc.local
+RUN echo 'if ! hash puppet; then curl -k https://puppetfactory.puppetlabs.vm:8140/packages/current/install.bash | sudo bash; fi' >> /etc/rc.local
