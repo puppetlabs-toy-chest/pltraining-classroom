@@ -31,7 +31,7 @@ class classroom::course::infrastructure {
       '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl'
     ],
     extra_parameters => [
-      "--add-host \"${::fqdn} master.puppetlabs.vm puppet:${::ipaddress_docker0}\"",
+      "--add-host \"${::fqdn} master.puppetlabs.vm puppetfactory puppet:${::ipaddress_docker0}\"",
       "--restart=always"
     ],
     require          => [
@@ -39,31 +39,33 @@ class classroom::course::infrastructure {
       File['/etc/docker/ssl_dir/']
     ],
   }
+
   docker::run { 'agent1.puppetlabs.vm':
-    hostname         => 'agent1.puppetlabs.vm',
-    ports            => ['10080:80'],
+    hostname => 'agent1.puppetlabs.vm',
+    ports    => ['10080:80'],
   }
   docker::run { 'agent2.puppetlabs.vm':
-    hostname         => 'agent2.puppetlabs.vm',
-    ports            => ['20080:80'],
+    hostname => 'agent2.puppetlabs.vm',
+    ports    => ['20080:80'],
   }
   docker::run { 'agent3.puppetlabs.vm':
-    hostname         => 'agent3.puppetlabs.vm',
-    ports            => ['30080:80'],
+    hostname => 'agent3.puppetlabs.vm',
+    ports    => ['30080:80'],
   }
   docker::run { 'agent4.puppetlabs.vm':
-    hostname         => 'agent4.puppetlabs.vm',
-    ports            => ['40080:80'],
+    hostname => 'agent4.puppetlabs.vm',
+    ports    => ['40080:80'],
   }
   docker::run { 'agent5.puppetlabs.vm':
-    hostname         => 'agent5.puppetlabs.vm',
-    ports            => ['50080:80'],
+    hostname => 'agent5.puppetlabs.vm',
+    ports    => ['50080:80'],
   }
   docker::run { 'agent6.puppetlabs.vm':
-    hostname         => 'agent6.puppetlabs.vm',
-    ports            => ['60080:80'],
+    hostname => 'agent6.puppetlabs.vm',
+    ports    => ['60080:80'],
   }
-  } else {
-    notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
-  }
+
+} else {
+  notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
+}
 }

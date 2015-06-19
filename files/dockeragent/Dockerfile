@@ -10,6 +10,7 @@ RUN gem install multipart-post -v 1.2.0
 RUN gem install r10k
 ADD el-7-x86_64.bash /root/el-7-x86_64.bash
 RUN cat /root/el-7-x86_64.bash |bash  ; rm /root/el-7-x86_64.bash
+ADD puppet.conf /etc/puppetlabs/puppet/puppet.conf
 RUN rm /etc/yum.repos.d/CentOS*
 ADD base_local.repo /etc/yum.repos.d/base_local.repo
 ADD epel_local.repo /etc/yum.repos.d/epel_local.repo
