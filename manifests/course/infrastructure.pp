@@ -62,6 +62,12 @@ class classroom::course::infrastructure {
     ports    => ['40080:80'],
   }
 
+  # For dummy containers that stop immediately after running puppet:
+  #docker::run {'dummy1.puppetlabs.vm':
+  #  command  => 'puppet agent -t',
+  #  hostname => 'dummy1.puppetlabs.vm',
+  #}
+
 } else {
   notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
 }
