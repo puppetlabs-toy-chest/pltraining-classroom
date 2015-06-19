@@ -19,24 +19,25 @@ class classroom::course::infrastructure {
     require    => File['/etc/docker/agent/'],
   }
 
+  if $::ipaddress_docker0 { 
   Docker::Run {
     image            => 'agent',
     command          => '/sbin/init 3',
     use_name         => true,
     privileged       => true,
     volumes          => [
-                          '/var/yum:/var/yum',
-                          '/sys/fs/cgroup:/sys/fs/cgroup:ro',
-                          '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl'
-                        ],
+      '/var/yum:/var/yum',
+      '/sys/fs/cgroup:/sys/fs/cgroup:ro',
+      '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl'
+    ],
     extra_parameters => [
-                          "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-                          "--restart=always"
-                        ],
+      "--add-host \"${::fqdn} master.puppetlabs.vm puppet:${::ipaddress_docker0}\"",
+      "--restart=always"
+    ],
     require          => [
-                          Docker::Image['agent'],
-                          File['/etc/docker/ssl_dir/']
-                        ],
+      Docker::Image['agent'],
+      File['/etc/docker/ssl_dir/']
+    ],
   }
   docker::run { 'agent1.puppetlabs.vm':
     hostname         => 'agent1.puppetlabs.vm',
@@ -62,5 +63,7 @@ class classroom::course::infrastructure {
     hostname         => 'agent6.puppetlabs.vm',
     ports            => ['60080:80'],
   }
-
+  } else {
+    notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
+  }
 }
