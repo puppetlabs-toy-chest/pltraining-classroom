@@ -10,6 +10,9 @@ class classroom::course::infrastructure {
     source  => 'puppet:///modules/classroom/dockeragent/',
     require => Class['docker'],
   }
+  file { '/etc/docker/ssl_dir/':
+    ensure => directory,
+  }
 
   docker::image {'agent':
     docker_dir => '/etc/docker/agent/',
@@ -21,9 +24,19 @@ class classroom::course::infrastructure {
     command          => '/sbin/init 3',
     use_name         => true,
     privileged       => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => ["--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"","--restart=always"],
-    require          => Docker::Image['agent'],
+    volumes          => [
+                          '/var/yum:/var/yum',
+                          '/sys/fs/cgroup:/sys/fs/cgroup:ro',
+                          '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl'
+                        ],
+    extra_parameters => [
+                          "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
+                          "--restart=always"
+                        ],
+    require          => [
+                          Docker::Image['agent'],
+                          File['/etc/docker/ssl_dir/']
+                        ],
   }
   docker::run { 'agent1.puppetlabs.vm':
     hostname         => 'agent1.puppetlabs.vm',
