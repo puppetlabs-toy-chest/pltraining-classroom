@@ -45,29 +45,21 @@ class classroom::course::infrastructure {
     ],
   }
 
-  docker::run { 'agent1.puppetlabs.vm':
-    hostname => 'agent1.puppetlabs.vm',
+  docker::run { 'test.puppetlabs.vm':
+    hostname => 'test.puppetlabs.vm',
     ports    => ['10080:80'],
   }
-  docker::run { 'agent2.puppetlabs.vm':
-    hostname => 'agent2.puppetlabs.vm',
+  docker::run { 'web1.puppetlabs.vm':
+    hostname => 'web1.puppetlabs.vm',
     ports    => ['20080:80'],
   }
-  docker::run { 'agent3.puppetlabs.vm':
-    hostname => 'agent3.puppetlabs.vm',
+  docker::run { 'db2dev.puppetlabs.vm':
+    hostname => 'db2dev.puppetlabs.vm',
     ports    => ['30080:80'],
   }
-  docker::run { 'agent4.puppetlabs.vm':
-    hostname => 'agent4.puppetlabs.vm',
+  docker::run { 'web2dev.puppetlabs.vm':
+    hostname => 'web2dev.puppetlabs.vm',
     ports    => ['40080:80'],
-  }
-  docker::run { 'agent5.puppetlabs.vm':
-    hostname => 'agent5.puppetlabs.vm',
-    ports    => ['50080:80'],
-  }
-  docker::run { 'agent6.puppetlabs.vm':
-    hostname => 'agent6.puppetlabs.vm',
-    ports    => ['60080:80'],
   }
 
 } else {
