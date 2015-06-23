@@ -2,6 +2,15 @@
 
 ## Release Notes
 
+### v1.2.12
+* Infrastructure Course
+* PE Tuning profiles
+* Fixed pre-commit hook
+* Improved autoteam class
+* Bugfixes releated to architect secondary masters
+* Fixed offline epel repo bug
+*	Replaced windows Filezilla lab with Brackets
+
 ### v1.2.11
 * Future parser fixes
 * Update tuning profiles slightly
