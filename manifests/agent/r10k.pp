@@ -10,7 +10,6 @@ class classroom::agent::r10k (
         'prefix'  => false,
       }
     },
-    purgedirs => [ $basedir ],
     version   => present,
   }
 }

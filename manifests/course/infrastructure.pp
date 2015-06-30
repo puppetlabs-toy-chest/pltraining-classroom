@@ -10,71 +10,65 @@ class classroom::course::infrastructure {
     source  => 'puppet:///modules/classroom/dockeragent/',
     require => Class['docker'],
   }
+  file { '/etc/docker/ssl_dir/':
+    ensure => directory,
+  }
+  file { '/usr/local/bin/setup_agents':
+    ensure => present,
+    mode   => '755',
+    source => 'puppet:///modules/classroom/setup_agents.sh',
+  }
 
   docker::image {'agent':
     docker_dir => '/etc/docker/agent/',
     require    => File['/etc/docker/agent/'],
   }
 
-  docker::run { 'agent1.puppetlabs.vm':
+  if $::ipaddress_docker0 { 
+  Docker::Run {
     image            => 'agent',
     command          => '/sbin/init 3',
-    hostname         => 'agent1.puppetlabs.vm',
-    ports            => ['10080:80'],
     use_name         => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-    require          => Docker::Image['agent'],
-  }
-  docker::run { 'agent2.puppetlabs.vm':
-    image            => 'agent',
-    command          => '/sbin/init 3',
-    hostname         => 'agent2.puppetlabs.vm',
-    ports            => ['20080:80'],
-    use_name         => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-    require          => Docker::Image['agent'],
-  }
-  docker::run { 'agent3.puppetlabs.vm':
-    image            => 'agent',
-    command          => '/sbin/init 3',
-    hostname         => 'agent3.puppetlabs.vm',
-    ports            => ['30080:80'],
-    use_name         => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-    require          => Docker::Image['agent'],
-  }
-  docker::run { 'agent4.puppetlabs.vm':
-    image            => 'agent',
-    command          => '/sbin/init 3',
-    hostname         => 'agent4.puppetlabs.vm',
-    ports            => ['40080:80'],
-    use_name         => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-    require          => Docker::Image['agent'],
-  }
-  docker::run { 'agent5.puppetlabs.vm':
-    image            => 'agent',
-    command          => '/sbin/init 3',
-    hostname         => 'agent5.puppetlabs.vm',
-    ports            => ['50080:80'],
-    use_name         => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-    require          => Docker::Image['agent'],
-  }
-  docker::run { 'agent6.puppetlabs.vm':
-    image            => 'agent',
-    command          => '/sbin/init 3',
-    hostname         => 'agent6.puppetlabs.vm',
-    ports            => ['60080:80'],
-    use_name         => true,
-    volumes          => ['/var/yum:/var/yum', '/sys/fs/cgroup:/sys/fs/cgroup:ro'],
-    extra_parameters => "--add-host \"${fqdn} master.puppetlabs.vm puppet:${ipaddress_docker0}\"",
-    require          => Docker::Image['agent'],
+    privileged       => true,
+    volumes          => [
+      '/var/yum:/var/yum',
+      '/sys/fs/cgroup:/sys/fs/cgroup:ro',
+      '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl'
+    ],
+    extra_parameters => [
+      "--add-host \"${::fqdn} master.puppetlabs.vm puppetfactory puppet:${::ipaddress_docker0}\"",
+      "--restart=always"
+    ],
+    require          => [
+      Docker::Image['agent'],
+      File['/etc/docker/ssl_dir/']
+    ],
   }
 
+  docker::run { 'test.puppetlabs.vm':
+    hostname => 'test.puppetlabs.vm',
+    ports    => ['10080:80'],
+  }
+  docker::run { 'web1.puppetlabs.vm':
+    hostname => 'web1.puppetlabs.vm',
+    ports    => ['20080:80'],
+  }
+  docker::run { 'db2dev.puppetlabs.vm':
+    hostname => 'db2dev.puppetlabs.vm',
+    ports    => ['30080:80'],
+  }
+  docker::run { 'web2dev.puppetlabs.vm':
+    hostname => 'web2dev.puppetlabs.vm',
+    ports    => ['40080:80'],
+  }
+
+  # For dummy containers that stop immediately after running puppet:
+  #docker::run {'dummy1.puppetlabs.vm':
+  #  command  => 'puppet agent -t',
+  #  hostname => 'dummy1.puppetlabs.vm',
+  #}
+
+} else {
+  notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
+}
 }
