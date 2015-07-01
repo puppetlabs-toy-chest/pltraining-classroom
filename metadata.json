@@ -38,20 +38,21 @@
     {"name":"puppetlabs/pe_gem",              "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/pe_puppetserver_gem", "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/vcsrepo",             "version_requirement":">= 1.1.0"},
+    {"name":"pltraining/dirtree",             "version_requirement":">= 0.2.2"},
     {"name":"pltraining/rbac",                "version_requirement":">= 0.0.2"},
     {"name":"pltraining/userprefs",           "version_requirement":">= 0.0.3"},
-    {"name":"chocolatey/chocolatey",              "version_requirement":">= 0.5.3"},
+    {"name":"chocolatey/chocolatey",          "version_requirement":">= 0.5.3"},
     {"name":"stahnma/epel",                   "version_requirement":">= 1.0.2"},
     {"name":"zack/exports",                   "version_requirement":">= 0.0.4"},
     {"name":"zack/r10k",                      "version_requirement":">= 2.3.0"},
     {"name":"jriviere/windows_ad",            "version_requirement":">= 0.2.0"},
     {"name":"badgerious/windows_env",         "version_requirement":">= 2.2.1"},
     {"name":"jordan/fileshare",               "version_requirement":">= 1.1.1"},
-    {"name":"opentable/download_file",        "version_requirement":">=1.1.0"},
-    {"name":"opentable/windowsfeature",       "version_requirement":">=1.0.0"},
-    {"name":"puppetlabs/acl",                 "version_requirement":">=1.1.0"},
-    {"name":"puppetlabs/reboot",              "version_requirement":">=0.1.9"},
-    {"name":"puppetlabs/registry",            "version_requirement":">=1.1.0"},
-    {"name":"garethr/docker",             "version_requirement":">= 4.0.2"}
+    {"name":"opentable/download_file",        "version_requirement":">= 1.1.0"},
+    {"name":"opentable/windowsfeature",       "version_requirement":">= 1.0.0"},
+    {"name":"puppetlabs/acl",                 "version_requirement":">= 1.1.0"},
+    {"name":"puppetlabs/reboot",              "version_requirement":">= 0.1.9"},
+    {"name":"puppetlabs/registry",            "version_requirement":">= 1.1.0"},
+    {"name":"garethr/docker",                 "version_requirement":">= 4.0.2"}
   ]
 }
