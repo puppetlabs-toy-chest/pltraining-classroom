@@ -7,13 +7,19 @@ class classroom::master::student_environment inherits classroom::params {
   $environment     = "${environmentpath}/${environmentname}"
 
   File {
-    owner => 'root',
-    group => 'root',
-    mode  => '0644',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Dirtree['environment path'],
   }
 
-  # This depends on the classroom setup script to ensure the existence of the
-  # environments directory.
+  # We cannot assume this directory exists, but we need to put files in it.
+  dirtree { 'environment path':
+    ensure  => present,
+    path    => $environmentpath,
+    parents => true,
+  }
+
   file { [
     $environment,
     "${environment}/manifests",
