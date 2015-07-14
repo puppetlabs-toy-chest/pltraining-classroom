@@ -18,7 +18,7 @@ class classroom::master::wait_for_startup {
 
   exec { 'wait for PE stack to startup':
     path        => '/opt/puppet/bin:/bin:/usr/bin',
-    command     => "while true; do puppet status ${clientcert} --terminus rest && break; sleep 5; done",
+    command     => "while true; do puppet status ${clientcert} && break; sleep 5; done",
     subscribe   => Service['pe-puppetserver', 'pe-console-services', 'pe-puppetdb'],
     refreshonly => true,
     provider    => 'shell',
