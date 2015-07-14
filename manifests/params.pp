@@ -8,9 +8,6 @@ class classroom::params {
   # automatically assign teams for the capstone
   $autoteam  = false
 
-  # list of classes that should be available in the console
-  $classes   = [ 'users', 'apache', 'userprefs' ]
-
   if $::osfamily == 'windows' {
     # Path to the student's working directory
     $workdir = 'c:/puppetcode'

@@ -1,6 +1,5 @@
 # Set up the master with user accounts, environments, etc
 class classroom::master (
-  $classes     = $classroom::classes,
   $offline     = $classroom::offline,
   $autoteam    = $classroom::autoteam,
   $managerepos = $classroom::managerepos,
