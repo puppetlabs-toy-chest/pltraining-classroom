@@ -1,15 +1,13 @@
-class classroom::master::tuning (
-  $jruby_purge         = $classroom::params::jruby_purge,
-  $jvm_tuning_profile  = $classroom::params::jvm_tuning_profile,
-) inherits classroom::params {
+class classroom::master::tuning {
+  assert_private('This class should not be called directly')
 
   include classroom::master::hiera
 
   # See https://tickets.puppetlabs.com/browse/PE-9704
-  if $jruby_purge {
-    $cert   = '/etc/puppetlabs/puppet/ssl/certs/pe-internal-classifier.pem'
-    $key    = '/etc/puppetlabs/puppet/ssl/private_keys/pe-internal-classifier.pem'
-    $cacert = '/etc/puppetlabs/puppet/ssl/certs/ca.pem'
+  if $classroom::jruby_purge {
+    $cert   = "${classroom::confdir}/ssl/certs/pe-internal-classifier.pem"
+    $key    = "${classroom::confdir}/ssl/private_keys/pe-internal-classifier.pem"
+    $cacert = "${classroom::confdir}/ssl/certs/ca.pem"
     $master = 'https://${::fqdn}:8140'
     $api    = 'puppet-admin-api/v1/jruby-pool'
 
@@ -22,9 +20,9 @@ class classroom::master::tuning (
     }
   }
 
-  if $jvm_tuning_profile != false {
+  if $classroom::jvm_tuning_profile != false {
 
-    case $jvm_tuning_profile {
+    case $classroom::jvm_tuning_profile {
       'lvm': {
         $amq_heap_mb                = '32'
         $master_Xmx                 = '256m'
@@ -39,7 +37,7 @@ class classroom::master::tuning (
         $delayed_job_workers        = 1
       }
       'minimal': {
-        if $jurby_purge {
+        if $jruby_purge {
           $amq_heap_mb                = '32'
           $master_Xmx                 = '128m'
           $master_Xms                 = '128m'
@@ -67,14 +65,13 @@ class classroom::master::tuning (
       }
     }
 
-    file { '/etc/puppetlabs/puppet/hieradata/tuning.yaml':
+    file { "${classroom::codedir}/hieradata/tuning.yaml":
       ensure  => file,
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
       content => template('classroom/tuning.yaml.erb'),
       before  => Class['puppet_enterprise::profile::master', 'puppet_enterprise::profile::console'],
-      require => File['/etc/puppetlabs/puppet/hieradata/'],
     }
   }
 }

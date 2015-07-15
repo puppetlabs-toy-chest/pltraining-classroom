@@ -1,5 +1,7 @@
 # Simple and inflexible IRCd setup for the classroom
 class classroom::master::ircd {
+  assert_private('This class should not be called directly')
+
   package { 'ngircd':
     ensure => present,
   }

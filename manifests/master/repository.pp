@@ -7,7 +7,7 @@ define classroom::master::repository (
   $environment = true,
   $repo_user   = $name,
   $repo_root   = '/var/repositories',
-  $clone_root  = '/etc/puppetlabs/puppet/environments',
+  $clone_root  = "${classroom::codedir}/environments",
 ) {
 
   if !( $ensure in ['present','absent'] ) {

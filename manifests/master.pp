@@ -1,13 +1,6 @@
 # Set up the master with user accounts, environments, etc
-class classroom::master (
-  $offline     = $classroom::offline,
-  $autoteam    = $classroom::autoteam,
-  $managerepos = $classroom::managerepos,
-) inherits classroom {
-
-  # Add the installer files for 32bit agents
-  # These files are cached by the build, so this will work offline
-  include pe_repo::platform::el_6_i386
+class classroom::master {
+  assert_private('This class should not be called directly')
 
   File {
     owner  => 'root',
@@ -15,18 +8,9 @@ class classroom::master (
     mode   => '0644',
   }
 
-  # classroom parameters
-  file { '/etc/puppetlabs/puppet/hieradata/classroom.yaml':
-    ensure => file,
-    source => 'puppet:///modules/classroom/hiera/data/classroom.yaml',
-  }
-
-  # overrides for the master, but allow the instructor to edit
-  file { '/etc/puppetlabs/puppet/hieradata/master.puppetlabs.vm.yaml':
-    ensure  => file,
-    source  => 'puppet:///modules/classroom/hiera/data/master.puppetlabs.vm.yaml',
-    replace => false,
-  }
+  # Add the installer files for 32bit agents
+  # These files are cached by the build, so this will work offline
+  include pe_repo::platform::el_6_i386
 
   # we know that you all love logging back into the Console every time you do a
   # demo, but we're sadists, so we're going to take that pleasure away from you.
@@ -52,26 +36,24 @@ class classroom::master (
   # Ensure the environment cache is disabled and restart if needed
   ini_setting {'environment timeout':
     ensure  => present,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    path    => "${classroom::confdir}/puppet.conf",
     section => 'main',
     setting => 'environment_timeout',
     value   => '0',
     notify  => Service['pe-puppetserver'],
   }
 
-  file { '/etc/puppetlabs/puppet/environments/production/manifests':
-    ensure => directory,
-  }
-
   # Anything that needs to be top scope
-  file { '/etc/puppetlabs/puppet/environments/production/manifests/classroom.pp':
+  file { "${classroom::codedir}/environments/production/manifests/classroom.pp":
     ensure => file,
     source => 'puppet:///modules/classroom/classroom.pp',
   }
 
-  # if configured to do so, configure repos & environments on the master
-  if $managerepos {
-    File <| title == '/etc/puppetlabs/puppet/environments' |> {
+  # if configured to do so, configure repos & environments on the master. This
+  # overrides the resource in the puppet_enterprise module and allows us to have
+  # different users updating their own repositories.
+  if $classroom::managerepos {
+    File <| title == "${classroom::codedir}/environments" |> {
       mode => '1777',
     }
 

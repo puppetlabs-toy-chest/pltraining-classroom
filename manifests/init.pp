@@ -34,17 +34,31 @@ class classroom (
   $workdir      = $classroom::params::workdir,
   $password     = $classroom::params::password,
   $consolepw    = $classroom::params::consolepw,
-  $etcpath      = $classroom::params::etcpath,
 ) inherits classroom::params {
+  validate_bool($offline)
+  validate_bool($autosetup)
+  validate_bool($autoteam)
+  validate_bool($manageyum)
+  validate_bool($managerepos)
 
-  # variables are available to included classes by the evil power of inheritance
+  validate_array($time_servers)
+
+  validate_absolute_path($workdir)
+
+  validate_string($password)
+  validate_string($consolepw)
+
   case $role {
-    'master' : { include classroom::master }
-    'agent'  : { include classroom::agent  }
-    'proxy'  : { include classroom::proxy  }
-    'tier3'  : { include classroom::tier3  }
-    default  : { fail("Unknown role: ${role}") }
+    'master'   : { include classroom::master     }
+    'agent'    : { include classroom::agent      }
+    'adserver' : { include classroom::agent      }
+    'proxy'    : { include classroom::proxy      }
+    'tier3'    : { include classroom::tier3      }
+    default    : { fail("Unknown role: ${role}") }
   }
 
   include classroom::repositories
+
+  # temporary compatibility shim for PE 3.x
+  include classroom::compatibility
 }

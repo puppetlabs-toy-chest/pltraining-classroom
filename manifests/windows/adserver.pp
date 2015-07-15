@@ -1,4 +1,5 @@
-class classroom::winserver inherits classroom::params {
+class classroom::windows::adserver {
+  assert_private('This class should not be called directly')
 
   class { 'windows_ad' :
     install                => present,
@@ -9,13 +10,13 @@ class classroom::winserver inherits classroom::params {
     configureflag          => true,
     domaintype             => 'Forest',
     domain                 => 'forest',
-    domainname             => $classroom::params::ad_domainname,
-    netbiosdomainname      => $classroom::params::ad_netbiosdomainname,
+    domainname             => $classroom::ad_domainname,
+    netbiosdomainname      => $classroom::ad_netbiosdomainname,
     domainlevel            => '6',
     forestlevel            => '6',
     installtype            => 'domain',
     installdns             => 'no',
-    dsrmpassword           => $classroom::params::ad_dsrmpassword,
+    dsrmpassword           => $classroom::ad_dsrmpassword,
     require                => Exec['RequirePassword'],
   }
   # Local administrator is required to have a password before AD will install
@@ -58,7 +59,7 @@ class classroom::winserver inherits classroom::params {
   }
 
   # Export AD server IP to be DNS server for agents
-  @@classroom::dns_server { 'primary_ip':
+  @@classroom::windows::dns_server { 'primary_ip':
     ip => $::ipaddress,
   }
   # Add "CLASSROOM\admin" user to domain

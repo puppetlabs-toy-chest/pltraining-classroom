@@ -3,6 +3,8 @@
 # support, the environments directory will be managed and if
 # teams are defined, their repositories will be managed.
 class classroom::master::repositories {
+  assert_private('This class should not be called directly')
+
   File {
     owner => 'root',
     group => 'root',

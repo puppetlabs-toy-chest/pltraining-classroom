@@ -23,12 +23,10 @@
 # for time, and
 #   b) all agents are synced to the master via a cron task
 
-class classroom::master::time (
-  $offline      = $classroom::offline,
-  $time_servers = $classroom::time_servers,
-) inherits classroom {
+class classroom::master::time {
+  assert_private('This class should not be called directly')
 
-  if $offline {
+  if $classroom::offline {
     # No point in repeatedly trying to sync if we don't have net
     $cronjob = absent
     # Set NTP service to consider itself authoritative
@@ -37,7 +35,7 @@ class classroom::master::time (
   else {
     # Forcibly sync with a timeserver - handy for resuming class without slew
     $cronjob = present
-    $servers = $time_servers
+    $servers = $classroom::time_servers
   }
 
   class { '::ntp':
@@ -48,7 +46,7 @@ class classroom::master::time (
 
   cron { 'synctime':
     ensure  => $cronjob,
-    command => "/usr/sbin/ntpdate -us ${time_servers[3]}",
+    command => "/usr/sbin/ntpdate -us ${classroom::time_servers[3]}",
     minute  => '*/5',
   }
 }

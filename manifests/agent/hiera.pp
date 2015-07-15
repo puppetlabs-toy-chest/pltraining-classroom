@@ -1,11 +1,8 @@
 # Make sure that Hiera is configured for agent nodes so that we
 # can work through the hiera sections without teaching them
 # how to configure it.
-class classroom::agent::hiera (
-  $managerepos = $classroom::managerepos,
-  $workdir     = $classroom::workdir,
-  $etcpath     = $classroom::etcpath,
-) inherits classroom {
+class classroom::agent::hiera {
+  assert_private('This class should not be called directly')
 
   # Set defaults depending on os
   case $::osfamily {
@@ -24,19 +21,21 @@ class classroom::agent::hiera (
     }
   }
 
-  if $managerepos {
-    file { "${etcpath}/hieradata":
+  $hieradata = "${$classroom::codedir}/hieradata"
+
+  if $classroom::managerepos {
+    file { $hieradata:
       ensure => link,
-      target => "${workdir}/hieradata",
+      target => "${classroom::workdir}/hieradata",
     }
 
-    file { "${etcpath}/hiera.yaml":
+    file { "${classroom::codedir}/hiera.yaml":
       ensure => link,
-      target => "${workdir}/hiera.yaml",
+      target => "${classroom::workdir}/hiera.yaml",
       force  => true,
     }
 
-    file { "${workdir}/hiera.yaml":
+    file { "${classroom::workdir}/hiera.yaml":
       ensure => file,
       source => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
       replace => false,
@@ -44,18 +43,18 @@ class classroom::agent::hiera (
 
   }
   else {
-    file { "${etcpath}/hieradata":
+    file { $hieradata:
       ensure => directory,
     }
 
     # Because PE writes a default, we cannot use replace => false
-    file { "${etcpath}/hiera.yaml":
+    file { "${classroom::codedir}/hiera.yaml":
       ensure => file,
       source => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
     }
   }
 
-  file { "${etcpath}/hieradata/defaults.yaml":
+  file { "${hieradata}/defaults.yaml":
     ensure  => file,
     source  => 'puppet:///modules/classroom/hiera/data/defaults.yaml',
     replace => false,

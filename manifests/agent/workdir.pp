@@ -79,6 +79,7 @@ define classroom::agent::workdir (
       file { "${workdir}/hieradata":
         ensure => directory,
       }
+
     }
 
     # Can't use vcsrepo because we cannot clone.
@@ -108,6 +109,16 @@ define classroom::agent::workdir (
       source  => 'puppet:///modules/classroom/dot_gitignore',
       require => Exec["initialize ${name} repo"],
     }
+
+    # Symlinks on the user desktop
+    if $::osfamily == 'Windows' {
+      $linkname = basename($workdir)
+      file { "C:/Users/Administrator/Desktop/${linkname}":
+        ensure  => link,
+        target  => $workdir,
+      }
+    }
+
   }
   else {
     file { $workdir:

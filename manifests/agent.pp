@@ -4,35 +4,17 @@
 #  * git pre-commit hook
 #  * hiera configuration
 #  * time synchronization with the classroom master
-class classroom::agent (
-  $workdir     = $classroom::workdir,
-  $autosetup   = $classroom::autosetup,
-  $managerepos = $classroom::managerepos,
-  $password    = $classroom::password,
-  $consolepw   = $classroom::consolepw,
-) inherits classroom {
+class classroom::agent {
+  assert_private('This class should not be called directly')
+
   # A valid clientcert is not necessarily a valid Puppet environment name!
-  validate_re($classroom::params::machine_name, '^(?=.*[a-z])\A[a-z0-9][a-z0-9._]+\z', "The classroom environment supports lowercase alphanumeric names only. ${name} is not a valid name. Please ask your instructor for assistance.")
+  validate_re($classroom::machine_name, '^(?=.*[a-z])\A[a-z0-9][a-z0-9._]+\z', "The classroom environment supports lowercase alphanumeric names only. ${name} is not a valid name. Please ask your instructor for assistance.")
 
   # windows goodies
   if $::osfamily  == 'windows' {
-    user { 'Administrator':
-      ensure => present,
-      groups => ['Administrators'],
-    }
-    include classroom::agent::chocolatey
-    include userprefs::npp
-    include classroom::agent::putty
-    include classroom::agent::geotrust
-    include classroom::agent::password_policy
-    include classroom::agent::shortcuts
-    include classroom::agent::certname_default
-    include classroom::agent::disable_esc
-    Classroom::Dns_server <<||>>
+    include classroom::windows
   }
-
-  # Non-windows agents
-  unless $::osfamily == 'windows' {
+  else {
     # /etc/puppet/ssl is confusing to have around. Sloppy. Kill.
     file {'/etc/puppet':
       ensure  => absent,
@@ -54,20 +36,20 @@ class classroom::agent (
 
   # export a classroom::user with our ssh key.
   #
-  # !!!! THIS WILL EXPORT AN EMPTY KEY ON THE FIRST RUN !!!!
+  # !!!! THIS MAY EXPORT AN EMPTY KEY ON THE FIRST RUN !!!!
   #
   # On the second run, the ssh key will exist and so this fact will be set.
   @@classroom::user { $::classroom::params::machine_name:
     key        => $::root_ssh_key,
-    password   => $password,
-    consolepw  => $consolepw,
-    managerepo => $managerepos,
+    password   => $classroom::password,
+    consolepw  => $classroom::consolepw,
+    managerepo => $classroom::managerepos,
   }
 
   # if we are managing git repositories, then build out all this
-  if $managerepos {
+  if $classroom::managerepos {
 
-    classroom::agent::workdir { $workdir:
+    classroom::agent::workdir { $classroom::workdir:
       ensure   => present,
       username => $classroom::params::machine_name,
       require  => Class['classroom::agent::git'],

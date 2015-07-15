@@ -1,13 +1,11 @@
 # Paramters:
 # * $autoteam: automatically create simple teams for Capstone. Defaults to false.
 #
-class classroom::master::autoteam (
-  $autoteam = $classroom::autoteam,
-) inherits classroom {
-  validate_bool($autoteam)
+class classroom::master::autoteam {
+  assert_private('This class should not be called directly')
 
-  if $autoteam {
-    file { '/etc/puppetlabs/puppet/hieradata/teams.yaml':
+  if $classroom::autoteam {
+    file { "${classroom::codedir}/hieradata/teams.yaml":
       ensure  => file,
       owner   => 'root',
       group   => 'root',
