@@ -44,9 +44,4 @@ class classroom::course::architect (
     # The autoscaling seems to assume that you'll sync this out from the MoM
     include classroom::master::student_environment
   }
-
-  # manual fiddling not needed on current PE
-  if versioncmp($::pe_version, '3.4.0') < 0 {
-    include classroom::mcollective
-  }
 }
