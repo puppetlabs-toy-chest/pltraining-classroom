@@ -1,12 +1,4 @@
 class classroom::params {
-  # determine whether we're using the all-in-one filesystem layout
-  if $::pe_server_version and versioncmp($::pe_server_version, '2015.0') >= 0 {
-    $aio = true
-  }
-  else {
-    $aio = false
-  }
-
   # Configure NTP (and other services) to run in standalone mode
   $offline   = false
 
@@ -98,13 +90,13 @@ class classroom::params {
   }
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
-  # These really only matter to the master, since it's building the classroom
   if $role == 'master' {
-    if $::pe_server_version and versioncmp($::pe_server_version, '2015.3') < 0 {
+    if versioncmp(pick($::pe_server_version, $::pe_version), '3.8.0') < 0 {
       fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-training.ova/\n\n")
     }
-    elsif $::pe_version and versioncmp($::pe_version, '3.8.0') < 0 {
-      fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-training.ova/\n\n")
+    # we expect instructors to have newer VMs. The student machine can be older.
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '2.25') < 0 {
+      fail("Your VM is out of date. ${download}/puppet-training.ova/\n\n")
     }
   }
   else {
@@ -112,5 +104,4 @@ class classroom::params {
       fail("Your VM is out of date. ${download}/puppet-student.ova/\n\n")
     }
   }
-
 }
