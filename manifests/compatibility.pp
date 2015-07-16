@@ -2,7 +2,7 @@
 class classroom::compatibility {
   assert_private('This class should not be called directly')
 
-  if versioncmp($::pe_server_version, '2015.0') < 0 {
+  unless $::aio_agent_version {
 
     File {
       owner => 'root',
@@ -10,13 +10,7 @@ class classroom::compatibility {
       mode  => '0644',
     }
 
-    $directories = [
-      '/etc/puppetlabs/code',
-      '/opt/puppetlabs',
-      '/opt/puppetlabs/puppet',
-    ]
-
-    file { $directories:
+    file { [ '/opt/puppetlabs', '/opt/puppetlabs/puppet' ]:
       ensure => directory,
     }
 
@@ -25,28 +19,10 @@ class classroom::compatibility {
       target  => '/opt/puppet/bin',
     }
 
-    # links from the new codedir
-    file { '/etc/puppetlabs/code/environments':
+    # links the new codedir
+    file { '/etc/puppetlabs/code':
       ensure  => link,
-      target  => '/etc/puppetlabs/puppet/environments',
-    }
-
-    file { '/etc/puppetlabs/code/modules':
-      ensure  => link,
-      target  => '/etc/puppetlabs/puppet/modules',
-    }
-
-    # must link these from the old confdir because we're writing content into the target
-    file { '/etc/puppetlabs/puppet/hiera.yaml':
-      ensure  => link,
-      force   => true,
-      target  => '/etc/puppetlabs/code/hiera.yaml',
-    }
-
-    file { '/etc/puppetlabs/puppet/hieradata':
-      ensure  => link,
-      force   => true,
-      target  => '/etc/puppetlabs/code/hieradata',
+      target  => '/etc/puppetlabs/puppet',
     }
 
   }

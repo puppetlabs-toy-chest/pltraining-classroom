@@ -45,7 +45,7 @@ class classroom::agent::teams {
   } else {
     file { "${classroom::codedir}/modules":
       ensure => link,
-      target => "${workdir}/modules",
+      target => "${classroom::workdir}/modules",
       force  => true,
     }
 
