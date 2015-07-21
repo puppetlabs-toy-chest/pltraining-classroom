@@ -13,10 +13,10 @@ class classroom::course::infrastructure {
   file { '/etc/docker/ssl_dir/':
     ensure => directory,
   }
-  file { '/usr/local/bin/setup_agents':
+  file { '/usr/local/bin/run_agents':
     ensure => present,
     mode   => '755',
-    source => 'puppet:///modules/classroom/setup_agents.sh',
+    source => 'puppet:///modules/classroom/run_agents.sh',
   }
 
   docker::image {'agent':
