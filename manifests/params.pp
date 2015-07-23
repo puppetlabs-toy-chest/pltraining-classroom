@@ -40,7 +40,7 @@ class classroom::params {
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
 
   # where the agent installer tarball should go. This is only relevant when promoting a secondary master
-  $publicdir = $aio ? {
+  $publicdir = $::aio_agent_version ? {
     true  => '/opt/puppetlabs/server/data/packages/public/classroom',
     false => '/opt/puppet/packages/public/classroom'
   }
