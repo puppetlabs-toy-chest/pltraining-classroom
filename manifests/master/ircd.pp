@@ -23,7 +23,10 @@ class classroom::master::ircd {
   # gems used by the irc report handler.
   package { 'carrier-pigeon':
     ensure   => present,
-    provider => pe_puppetserver_gem,
+    provider => $aio_agent_version ? {
+      undef   => pe_puppetserver_gem,
+      default => puppetserver_gem,
+    },
   }
 
 }
