@@ -18,10 +18,10 @@ do
     "pp")  puppet parser validate ${file}
            ;;
 
-    "erb") /opt/puppet/bin/erb -P -x -T '-' ${file} | /opt/puppet/bin/ruby -c >/dev/null
+    "erb") /opt/puppetlabs/puppet/bin/erb -P -x -T '-' ${file} | /opt/puppetlabs/puppet/bin/ruby -c >/dev/null
            ;;
 
-    "yaml") /opt/puppet/bin/ruby -ryaml -e "YAML.load_file '${file}'" >/dev/null
+    "yaml") /opt/puppetlabs/puppet/bin/ruby -ryaml -e "YAML.load_file '${file}'" >/dev/null
            ;;
 
   esac

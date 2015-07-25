@@ -1,11 +1,11 @@
 # This only thing this class does is handoff the student Agent node to that student's
 # Master node, while retaining the ca_server connection back to the classroom CA
-class classroom::tier3(
-  $etcpath      = $classroom::params::etcpath,
-) inherits classroom::params {
+class classroom::tier3 {
+  assert_private('This class should not be called directly')
+
   ini_setting { 'puppet.conf.server':
     ensure  => present,
-    path    => "${etcpath}/puppet.conf",
+    path    => "${classroom::confdir}/puppet.conf",
     section => 'agent',
     setting => 'server',
     value   => $::domain,
@@ -13,7 +13,7 @@ class classroom::tier3(
 
   ini_setting { 'puppet.conf.caserver':
     ensure  => present,
-    path    => "${etcpath}/puppet.conf",
+    path    => "${classroom::confdir}/puppet.conf",
     section => 'main',
     setting => 'ca_server',
     value   => $::servername,

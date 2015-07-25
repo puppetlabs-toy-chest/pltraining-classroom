@@ -10,13 +10,11 @@
 # If autosetup is enabled, then this will manage the student's environment
 # setting as well.
 #
-class classroom::agent::teams (
-  $autosetup = $classroom::autosetup,
-  $etcpath   = $classroom::etcpath,
-) inherits classroom {
+class classroom::agent::teams {
+  assert_private('This class should not be called directly')
 
   # If we have teams defined for this student, build a working directory for each.
-  $teams = teams($classroom::params::machine_name)
+  $teams = teams($classroom::machine_name)
   if is_hash($teams) {
     $repos = prefix($teams, '/root/')
     classroom::agent::workdir { $repos:
@@ -28,16 +26,16 @@ class classroom::agent::teams (
     if(size($teams) == 1) {
       $team = $teams[0]
 
-      file { "${etcpath}/modules":
+      file { "${classroom::codedir}/modules":
         ensure => link,
         target => "/root/${team}/modules",
         force  => true,
       }
 
-      if $autosetup {
+      if $classroom::autosetup {
         ini_setting { "environment":
           ensure  => present,
-          path    => "${etcpath}/puppet.conf",
+          path    => "${classroom::confdir}/puppet.conf",
           section => 'agent',
           setting => 'environment',
           value   => $team,
@@ -45,19 +43,19 @@ class classroom::agent::teams (
       }
     }
   } else {
-    file { "${etcpath}/modules":
+    file { "${classroom::codedir}/modules":
       ensure => link,
-      target => "${workdir}/modules",
+      target => "${classroom::workdir}/modules",
       force  => true,
     }
 
-    if $autosetup {
+    if $classroom::autosetup {
       ini_setting { "environment":
         ensure  => present,
-        path    => "${etcpath}/puppet.conf",
+        path    => "${classroom::confdir}/puppet.conf",
         section => 'agent',
         setting => 'environment',
-        value   => $classroom::params::machine_name,
+        value   => $classroom::machine_name,
       }
     }
   }

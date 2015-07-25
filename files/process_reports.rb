@@ -1,4 +1,4 @@
-#! /opt/puppet/bin/ruby
+#! /opt/puppetlabs/puppet/bin/ruby
 #
 # This script will parse reports saved in the reportdir and create a summary
 # file located at ~/puppetruns.yaml with statistics about the last run from

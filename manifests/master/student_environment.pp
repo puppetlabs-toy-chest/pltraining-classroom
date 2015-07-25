@@ -1,8 +1,10 @@
 # This is a temporary hack to make sure that student masters have a
 # production environment created. We will revisit this post PE3.7 release
 #
-class classroom::master::student_environment inherits classroom::params {
-  $environmentpath = '/etc/puppetlabs/puppet/environments'
+class classroom::master::student_environment {
+  assert_private('This class should not be called directly')
+
+  $environmentpath = "${classroom::codedir}/environments"
   $environmentname = 'production'
   $environment     = "${environmentpath}/${environmentname}"
 
@@ -37,7 +39,7 @@ class classroom::master::student_environment inherits classroom::params {
   # Ensure the environment cache is disabled and restart if needed
   ini_setting {'environment_timeout':
     ensure  => present,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    path    => "${classroom::confdir}/puppet.conf",
     section => 'main',
     setting => 'environment_timeout',
     value   => '0',
@@ -46,7 +48,7 @@ class classroom::master::student_environment inherits classroom::params {
   # Ensure the environmentpath is configured and restart if needed
   ini_setting {'environmentpath':
     ensure  => present,
-    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    path    => "${classroom::confdir}/puppet.conf",
     section => 'main',
     setting => 'environmentpath',
     value   => $environmentpath,

@@ -1,4 +1,6 @@
 class classroom::agent::irc {
+  assert_private('This class should not be called directly')
+
   if $::osfamily == 'windows' {
     package { 'hexchat':
       ensure => present,
@@ -20,7 +22,7 @@ class classroom::agent::irc {
     # prepare a config file for the report handler
     $nick = "puppet"
 
-    file { '/etc/puppetlabs/puppet/irc.yaml':
+    file { "${confdir}/irc.yaml":
       ensure  => present,
       content => template('classroom/irc.yaml.erb'),
     }

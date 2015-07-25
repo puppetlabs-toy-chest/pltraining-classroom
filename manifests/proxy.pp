@@ -1,4 +1,6 @@
 class classroom::proxy {
+  assert_private('This class should not be called directly')
+
   include '::haproxy'
   include classroom::agent::time
 

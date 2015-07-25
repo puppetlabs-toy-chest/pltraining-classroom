@@ -6,7 +6,7 @@ if (( $# != 1 )); then
   exit 1
 fi
 
-ENVROOT='/etc/puppetlabs/puppet/environments'
+ENVROOT='/etc/puppetlabs/code/environments'
 GITDIR="${ENVROOT}/${1}/.git"
 
 # check to make sure the env repo exists

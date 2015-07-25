@@ -1,5 +1,5 @@
 ALL ALL = (peadmin) NOPASSWD:ALL
 ALL ALL = (root) NOPASSWD:/usr/local/bin/process_reports.rb
-ALL ALL = (root) NOPASSWD:/opt/puppet/bin/rake
+ALL ALL = (root) NOPASSWD:/opt/puppetlabs/puppet/bin/rake
 ALL ALL = (root) NOPASSWD:/usr/bin/tail
 

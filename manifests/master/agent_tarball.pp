@@ -1,13 +1,14 @@
 # Configure the classroom so that any secondary masters will get the
 # agent tarball from the classroom master.
-class classroom::master::agent_tarball (
-  $version   = $::pe_version,
-  $platform  = $::platform_tag,
-  $cachedir  = $classroom::params::cachedir,
-  $publicdir = $classroom::params::publicdir,
-) inherits classroom::params {
+class classroom::master::agent_tarball {
+  assert_private('This class should not be called directly')
+
+  $version   = pick($::pe_server_version, $::pe_version)
+  $cachedir  = $classroom::params::cachedir
+  $publicdir = $classroom::params::publicdir
+
   if versioncmp($::pe_version, '3.4.0') >= 0 {
-    $filename = "puppet-enterprise-${version}-${platform}-agent.tar.gz"
+    $filename = "puppet-enterprise-${version}-${::platform_tag}-agent.tar.gz"
     $download = "https://pm.puppetlabs.com/puppet-enterprise/${version}/${filename}"
 
     file { [$publicdir, "${publicdir}/${version}"]:

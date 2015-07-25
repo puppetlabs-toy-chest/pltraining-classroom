@@ -1,14 +1,16 @@
 class classroom::agent::git {
+  assert_private('This class should not be called directly')
+
   case $::osfamily {
     'windows' : {
       $environment = undef
-      $path = 'C:/Program Files (x86)/Git/bin'
-      $sshpath = 'C:/Program Files (x86)/Git/.ssh'
+      $path        = 'C:/Program Files (x86)/Git/bin'
+      $sshpath     = 'C:/Program Files (x86)/Git/.ssh'
     }
     default   : {
       $environment = 'HOME=/root'
-      $path = '/usr/bin:/bin:/user/sbin:/usr/sbin'
-      $sshpath = '/root/.ssh'
+      $path        = '/usr/bin:/bin:/user/sbin:/usr/sbin'
+      $sshpath     = '/root/.ssh'
     }
   }
   Exec {
@@ -17,20 +19,13 @@ class classroom::agent::git {
   }
 
   if $::osfamily == 'windows'{
-    require classroom::agent::chocolatey
+    require classroom::windows::chocolatey
 
-    Package { 
+    package { ['git', 'kdiff3']:
+      ensure   => present,
+      before   => [ File[$sshpath], Exec['generate_key'] ],
       provider => 'chocolatey',
     }
-    package { 'git':
-      ensure => present,
-      before => [ File[$sshpath], Exec['generate_key'] ],
-    }
-
-    package { 'kdiff3':
-      ensure => present,
-    }
-
 
     file { 'C:/Users/Administrator/.ssh/':
       ensure => directory,
@@ -38,6 +33,7 @@ class classroom::agent::git {
       recurse => true,
       require => [File[$sshpath],Exec['generate_key'],User['Administrator']],
     }
+
     windows_env { 'PATH=C:\Program Files (x86)\Git\bin': }
   }
   else {

@@ -7,6 +7,8 @@
 #   Classify all agent nodes
 #
 class classroom::agent::time {
+  assert_private('This class should not be called directly')
+
   if $::osfamily == 'windows' {
     service { 'W32Time':
       ensure => running,

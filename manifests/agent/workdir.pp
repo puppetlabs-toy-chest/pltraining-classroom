@@ -58,16 +58,6 @@ define classroom::agent::workdir (
         replace => false,
       }
 
-      # https://docs.puppetlabs.com/puppet/latest/reference/environments_configuring.html#environmenttimeout
-      # suggests that this setting can be pushed up to puppet.conf globally.
-      # Initial testing appears to confirm that. If this proves problematic, then
-      # uncomment this resource and the relevant resource in classroom::master
-      # file { "${workdir}/environment.conf":
-      #   ensure  => file,
-      #   content => "environment_timeout = 0\n",
-      #   replace => false,
-      # }
-
       file { "${workdir}/modules":
         ensure => directory,
       }
@@ -79,6 +69,7 @@ define classroom::agent::workdir (
       file { "${workdir}/hieradata":
         ensure => directory,
       }
+
     }
 
     # Can't use vcsrepo because we cannot clone.
@@ -108,6 +99,16 @@ define classroom::agent::workdir (
       source  => 'puppet:///modules/classroom/dot_gitignore',
       require => Exec["initialize ${name} repo"],
     }
+
+    # Symlinks on the user desktop
+    if $::osfamily == 'Windows' {
+      $linkname = basename($workdir)
+      file { "C:/Users/Administrator/Desktop/${linkname}":
+        ensure  => link,
+        target  => $workdir,
+      }
+    }
+
   }
   else {
     file { $workdir:
