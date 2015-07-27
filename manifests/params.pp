@@ -12,7 +12,7 @@ class classroom::params {
     # Path to the student's working directory
     $workdir = 'c:/puppetcode'
     $confdir = 'C:/ProgramData/PuppetLabs/puppet/etc'
-    $codedir = 'C:/ProgramData/PuppetLabs/puppet/etc'      # TODO
+    $codedir = 'C:/ProgramData/PuppetLabs/code'
   }
   else {
     $workdir = '/root/puppetcode'
