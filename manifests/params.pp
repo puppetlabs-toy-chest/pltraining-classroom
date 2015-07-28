@@ -82,7 +82,7 @@ class classroom::params {
   }
   else {
     $role = $hostname ? {
-      /^master|classroom$/ => 'master',
+      /^master|classroom|puppetfactory$/ => 'master',
       'proxy'              => 'proxy',
       'adserver'           => 'adserver',
       default              => 'agent'
