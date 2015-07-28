@@ -1,13 +1,14 @@
-class classroom::master::tuning {
-  assert_private('This class should not be called directly')
-
+class classroom::master::tuning (
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $jruby_purge        = $classroom::params::jruby_purge,
+) inherits classroom::params {
   include classroom::master::hiera
 
   # See https://tickets.puppetlabs.com/browse/PE-9704
-  if $classroom::jruby_purge {
-    $cert   = "${classroom::confdir}/ssl/certs/pe-internal-classifier.pem"
-    $key    = "${classroom::confdir}/ssl/private_keys/pe-internal-classifier.pem"
-    $cacert = "${classroom::confdir}/ssl/certs/ca.pem"
+  if $jruby_purge {
+    $cert   = "${classroom::params::confdir}/ssl/certs/pe-internal-classifier.pem"
+    $key    = "${classroom::params::confdir}/ssl/private_keys/pe-internal-classifier.pem"
+    $cacert = "${classroom::params::confdir}/ssl/certs/ca.pem"
     $master = "https://${::fqdn}:8140"
     $api    = 'puppet-admin-api/v1/jruby-pool'
 
@@ -20,9 +21,9 @@ class classroom::master::tuning {
     }
   }
 
-  if $classroom::jvm_tuning_profile != false {
+  if $jvm_tuning_profile != false {
 
-    case $classroom::jvm_tuning_profile {
+    case $jvm_tuning_profile {
       'lvm': {
         $amq_heap_mb                = '32'
         $master_Xmx                 = '256m'
@@ -37,7 +38,7 @@ class classroom::master::tuning {
         $delayed_job_workers        = 1
       }
       'minimal': {
-        if $classroom::jruby_purge {
+        if $jruby_purge {
           $amq_heap_mb                = '32'
           $master_Xmx                 = '128m'
           $master_Xms                 = '128m'
@@ -65,7 +66,7 @@ class classroom::master::tuning {
       }
     }
 
-    file { "${classroom::codedir}/hieradata/tuning.yaml":
+    file { "${classroom::params::codedir}/hieradata/tuning.yaml":
       ensure  => file,
       owner   => 'root',
       group   => 'root',
