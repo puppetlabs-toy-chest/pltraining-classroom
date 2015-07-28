@@ -14,8 +14,8 @@ class classroom::repositories {
       class { 'epel':
         epel_enabled => $classroom::offline ? {
           true  => '0',
-          false => '1'
-        }
+          false => '1',
+        },
       }
     }
   }

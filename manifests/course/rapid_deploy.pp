@@ -37,7 +37,7 @@ class classroom::course::rapid_deploy (
           'remote'  => "git@${gitserver}:root/control.git",
           'basedir' => "${::settings::confdir}/environments",
           'prefix'  => false,
-        }
+        },
       },
       purgedirs         => ["${::settings::confdir}/environments"],
       manage_modulepath => true,

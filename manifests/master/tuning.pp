@@ -8,7 +8,7 @@ class classroom::master::tuning {
     $cert   = "${classroom::confdir}/ssl/certs/pe-internal-classifier.pem"
     $key    = "${classroom::confdir}/ssl/private_keys/pe-internal-classifier.pem"
     $cacert = "${classroom::confdir}/ssl/certs/ca.pem"
-    $master = 'https://${::fqdn}:8140'
+    $master = "https://${::fqdn}:8140"
     $api    = 'puppet-admin-api/v1/jruby-pool'
 
     cron { 'purge jruby pool':
@@ -37,7 +37,7 @@ class classroom::master::tuning {
         $delayed_job_workers        = 1
       }
       'minimal': {
-        if $jruby_purge {
+        if $classroom::jruby_purge {
           $amq_heap_mb                = '32'
           $master_Xmx                 = '128m'
           $master_Xms                 = '128m'
@@ -52,7 +52,7 @@ class classroom::master::tuning {
         }
         else
         {
-          fail("Minimal tuning profile requires `jruby_purge => true`.")
+          fail('Minimal tuning profile requires `jruby_purge => true`.')
         }
       }
       'moderate': {

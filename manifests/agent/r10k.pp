@@ -7,8 +7,8 @@ class classroom::agent::r10k {
         'remote'  => $classroom::r10k_remote,
         'basedir' => $classroom::r10k_basedir,
         'prefix'  => false,
-      }
+      },
     },
-    version   => present,
+    version => present,
   }
 }

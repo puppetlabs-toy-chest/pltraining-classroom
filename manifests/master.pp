@@ -34,7 +34,7 @@ class classroom::master {
   if $classroom::managerepos {
     # As if this wasn't gross enough already... We need the title instead of just
     # a symlink because we're actually overriding an attribute in the catalog.
-    $environmentspath = $aio_agent_version ? {
+    $environmentspath = $::aio_agent_version ? {
       undef   => "${classroom::confdir}/environments",
       default => "${classroom::codedir}/environments",
     }

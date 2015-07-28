@@ -30,6 +30,6 @@ class classroom::virtual::master (
     ensure      => present,
     environment => false,
     repo_user   => 'classroom',
-    clone_root  => '/etc/puppetlabs/puppet/modules'
+    clone_root  => '/etc/puppetlabs/puppet/modules',
   }
 }

@@ -20,10 +20,10 @@ class classroom::agent::irc {
   }
   else {
     # prepare a config file for the report handler
-    $nick = "puppet"
+    $nick = 'puppet'
 
-    file { "${confdir}/irc.yaml":
-      ensure  => present,
+    file { "${classroom::confdir}/irc.yaml":
+      ensure  => file,
       content => template('classroom/irc.yaml.erb'),
     }
 
@@ -36,7 +36,7 @@ class classroom::agent::irc {
       require => Package['irssi'],
     }
     file { "${::root_home}/.irssi/config":
-      ensure  => present,
+      ensure  => file,
       content => template("${module_name}/irssi.conf.erb"),
       require => Package['irssi'],
     }

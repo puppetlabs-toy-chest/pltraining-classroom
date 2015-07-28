@@ -74,9 +74,9 @@ define classroom::agent::workdir (
 
     # Can't use vcsrepo because we cannot clone.
     exec { "initialize ${name} repo":
-      command   => "git init ${workdir}",
-      creates   => "${workdir}/.git",
-      require   => File[$workdir],
+      command => "git init ${workdir}",
+      creates => "${workdir}/.git",
+      require => File[$workdir],
     }
 
     exec { "add git remote for ${name}":
@@ -85,7 +85,7 @@ define classroom::agent::workdir (
       require => Exec["initialize ${name} repo"],
     }
 
-    if $osfamily != 'windows' {
+    if $::osfamily != 'windows' {
       file { "${workdir}/.git/hooks/pre-commit":
         ensure  => file,
         source  => 'puppet:///modules/classroom/pre-commit',
@@ -104,8 +104,8 @@ define classroom::agent::workdir (
     if $::osfamily == 'Windows' {
       $linkname = basename($workdir)
       file { "C:/Users/Administrator/Desktop/${linkname}":
-        ensure  => link,
-        target  => $workdir,
+        ensure => link,
+        target => $workdir,
       }
     }
 

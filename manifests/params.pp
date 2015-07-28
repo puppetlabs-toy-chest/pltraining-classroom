@@ -10,9 +10,13 @@ class classroom::params {
 
   if $::osfamily == 'windows' {
     # Path to the student's working directory
-    $workdir = 'c:/puppetcode'
+    $workdir = 'C:/puppetcode'
     $confdir = 'C:/ProgramData/PuppetLabs/puppet/etc'
-    $codedir = 'C:/ProgramData/PuppetLabs/code'
+
+    $codedir = $::aio_agent_version ? {
+      undef   => 'C:/ProgramData/PuppetLabs/code',
+      default => 'C:/ProgramData/PuppetLabs/puppet/etc/modules',
+    }
   }
   else {
     $workdir = '/root/puppetcode'
@@ -64,7 +68,7 @@ class classroom::params {
   $jvm_tuning_profile = false    # Set to 'lvm', 'minimal', 'moderate', 'aggressive', or false to disable
 
   # Certname and machine name from cert. Work around broken networks.
-  if is_domain_name("${::clientcert}") {
+  if is_domain_name($::clientcert) {
     $full_machine_name = split($::clientcert,'[.]')
     $machine_name = $full_machine_name[0]
   }
@@ -77,15 +81,15 @@ class classroom::params {
   $r10k_basedir = "${confdir}/environments"
 
   # is this a student's tier3 agent in Architect?
-  if $fqdn =~ /^\S+\.\S+\.puppetlabs\.vm$/ {
+  if $::fqdn =~ /^\S+\.\S+\.puppetlabs\.vm$/ {
     $role = 'tier3'
   }
   else {
-    $role = $hostname ? {
+    $role = $::hostname ? {
       /^master|classroom|puppetfactory$/ => 'master',
-      'proxy'              => 'proxy',
-      'adserver'           => 'adserver',
-      default              => 'agent'
+      'proxy'                            => 'proxy',
+      'adserver'                         => 'adserver',
+      default                            => 'agent'
     }
   }
 

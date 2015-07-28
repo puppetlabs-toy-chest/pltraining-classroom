@@ -33,7 +33,7 @@ class classroom::agent::teams {
       }
 
       if $classroom::autosetup {
-        ini_setting { "environment":
+        ini_setting { 'environment':
           ensure  => present,
           path    => "${classroom::confdir}/puppet.conf",
           section => 'agent',
@@ -50,7 +50,7 @@ class classroom::agent::teams {
     }
 
     if $classroom::autosetup {
-      ini_setting { "environment":
+      ini_setting { 'environment':
         ensure  => present,
         path    => "${classroom::confdir}/puppet.conf",
         section => 'agent',

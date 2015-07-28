@@ -30,8 +30,8 @@ class classroom::windows {
 
     # Symlink on the user desktop
     file { 'C:/Users/Administrator/Desktop/puppet_confdir':
-      ensure  => link,
-      target  => $classroom::confdir,
+      ensure => link,
+      target => $classroom::confdir,
     }
 
     if $classroom::role == 'adserver' {

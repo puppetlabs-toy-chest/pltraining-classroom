@@ -36,8 +36,8 @@ class classroom::agent::hiera {
     }
 
     file { "${classroom::workdir}/hiera.yaml":
-      ensure => file,
-      source => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
+      ensure  => file,
+      source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
       replace => false,
     }
 

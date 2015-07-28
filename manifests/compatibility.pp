@@ -15,14 +15,14 @@ class classroom::compatibility {
     }
 
     file { '/opt/puppetlabs/puppet/bin':
-      ensure  => link,
-      target  => '/opt/puppet/bin',
+      ensure => link,
+      target => '/opt/puppet/bin',
     }
 
     # links the new codedir
     file { '/etc/puppetlabs/code':
-      ensure  => link,
-      target  => '/etc/puppetlabs/puppet',
+      ensure => link,
+      target => '/etc/puppetlabs/puppet',
     }
 
   }
