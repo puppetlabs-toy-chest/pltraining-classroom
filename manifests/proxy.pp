@@ -25,7 +25,7 @@ class classroom::proxy {
     ports     => '9090',
     options   => {
       'mode'  => 'http',
-      'stats' => ['uri /', 'auth puppet:puppet']
+      'stats' => ['uri /', 'auth puppet:puppet'],
       },
   }
 
@@ -35,6 +35,6 @@ class classroom::proxy {
     ensure       => present,
     host_aliases => [$::hostname, 'irc.puppetlabs.vm'],
     ip           => $::ipaddress,
-    tag          => 'classroom'
+    tag          => 'classroom',
   }
 }

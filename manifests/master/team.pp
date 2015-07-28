@@ -4,7 +4,7 @@ define classroom::master::team ($teams) {
   # This allows students to belong to multiple teams. I'm
   # not exactly sure what the use case for this is, but if
   # I don't allow it then surely a student will find one.
-  $members = prefix($teams[$name], "$name:")
+  $members = prefix($teams[$name], "${name}:")
 
   classroom::user { $name:
     password  => '!!',

@@ -39,9 +39,9 @@ class classroom::master::time {
   }
 
   class { '::ntp':
-     servers => $servers,
-     panic   => false,
-     udlc    => true,
+    servers => $servers,
+    panic   => false,
+    udlc    => true,
   }
 
   cron { 'synctime':

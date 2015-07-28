@@ -8,9 +8,9 @@ class classroom::windows::geotrust {
     timeout  => $classroom::timeout,
   }
   exec { 'install-geotrust-cert':
-    command  => 'certutil -addstore root c:\windows\temp\GeoTrust_Glocal_CA.pem',
-    provider => powershell,
+    command     => 'certutil -addstore root c:\windows\temp\GeoTrust_Glocal_CA.pem',
+    provider    => powershell,
     refreshonly => true,
-    subscribe  => Exec['download-geotrust-cert'],
+    subscribe   => Exec['download-geotrust-cert'],
   }
 }

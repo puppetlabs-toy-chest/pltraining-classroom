@@ -41,7 +41,7 @@ class classroom::agent::time {
     }
     # For agents, *always* stay true to the time on on the master
     cron { 'synctime':
-      command => "/usr/sbin/ntpdate -s $::servername",
+      command => "/usr/sbin/ntpdate -s ${::servername}",
       minute  => '*/5',
     }
   }

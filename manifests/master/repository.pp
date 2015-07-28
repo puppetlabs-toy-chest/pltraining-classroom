@@ -14,8 +14,8 @@ define classroom::master::repository (
     fail("classroom::master::repository ensure parameter must be 'present' or 'absent'")
   }
 
-  validate_absolute_path("$repo_root")
-  validate_absolute_path("$clone_root")
+  validate_absolute_path($repo_root)
+  validate_absolute_path($clone_root)
 
   # A valid hostname is not necessarily a valid Puppet environment name!
   # Check for valid Puppet environment name.
@@ -26,7 +26,7 @@ define classroom::master::repository (
     group => 'pe-puppet',
   }
   Exec {
-    path => '/usr/bin:/bin'
+    path => '/usr/bin:/bin',
   }
   Vcsrepo {
     provider => git,
@@ -39,16 +39,16 @@ define classroom::master::repository (
     }
 
     file { "${repo_root}/${name}.git/hooks/post-update":
-      ensure   => file,
-      content  => template('classroom/post-update.erb'),
-      mode     => '0755',
-      require  => Vcsrepo["${repo_root}/${name}.git"],
+      ensure  => file,
+      content => template('classroom/post-update.erb'),
+      mode    => '0755',
+      require => Vcsrepo["${repo_root}/${name}.git"],
     }
 
     vcsrepo { "${clone_root}/${name}":
-      ensure    => present,
-      source    => "${repo_root}/${name}.git",
-      require   => Vcsrepo["${repo_root}/${name}.git"],
+      ensure  => present,
+      source  => "${repo_root}/${name}.git",
+      require => Vcsrepo["${repo_root}/${name}.git"],
     }
   }
   else {

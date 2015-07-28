@@ -28,8 +28,8 @@ class classroom::agent::git {
     }
 
     file { 'C:/Users/Administrator/.ssh/':
-      ensure => directory,
-      source => $sshpath,
+      ensure  => directory,
+      source  => $sshpath,
       recurse => true,
       require => [File[$sshpath],Exec['generate_key'],User['Administrator']],
     }
