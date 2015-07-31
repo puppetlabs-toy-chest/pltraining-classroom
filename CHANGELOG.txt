@@ -2,6 +2,18 @@
 
 ## Release Notes
 
+### v1.3.1
+* fixed a few trivial regressions
+* lint code cleanups
+* disabled filebucket due to PUP-4954
+* cleanups for the Infrastructure course
+
+### v1.3.0
+* 2015.2 support
+* Backwards compatible with PE 3.8 (and maybe 3.7) via a compatibility shim that
+  drops a few symlinks in place so we can pretend it's got the same filesystem
+  layout as 2015.2.
+
 ### v1.2.12
 * Infrastructure Course
 * PE Tuning profiles
