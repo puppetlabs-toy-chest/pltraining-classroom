@@ -17,9 +17,6 @@ class classroom::master::repositories {
     ensure => directory,
   }
 
-  # configure Hiera environments for the master
-  include classroom::master::hiera
-
   # if we've gotten to the Capstone and teams are defined, create our teams!
   $teams = hiera('teams', undef)
   if is_hash($teams) {
