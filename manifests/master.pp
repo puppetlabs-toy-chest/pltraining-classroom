@@ -49,8 +49,8 @@ class classroom::master {
   # Ensure that time is set appropriately
   include classroom::master::time
 
-  # unselect all nodes in Live Management by default
-  #include classroom::console::patch
+  # configure Hiera environments for the master
+  include classroom::master::hiera
 
   # Now create all of the users who've checked in
   Classroom::User <<||>>
