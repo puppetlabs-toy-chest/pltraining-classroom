@@ -57,4 +57,7 @@ class classroom::master {
 
   # Add autoteam yaml
   include classroom::master::autoteam
+  
+  # Add files required for labs (mostly for offline mode)
+  include classroom::master::lab_files
 }
