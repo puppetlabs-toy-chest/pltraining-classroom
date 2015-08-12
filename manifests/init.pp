@@ -59,6 +59,9 @@ class classroom (
 
   include classroom::repositories
 
+  # trust classroom CA so students can download from the master
+  include classroom::cacert
+
   # temporary compatibility shim for PE 3.x
   include classroom::compatibility
 }
