@@ -2,6 +2,13 @@
 
 ## Release Notes
 
+### v1.3.3
+* Trust the classroom CA so pe_repo works
+* Make cached Wordpress installer available for student download
+
+### v1.3.2
+* Fix hiera and agent installer download
+
 ### v1.3.1
 * fixed a few trivial regressions
 * lint code cleanups
