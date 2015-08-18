@@ -1,16 +1,44 @@
 #! /bin/sh
 
-# If we don't have a HEAD, then this is the first commit and we can't do any of this
-git show > /dev/null 2>&1
-if [ $? -ne 0 ]; then exit 0; fi
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+    against=HEAD
+else
+    # Initial commit: diff against an empty tree object
+    against=$(git hash-object -t tree /dev/null)
+fi
 
-# first stash any on-disk changes so we're actually validating
+# first move away any on-disk changes so we're actually validating
 # what's staged to be committed and not just what's on disk.
-git diff --full-index --binary > /tmp/stash.$$
-git stash -q --keep-index
+# historically, we used stash here, but it turned out to be buggy.
+patch_filename=/tmp/stash.$$
+git diff --exit-code --binary --ignore-submodules --no-color > $patch_filename
+has_unstaged_changes=$?
+
+if [[ $has_unstaged_changes != 0 ]]; then
+  echo "Stashing unstaged changes in $patch_filename."
+  git checkout -- .
+fi
+
+function quit {
+  # now recover diffs to get back to pre commit state if needed.
+  if [[ $has_unstaged_changes != 0 ]]; then
+    git apply $patch_filename
+    if [[ $? != 0 ]]; then
+      git checkout -- .
+      git apply $patch_filename
+    fi
+  fi
+
+  rm -f $patch_filename
+  exit $1
+}
+
+# Redirect output to stderr.
+exec 1>&2
 
 EXITCODE=0
-for file in `git diff-index --cached --diff-filter=AM --name-only HEAD`
+for file in `git diff-index --cached --diff-filter=ACM --name-only $against`
 do
   echo "Validating ${file}..."
 
@@ -35,24 +63,18 @@ then
   echo "################################################################"
   echo -e "### \033[31mPlease fix the errors above before committing your code.\033[0m ###"
   echo "################################################################"
-  if [[ -s /tmp/stash.$$ ]]
-  then
-    echo "###                                                          ###"
-    echo -e "###     \033[31mDid you remember to git add your updated code?\033[0m       ###"
-    echo "###                                                          ###"
-    echo "################################################################"
-  fi
   echo
 fi
 
-# now recover diffs to get back to pre commit state if needed.
-if [[ -s /tmp/stash.$$ ]]
+if [[ -s $patch_filename ]]
 then
-  git apply --whitespace=nowarn < /tmp/stash.$$ && git stash drop -q
-  rm /tmp/stash.$$
+  echo
+  echo "################################################################"
+  echo "###                                                          ###"
+  echo -e "###     \033[31mDid you remember to git add your updated code?\033[0m       ###"
+  echo "###                                                          ###"
+  echo "################################################################"
+  echo
 fi
 
-# I don't know why, but somehow we're losing CWD and this gets it back
-cd .
-exit $EXITCODE
-
+quit $EXITCODE
