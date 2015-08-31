@@ -2,7 +2,7 @@
 class classroom::compatibility {
   assert_private('This class should not be called directly')
 
-  unless $::aio_agent_version {
+  unless $::aio_agent_version or $::osfamily == 'windows' {
 
     File {
       owner => 'root',
