@@ -21,11 +21,14 @@ class classroom::agent::hiera {
     }
   }
 
-  $hieradata = "${$classroom::codedir}/hieradata"
+  $hieradata = "${classroom::codedir}/hieradata"
 
   if $classroom::managerepos {
     file { $hieradata:
       ensure => link,
+      # the hieradata dir is empty so forcing to
+      # replace directory with symlink on Win 2012
+      force => true,
       target => "${classroom::workdir}/hieradata",
     }
 

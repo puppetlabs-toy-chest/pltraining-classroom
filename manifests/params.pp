@@ -14,8 +14,8 @@ class classroom::params {
     $confdir = 'C:/ProgramData/PuppetLabs/puppet/etc'
 
     $codedir = $::aio_agent_version ? {
-      undef   => 'C:/ProgramData/PuppetLabs/code',
-      default => 'C:/ProgramData/PuppetLabs/puppet/etc/modules',
+      undef => 'C:/ProgramData/PuppetLabs/puppet/etc/modules',
+      default => 'C:/ProgramData/PuppetLabs/code',
     }
   }
   else {
