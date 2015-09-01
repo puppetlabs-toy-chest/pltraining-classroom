@@ -15,5 +15,7 @@ class classroom::course::windows (
     role      => $role,
   }
 
-  include classroom::windows
+  if $::osfamily == 'Windows' {
+    include classroom::windows
+  }
 }
