@@ -48,7 +48,7 @@ class classroom::agent::git {
   }
 
   exec { 'generate_key':
-    command => "ssh-keygen -t rsa -N '' -f '${sshpath}/id_rsa'",
+    command => "bash.exe -c \"ssh-keygen -t rsa -N '' -f '${sshpath}/id_rsa'\"",
     creates => "${sshpath}/id_rsa",
     require => File[$sshpath],
   }
