@@ -21,7 +21,7 @@ class classroom::agent::hiera {
     }
   }
 
-  $hieradata = "${$classroom::codedir}/hieradata"
+  $hieradata = "${classroom::codedir}/hieradata"
 
   if $classroom::managerepos {
     file { $hieradata:
