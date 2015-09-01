@@ -4,8 +4,8 @@ class classroom::agent::git {
   case $::osfamily {
     'windows' : {
       $environment = undef
-      $path        = 'C:/Program Files (x86)/Git/bin'
-      $sshpath     = 'C:/Program Files (x86)/Git/.ssh'
+      $path        = 'C:/Program Files/Git/bin'
+      $sshpath     = 'C:/Program Files/Git/.ssh'
     }
     default   : {
       $environment = 'HOME=/root'
@@ -34,7 +34,7 @@ class classroom::agent::git {
       require => [File[$sshpath],Exec['generate_key'],User['Administrator']],
     }
 
-    windows_env { 'PATH=C:\Program Files (x86)\Git\bin': }
+    windows_env { 'PATH=C:\Program Files\Git\bin': }
   }
   else {
     class { '::git':

@@ -15,7 +15,7 @@ define classroom::agent::workdir (
   case $::osfamily {
     'windows' : {
       $environment = undef
-      $path = 'C:\Program Files (x86)\Git\bin'
+      $path = 'C:\Program Files\Git\bin'
       File {
         owner => 'Administrator',
         group => 'Users',
