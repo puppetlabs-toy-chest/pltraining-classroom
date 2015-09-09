@@ -52,3 +52,4 @@ class classroom::course::architect (
       }
     }
   }
+}
