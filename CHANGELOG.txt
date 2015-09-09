@@ -2,6 +2,9 @@
 
 ## Release Notes
 
+### v1.4.0
+* Using containers in Architect for student agents
+
 ### v1.3.3
 * Trust the classroom CA so pe_repo works
 * Make cached Wordpress installer available for student download
