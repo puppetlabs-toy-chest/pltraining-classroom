@@ -2,16 +2,29 @@
 #
 class classroom::master::containers (
   $container_data
-) 
+)
 {
   include docker
 
+
   file { '/etc/docker/agent/':
     ensure  => directory,
-    recurse => true,
-    source  => 'puppet:///modules/classroom/dockeragent/',
-    require => Class['docker'],
   }
+
+  $docker_files = [
+    "Dockerfile",
+    "base_local.repo",
+    "epel_local.repo",
+    "puppet.conf",
+    "updates_local.repo",
+  ]
+  $docker_files.each |$docker_file|{
+    file { "/etc/docker/agent/${docker_file}":
+      ensure   => file,
+      content => epp("classroom/dockeragent/${docker_file}.epp",{ 'os_major' => $::os['release']['major'] }),
+    }
+  }
+
   file { '/etc/docker/ssl_dir/':
     ensure => directory,
   }
@@ -27,16 +40,23 @@ class classroom::master::containers (
   }
 
   if $::ipaddress_docker0 {
+    $container_volumes =  $::os['release']['major'] ? {
+      '6' => [
+          '/var/yum:/var/yum',
+          '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl',
+        ],
+      '7' => [
+          '/var/yum:/var/yum',
+          '/sys/fs/cgroup:/sys/fs/cgroup:ro',
+          '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl',
+        ],
+    }
     Docker::Run {
       image            => 'agent',
       command          => '/sbin/init 3',
       use_name         => true,
       privileged       => true,
-      volumes          => [
-        '/var/yum:/var/yum',
-        '/sys/fs/cgroup:/sys/fs/cgroup:ro',
-        '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl',
-      ],
+      volumes          => $container_volumes,
       extra_parameters => [
         "--add-host \"${::fqdn} puppet:${::ipaddress_docker0}\"",
         '--restart=always',

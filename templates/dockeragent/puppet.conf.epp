@@ -6,7 +6,7 @@
     user  = pe-puppet
     group = pe-puppet
     archive_files = true
-    server = puppetfactory.puppetlabs.vm
+    server = <%= $::fqdn %>
 
 [agent]
     report = true
