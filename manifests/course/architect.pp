@@ -28,14 +28,6 @@ class classroom::course::architect (
     # Configure the classroom so that any secondary masters will get the
     # agent tarball from the classroom master.
     include classroom::master::agent_tarball
-
-    # Set up agent containers on student masters
-    class { 'classroom::master::containers':
-      container_data => {
-      "agent1.${::fqdn}"  => ['10080:80'],
-      "agent2.${::fqdn}"  => ['20080:80'],
-      }
-    }
   }
   elsif $role == 'agent' {
     # tools used in class
@@ -51,4 +43,12 @@ class classroom::course::architect (
 
     # The autoscaling seems to assume that you'll sync this out from the MoM
     include classroom::master::student_environment
+
+    # Set up agent containers on student masters
+    class { 'classroom::agent::containers':
+      container_data => {
+      "agent1.${::fqdn}"  => ['10080:80'],
+      "agent2.${::fqdn}"  => ['20080:80'],
+      }
+    }
   }
