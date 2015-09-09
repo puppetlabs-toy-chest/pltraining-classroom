@@ -68,15 +68,14 @@ class classroom::agent::containers (
         ports    => $container_ports,
       }
     }
-  }
 
-  # For dummy containers that stop immediately after running puppet:
-  #docker::run {'dummy1.puppetlabs.vm':
-  #  command  => 'puppet agent -t',
-  #  hostname => 'dummy1.puppetlabs.vm',
-  #}
+    # For dummy containers that stop immediately after running puppet:
+    #docker::run {'dummy1.puppetlabs.vm':
+    #  command  => 'puppet agent -t',
+    #  hostname => 'dummy1.puppetlabs.vm',
+    #}
 
-  } else {
-    notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
-  }
+    } else {
+      notice('ipaddress_docker0 is not yet defined, rerun puppet to configure docker containers')
+    }
 }
