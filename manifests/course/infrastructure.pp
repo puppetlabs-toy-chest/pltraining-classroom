@@ -2,7 +2,7 @@
 # the Infrastructure course
 #
 class classroom::course::infrastructure {
-  class { 'classroom::master::containers':
+  class { 'classroom::agent::containers':
     container_data => {
      'test.puppetlabs.vm'  => ['10080:80'],
      'web1.puppetlabs.vm'  => ['20080:80'],
