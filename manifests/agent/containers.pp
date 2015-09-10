@@ -66,6 +66,13 @@ class classroom::agent::containers (
         ],
         hostname => $container_name,
         ports    => $container_ports,
+        notify   => Exec["${container_name} init"],
+      }
+      # Not the most elegant solution, but this gets the init system started on the containers
+      exec  { "${container_name} init":
+        command     => "docker exec --detach=true ${container_name} /sbin/init 3",
+        path        => '/usr/bin',
+        refreshonly => true,
       }
     }
 
