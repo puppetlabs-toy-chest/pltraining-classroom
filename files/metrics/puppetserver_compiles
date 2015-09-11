@@ -1,0 +1,17 @@
+#! /bin/sh
+
+LOG='/var/log/puppetlabs/puppetserver/puppetserver.log'
+DATE=$(date +"%Y-%m-%d")
+NOW=$(date +%H)
+
+echo "This is a very simple script that just greps the PuppetServer logs for"
+echo "catalog compiles, counts them, and collates them into an hour-by-hour"
+echo "list from last midnight to right now."
+echo
+
+for i in $(seq 0 ${NOW})
+do
+  num=$(printf "%02d" $i)
+  echo -n "${DATE} ${num}: "
+  grep 'Compiled catalog' ${LOG} | grep "${DATE} ${num}:" | wc -l
+done

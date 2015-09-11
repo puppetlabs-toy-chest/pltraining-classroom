@@ -26,6 +26,9 @@ class classroom::course::architect (
     include classroom::agent::hosts
 
     # set up graphite/grafana on the classroom master
+    include classroom::master::graphite
+
+    # include metrics tools for labs & demos
     include classroom::master::metrics
 
     # Configure the classroom so that any secondary masters will get the
@@ -40,6 +43,9 @@ class classroom::course::architect (
     # Include the Irssi setup and collect all hosts
     include classroom::agent::irc
     include classroom::agent::hosts
+
+    # include metrics tools for labs & demos
+    include classroom::master::metrics
 
     # The student masters should export a balancermember
     include classroom::master::balancermember
