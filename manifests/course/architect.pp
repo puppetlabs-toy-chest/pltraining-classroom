@@ -43,5 +43,13 @@ class classroom::course::architect (
 
     # The autoscaling seems to assume that you'll sync this out from the MoM
     include classroom::master::student_environment
+
+    # Set up agent containers on student masters
+    class { 'classroom::agent::containers':
+      container_data => {
+      "agent1.${::fqdn}"  => ['10080:80'],
+      "agent2.${::fqdn}"  => ['20080:80'],
+      }
+    }
   }
 }
