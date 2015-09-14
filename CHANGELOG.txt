@@ -2,6 +2,11 @@
 
 ## Release Notes
 
+### v1.5.0
+
+* Carthik Sharma: Fixed ssh-keygen for RedHat, Win machines. (9d697f9)
+* Josh Samuelson: Updates related to docker and containers
+
 ### v1.4.0
 * Using containers in Architect for student agents
 
