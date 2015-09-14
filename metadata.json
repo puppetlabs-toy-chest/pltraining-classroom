@@ -26,7 +26,7 @@
   "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching Puppet Labs training courses!\n    - Configures and sets up classroom environment for Puppet Classroom trainings.",
   "dependencies": [
     {"name":"badgerious/windows_env",         "version_requirement":">= 2.2.1"},
-    {"name":"chocolatey/chocolatey",          "version_requirement":">= 1.1.0"},
+    {"name":"chocolatey/chocolatey",          "version_requirement":">= 0.5.3"},
     {"name":"garethr/docker",                 "version_requirement":">= 4.0.2"},
     {"name":"hunner/wordpress",               "version_requirement":">= 0.6.0"},
     {"name":"jamtur01/irc",                   "version_requirement":">= 0.0.7"},
