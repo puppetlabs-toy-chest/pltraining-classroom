@@ -48,7 +48,11 @@ class classroom::agent::git {
   }
 
   exec { 'generate_key':
-    command => "bash.exe -c \"ssh-keygen -t rsa -N '' -f '${sshpath}/id_rsa'\"",
+    command = $::osfamily ? {
+      'windows' => "bash.exe -c \"ssh-keygen -t rsa -N '' -f '${sshpath}/id_rsa'\"",
+      'RedHat'  => "ssh-keygen -t rsa -N '' -f '${sshpath}/id_rsa'",
+      # no default should make catalog compilation fail on other OS families
+    }
     creates => "${sshpath}/id_rsa",
     require => File[$sshpath],
   }
