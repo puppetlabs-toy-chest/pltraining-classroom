@@ -21,8 +21,9 @@ class classroom::agent::logging {
         allow_override  => [ 'None' ],
         order           => 'Allow,Deny',
       }
-    ]
-  }->
+    ],
+    before => Class['grafana'],
+  }
   class {'grafana':
     graphite_host      => $::ipaddress,
     elasticsearch_host => $::fqdn,
@@ -58,8 +59,9 @@ class classroom::agent::logging {
       path => '/media/',
       order => 'deny,allow',
       allow => 'from all'}
-    ]
-  }->
+    ],
+    before => Class['graphite'],
+  }
   class { 'graphite':
     gr_web_server           => 'none',
     gr_disable_webapp_cache => true,
