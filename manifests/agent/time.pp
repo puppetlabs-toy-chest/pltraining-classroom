@@ -14,18 +14,28 @@ class classroom::agent::time {
       ensure => running,
       enable => true,
     }
-    exec { 'configure windows time service':
-      command     => 'w32tm /register; w32tm /config /syncfromflags:MANUAL /manualpeerlist:master.puppetlabs.vm; w32tm /resync',
-      path        => $::path,
-      refreshonly => true,
-      subscribe   => Service['W32Time'],
+    # For information on setting w32time registry keys, see:
+    # http://blogs.msdn.com/b/w32time/archive/2008/02/26/
+    #   configuring-the-time-service-ntpserver-and-specialpollinterval.aspx
+    registry::value { 'ntp server':
+      key     => 'HKLM\SYSTEM\ControlSet001\Services\W32Time\Parameters',
+      value   => 'NtpServer',
+      type    => string,
+      data    => 'master.puppetlabs.vm,0x01',
+      notify  => Exec['w32tm config update'],
     }
     registry::value { 'ntp poll interval':
       key     => 'HKLM\SYSTEM\ControlSet001\Services\W32Time\TimeProviders\NtpClient',
       value   => 'SpecialPollInterval',
       type    => dword,
       data    => '300',
-      require => Service['W32Time'],
+      notify  => Exec['w32tm config update'],
+    }
+    exec { 'w32tm config update':
+      command     => 'w32tm /config /update',
+      path        => $::path,
+      require     => Service['W32Time'],
+      refreshonly => true,
     }
   }
   else {
