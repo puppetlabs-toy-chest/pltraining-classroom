@@ -1,5 +1,5 @@
 class classroom::agent::yum_repos {
-  $classroom::yum_repos.each |$repo, $value| {
+  $classroom::repos.each |$repo, $value| {
     yumrepo { "${repo}_cache":
       name     => "${repo}_cache",
       ensure   => present,
