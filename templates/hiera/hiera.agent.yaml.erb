@@ -3,7 +3,11 @@
   - yaml
 
 :yaml:
+<% if @kernel == 'windows' -%>
+  :datadir: C:\puppetcode\hieradata
+<% else -%>
   :datadir: /etc/puppetlabs/code/hieradata
+<% end -%>
 
 :hierarchy:
   - "%{clientcert}"

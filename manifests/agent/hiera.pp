@@ -40,7 +40,7 @@ class classroom::agent::hiera {
 
     file { "${classroom::workdir}/hiera.yaml":
       ensure  => file,
-      source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
+      content => template('classroom/hiera/hiera.agent.yaml.erb'),
       replace => false,
     }
 
@@ -53,7 +53,7 @@ class classroom::agent::hiera {
     # Because PE writes a default, we cannot use replace => false
     file { "${classroom::codedir}/hiera.yaml":
       ensure => file,
-      source => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
+      content => template('classroom/hiera/hiera.agent.yaml.erb'),
     }
   }
 
