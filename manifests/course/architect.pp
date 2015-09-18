@@ -25,6 +25,9 @@ class classroom::course::architect (
     include classroom::agent::irc
     include classroom::agent::hosts
 
+    # set up graphite/grafana on the classroom master
+    include classroom::master::metrics
+
     # Configure the classroom so that any secondary masters will get the
     # agent tarball from the classroom master.
     include classroom::master::agent_tarball

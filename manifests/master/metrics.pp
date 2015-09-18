@@ -1,4 +1,4 @@
-class classroom::agent::logging {
+class classroom::master::metrics {
 
   # Configure Graphite & Grafana
   include '::apache'
