@@ -29,7 +29,7 @@ class classroom::agent::containers (
   file { '/usr/local/bin/run_agents':
     ensure => file,
     mode   => '0755',
-    source => 'puppet:///modules/classroom/run_agents.sh',
+    source => 'puppet:///modules/classroom/run_agents',
   }
 
   docker::image {'agent':
