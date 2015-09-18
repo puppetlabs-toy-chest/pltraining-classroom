@@ -1,0 +1,96 @@
+#! /opt/puppetlabs/puppet/bin/ruby
+#
+# This is a simple script to manage Docker containers in the classroom.
+#
+require 'optparse'
+
+options = {}
+optparse = OptionParser.new { |opts|
+    opts.banner = "Usage : #{__FILE__} [options] [-- <options passed to invoked agents>]
+
+This tool allows you to trigger the Puppet Agent on one or many running Docker
+containers. Any arguments following `--` will be passed directly to the running
+agents.
+
+For example:
+
+    [root@training ~]# run_agents --all -- --environment=testing
+
+"
+
+    opts.on("-l", "--list", "List all running agent containers") do
+        options[:mode] = :list
+    end
+
+    opts.on("-a", "--all", "Run all agents.") do
+        options[:mode] = :all
+    end
+
+    opts.on("-r", "--reset", "Delete the agent(s)'s $ssldir and regenerate certificates.") do
+        options[:mode] = :reset
+    end
+
+    opts.on("-i IDENTITY", "--identity IDENTITY", "Run the agent on the specified container.") do |opt|
+        options[:identity] = opt
+    end
+
+    opts.separator('')
+
+    opts.on("-h", "--help", "Displays this help") do
+        puts opts
+        exit
+    end
+
+    opts.separator('')
+}
+optparse.parse!
+
+if options.empty?
+  puts 'Pass --help to see usage.'
+  exit 1
+end
+
+def reset(identity)
+  puts "Removing certificates for #{identity}"
+  ssldir   = `puppet agent --configprint ssldir`.chomp
+  certname = `docker exec #{identity} puppet agent --configprint certname`.chomp
+
+  system("docker exec #{identity} rm #{ssldir}/certs/#{certname}.pem")
+  system("docker exec #{identity} rm #{ssldir}/private_keys/#{certname}.pem")
+  system("docker exec #{identity} rm #{ssldir}/certificate_requests/#{certname}.pem")
+
+  puts "Regenerating certificates for #{identity}"
+  system("docker exec #{identity} puppet agent -t")
+end
+
+containers = `docker ps -q`.split
+
+case options[:mode]
+when :list
+  puts 'Running agent containers:'
+  system('docker ps')
+
+when :all
+  puts 'Triggering agent runs:'
+  containers.each do |identity|
+    puts "############# #{identity} ###############"
+    system('docker', 'exec', identity, 'puppet', 'agent', '-t', *ARGV)
+  end
+
+when :reset
+  if options.include? :identity
+    reset(options[:identity])
+  else
+    containers.each do |identity|
+      reset(identity)
+    end
+  end
+
+else  # default case
+  unless options.include? :identity
+    puts "You must pass --list, --all, or --identity"
+    exit 1
+  end
+
+  system('docker', 'exec', options[:identity], 'puppet', 'agent', '-t', *ARGV)
+end
