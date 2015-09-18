@@ -8,9 +8,13 @@ courses = [
   'classroom::course::architect'
 ]
 
+# Iterate over all the courses in the array and create a test for each of them
 courses.each do |course|
   describe course do
     let(:facts) { {
+      # We are setting up a bunch of facts here, mostly because we don't know 
+      # which ones the code will look for so we need to be safe, otherwise we
+      # will get unexpected failures.
       :osfamily => 'RedHat',
       :operatingsystem => 'CentOS',
       :fqdn => 'node.puppetlabs.vm',
@@ -25,18 +29,17 @@ courses.each do |course|
       :kernelmajversion => '2.6',
       :kernelrelease => '2.6.32-504.8.1.el6.x86_64',
       :kernelversion => '2.6.32',
-      
       :os => {
         'architecture' => "x86_64",
-        'family' => "RedHat",
-        'hardware' => "x86_64",
-        'name' => "CentOS",
-        'release' => {
-          'full' => "6.6",
+        'family'       => "RedHat",
+        'hardware'     => "x86_64",
+        'name'         => "CentOS",
+        'release'      => {
+          'full'  => "6.6",
           'major' => "6",
           'minor' => "6"
         },
-        'selinux' => {
+        'selinux'      => {
           'enabled' => false
         }
       }}}
