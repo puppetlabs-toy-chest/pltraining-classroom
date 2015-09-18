@@ -5,7 +5,6 @@ before_install: rm Gemfile.lock || true
 sudo: false
 script: "bundle exec rake spec SPEC_OPTS='--format documentation'"
 bundler_args: --without development
-
 rvm:
 - 1.9.3
 - 2.0.0
