@@ -14,10 +14,7 @@ class classroom::agent::containers (
 
   $docker_files = [
     "Dockerfile",
-    "base_local.repo",
-    "epel_local.repo",
     "puppet.conf",
-    "updates_local.repo",
   ]
   $docker_files.each |$docker_file|{
     file { "/etc/docker/agent/${docker_file}":
@@ -40,11 +37,9 @@ class classroom::agent::containers (
   if $::ipaddress_docker0 {
     $container_volumes =  $::os['release']['major'] ? {
       '6' => [
-        '/var/yum:/var/yum',
         '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl',
       ],
       '7' => [
-        '/var/yum:/var/yum',
         '/sys/fs/cgroup:/sys/fs/cgroup:ro',
         '/etc/docker/ssl_dir/:/etc/puppetlabs/puppet/ssl',
       ],
