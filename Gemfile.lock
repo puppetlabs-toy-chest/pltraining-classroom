@@ -162,6 +162,7 @@ DEPENDENCIES
   guard-rake
   hiera-puppet-helper!
   metadata-json-lint
+  pry
   puppet (~> 4.2.2)
   puppet-blacksmith
   puppet-lint

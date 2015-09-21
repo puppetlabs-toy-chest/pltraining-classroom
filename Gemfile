@@ -17,4 +17,5 @@ group :development do
     gem "travis-lint"
     gem "puppet-blacksmith"
     gem "guard-rake"
+    gem "pry"
 end
