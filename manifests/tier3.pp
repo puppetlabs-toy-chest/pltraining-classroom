@@ -21,6 +21,9 @@ class classroom::tier3 {
 
   Host <<| title == $::domain |>>
   Host <<| title == 'proxy.puppetlabs.vm' |>>
+  Host <<| title == 'master.puppetlabs.vm' |>>
+
+  include classroom::agent::yum_repos
 
   notify { "Redirecting this agent to the ${::domain} master": }
 }

@@ -108,4 +108,12 @@ class classroom::params {
       fail("Your VM is out of date. ${download}/puppet-student.ova/\n\n")
     }
   }
+
+  $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
+  $repos = {
+    'base'    => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/os/",
+    'extras'  => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/extras/",
+    'updates' => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/updates/",
+    'epel'    => "/var/yum/mirror/epel/${::operatingsystemmajrelease}/local/",
+  }
 }
