@@ -5,10 +5,10 @@ require 'hiera-puppet-helper'
 # Uncomment this to show coverage report, also useful for debugging
 #at_exit { RSpec::Puppet::Coverage.report! }
 
-RSpec.configure do |c|
-  c.formatter = 'documentation'
-  c.mock_with :rspec
-  c.expect_with :rspec do |conf|
+RSpec.configure do |config|
+  config.formatter = 'documentation'
+  config.mock_with :rspec
+  congig.expect_with :rspec do |c|
     # ...or explicitly enable both
     c.syntax = [:should, :expect]
   end
