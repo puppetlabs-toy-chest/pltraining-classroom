@@ -8,7 +8,7 @@ require 'hiera-puppet-helper'
 RSpec.configure do |config|
   config.formatter = 'documentation'
   config.mock_with :rspec
-  congig.expect_with :rspec do |c|
+  config.expect_with :rspec do |c|
     # ...or explicitly enable both
     c.syntax = [:should, :expect]
   end
