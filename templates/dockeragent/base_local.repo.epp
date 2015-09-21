@@ -1,6 +1,0 @@
-[base_local]
-baseurl=file:///var/yum/mirror/centos/<%= $os_major %>/os/x86_64
-gpgcheck=0
-enabled=1
-name=Locally stored packages for base_local
-priority=10
