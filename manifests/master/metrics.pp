@@ -1,15 +1,18 @@
-class classroom::agent::logging {
+class classroom::master::metrics {
 
   # Configure Graphite & Grafana
   include '::apache'
 
-  file { '/opt/graphite':
-    ensure => 'directory',
+  ########## Grafana
+  class {'grafana':
+    graphite_host      => $::ipaddress,
+    elasticsearch_host => $::fqdn,
+    elasticsearch_port => 9200,
   }
 
   apache::vhost { $::fqdn:
     servername      => $::fqdn,
-    port            => 8081,
+    port            => 9000,
     docroot         => '/opt/grafana',
     error_log_file  => 'grafana_error.log',
     access_log_file => 'grafana_access.log',
@@ -22,12 +25,13 @@ class classroom::agent::logging {
         order           => 'Allow,Deny',
       }
     ],
-    before => Class['grafana'],
+    require => Class['grafana'],
   }
-  class {'grafana':
-    graphite_host      => $::ipaddress,
-    elasticsearch_host => $::fqdn,
-    elasticsearch_port => 9200,
+
+
+  ########## Graphite
+  file { '/opt/graphite':
+    ensure => 'directory',
   }
 
   apache::vhost { $::ipaddress:
