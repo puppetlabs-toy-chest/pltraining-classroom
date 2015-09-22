@@ -9,6 +9,10 @@
 # http://docs.puppetlabs.com/guides/language_guide.html#nodes for more on
 # node definitions.)
 
+# This will ensure that all agents in the classroom, including containers, will
+# collect all classroom exported host records. The bargain-basement DNS!
+Host <<| tag == 'classroom' |>>
+
 # DEFAULT NODE
 # Node definitions in this file are merged with node data from the console. See
 # http://docs.puppetlabs.com/guides/language_guide.html#nodes for more on
