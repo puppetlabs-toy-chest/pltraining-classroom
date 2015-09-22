@@ -54,6 +54,23 @@ class classroom::master::student_environment {
     value   => $environmentpath,
   }
 
+  # mitigate PE-11356
+  if $::pe_server_version == '2015.2.0' {
+    pe_ini_setting { 'puppetserver puppetconf user':
+      setting => 'user',
+      path    => '/etc/puppetlabs/puppet/puppet.conf',
+      value   => 'pe-puppet',
+      section => 'main'
+    }
+
+    pe_ini_setting { 'puppetserver puppetconf group':
+      setting => 'group',
+      path    => '/etc/puppetlabs/puppet/puppet.conf',
+      value   => 'pe-puppet',
+      section => 'main'
+    }
+  }
+
   # mitigate PE-11366
   dirtree { '/opt/puppetlabs/server':
     path   => '/opt/puppetlabs/server',
