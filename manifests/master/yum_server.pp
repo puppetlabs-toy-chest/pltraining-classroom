@@ -3,7 +3,7 @@ class classroom::master::yum_server {
     ensure => directory,
   }
   $classroom::repos.each |$repo_name,$repo_path| {
-    file {"${repo_base_path}/${repo_name}":
+    file {"${classroom::repo_base_path}/${repo_name}":
       ensure  => link,
       target  => $repo_path,
       require => File[$repo_base_path]
