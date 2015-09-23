@@ -36,6 +36,14 @@ class classroom::master::student_environment {
     replace => false,
   }
 
+  # intentionally broken example code
+  file { "${environment}/modules/cowsay":
+    ensure  => directory,
+    source  => 'puppet:///modules/classroom/example/cowsay',
+    replace => false,
+    recurse => true,
+  }
+
   # Ensure the environment cache is disabled and restart if needed
   ini_setting {'environment_timeout':
     ensure  => present,
