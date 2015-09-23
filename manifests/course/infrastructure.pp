@@ -14,4 +14,10 @@ class classroom::course::infrastructure {
         ports => $ports,
       }
     }
+
+    vcsrepo { '/etc/puppetlabs/code/modules/course_selector':
+      ensure   => present,
+      provider => 'git',
+      source   => 'http://github.com/puppetlabs/pltraining-course_selector',
+    }
 }
