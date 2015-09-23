@@ -30,6 +30,7 @@ class classroom::master::student_environment {
     ensure => directory,
   }
 
+  # This is a copy of site.pp used for the architect class
   file { "${environment}/manifests/site.pp":
     ensure  => file,
     source  => 'puppet:///modules/classroom/site-architect.pp',
