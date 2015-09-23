@@ -32,7 +32,7 @@ class classroom::master::student_environment {
 
   file { "${environment}/manifests/site.pp":
     ensure  => file,
-    source  => 'puppet:///modules/classroom/site.pp',
+    source  => 'puppet:///modules/classroom/site-architect.pp',
     replace => false,
   }
 
