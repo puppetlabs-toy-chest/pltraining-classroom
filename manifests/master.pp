@@ -69,4 +69,7 @@ class classroom::master {
 
   # Add files required for labs (mostly for offline mode)
   include classroom::master::lab_files
+
+  # Host docker registiry on master
+  include classroom::master::docker_registry
 }
