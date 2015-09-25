@@ -24,6 +24,12 @@ class classroom::params {
     $codedir = '/etc/puppetlabs/code'
   }
 
+  # blerg
+  $puppetserver_gem_provider = $::aio_agent_version ? {
+      undef   => pe_puppetserver_gem,
+      default => puppetserver_gem,
+    }
+
   # default user password
   $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
   $consolepw = 'puppetlabs'
