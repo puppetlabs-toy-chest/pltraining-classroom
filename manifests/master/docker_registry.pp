@@ -1,4 +1,5 @@
 class classroom::master::docker_registry {
+  include docker
 
   docker::image { 'registry:2': }
   docker::run {'registry':
@@ -12,11 +13,12 @@ class classroom::master::docker_registry {
 
   # Tag image
   exec { "docker tag ${image_name} localhost:5000/${image_name}":
-    path    => '/usr/bin/',
+    path    => '/usr/bin/:/bin',
+    unless  => "docker images | grep localhost:5000/centos",
     require => Docker::Image[$image_name],
   }
   exec { "docker push localhost:5000/${image_name}":
     path    => '/usr/bin/',
-    require => Exec["docker tag ${image_name} ${::fqdn}:5000/${image_name}"]
+    require => Exec["docker tag ${image_name} localhost:5000/${image_name}"]
   }
 }
