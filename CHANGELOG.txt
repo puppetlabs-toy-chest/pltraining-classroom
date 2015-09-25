@@ -2,6 +2,10 @@
 
 ## Release Notes
 
+### v1.5.3
+* Support for hosting docker registry on classroom master
+* Support for hosting yum repos on classroom master
+
 ### v1.5.0
 
 * Carthik Sharma: Fixed ssh-keygen for RedHat, Win machines. (9d697f9)
