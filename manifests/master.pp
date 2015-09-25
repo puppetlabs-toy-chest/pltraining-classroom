@@ -11,7 +11,7 @@ class classroom::master {
   # Workaround for pip
   file {'/usr/bin/pip-python':
     ensure => link,
-    target = > '/usr/bin/pip',
+    target => '/usr/bin/pip',
   }
 
   # Add the installer files for 32bit agents
