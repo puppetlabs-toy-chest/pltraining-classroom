@@ -1,6 +1,6 @@
 class classroom::master::docker_registry {
 
-  docker::image { 'registry:2':
+  docker::image { 'registry:2': }
   docker::run {'registry':
     image            => 'registry:2',
     ports            => ['5000:5000'],
