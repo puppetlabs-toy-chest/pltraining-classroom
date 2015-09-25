@@ -11,11 +11,11 @@ class classroom::master::docker_registry {
   docker::image { $image_name: }
 
   # Tag image
-  exec { "docker tag ${image_name} ${::fqdn}:5000/${image_name}":
+  exec { "docker tag ${image_name} localhost:5000/${image_name}":
     path    => '/usr/bin/',
     require => Docker::Image[$image_name],
   }
-  exec { "docker push ${::fqdn}:5000/${image_name}":
+  exec { "docker push localhost:5000/${image_name}":
     path    => '/usr/bin/',
     require => Exec["docker tag ${image_name} ${::fqdn}:5000/${image_name}"]
   }
