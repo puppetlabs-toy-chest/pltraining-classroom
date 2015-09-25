@@ -8,6 +8,12 @@ class classroom::master {
     mode   => '0644',
   }
 
+  # Workaround for pip
+  file {'/usr/bin/pip-python':
+    ensure => link,
+    target = > '/usr/bin/pip',
+  }
+
   # Add the installer files for 32bit agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386
