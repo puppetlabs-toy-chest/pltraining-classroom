@@ -15,4 +15,8 @@ class classroom::course::fundamentals (
     role      => $role,
     manageyum => $manageyum,
   }
+
+  class { 'classroom::facts':
+    coursename => 'fundamentals',
+  }
 }

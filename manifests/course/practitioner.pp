@@ -24,4 +24,8 @@ class classroom::course::practitioner (
   }
   # Everyone gets Irssi
   include classroom::agent::irc
+
+  class { 'classroom::facts':
+    coursename => 'practitioner',
+  }
 }
