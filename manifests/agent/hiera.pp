@@ -50,10 +50,12 @@ class classroom::agent::hiera {
       ensure => directory,
     }
 
-    # Because PE writes a default, we cannot use replace => false
-    file { "${classroom::codedir}/hiera.yaml":
-      ensure => file,
-      content => template('classroom/hiera/hiera.agent.yaml.erb'),
+    # Because PE writes a default, we have to do tricks to see if we've already managed this.
+    unless defined('$puppetlabs_class') {
+      file { "${classroom::codedir}/hiera.yaml":
+        ensure  => file,
+        content => template('classroom/hiera/hiera.agent.yaml.erb'),
+      }
     }
   }
 
