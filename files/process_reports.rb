@@ -14,7 +14,7 @@ Puppet.initialize_settings
 
 username  = `who -m`.split.first
 datafile  = File.expand_path("~#{username}/puppetruns.yaml")
-reportdir = Puppet.settings[:reportdir]
+reportdir = '/opt/puppetlabs/server/data/puppetserver/reports/' #Puppet.settings[:reportdir]
 stats     = {}
 
 # If this were to be used in production, you would want to increment counts in
