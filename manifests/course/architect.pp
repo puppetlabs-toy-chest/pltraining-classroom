@@ -34,6 +34,12 @@ class classroom::course::architect (
     # Configure the classroom so that any secondary masters will get the
     # agent tarball from the classroom master.
     include classroom::master::agent_tarball
+
+    # serve our cached yum repositories so we can stop caching them for students
+    include classroom::master::yum_server
+
+    # Host docker registiry on master
+    include classroom::master::docker_registry
   }
   elsif $role == 'agent' {
     # tools used in class
@@ -55,6 +61,9 @@ class classroom::course::architect (
 
     # Set up agent containers on student masters
     include classroom::containers
+  
+    # Use classroom master for yum cache
+    include classroom::agent::yum_repos
   }
 
   class { 'classroom::facts':

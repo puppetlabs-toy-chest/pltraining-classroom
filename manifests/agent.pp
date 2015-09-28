@@ -23,7 +23,6 @@ class classroom::agent {
     }
   }
 
-  include classroom::agent::yum_repos
 
   # make sure our git environment is set up and usable
   include classroom::agent::git
