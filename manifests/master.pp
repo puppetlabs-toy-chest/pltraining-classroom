@@ -64,12 +64,7 @@ class classroom::master {
   # Add autoteam yaml
   include classroom::master::autoteam
 
-  # serve our cached yum repositories so we can stop caching them for students
-  include classroom::master::yum_server
-
   # Add files required for labs (mostly for offline mode)
   include classroom::master::lab_files
-
-  # Host docker registiry on master
-  include classroom::master::docker_registry
+  
 }
