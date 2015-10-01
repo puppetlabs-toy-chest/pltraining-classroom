@@ -78,15 +78,16 @@ class classroom::master::student_environment {
       value   => 'pe-puppet',
       section => 'main'
     }
-  }
 
-  # mitigate PE-11366
-  dirtree { '/opt/puppetlabs/server':
-    path   => '/opt/puppetlabs/server',
-    ensure => present,
-  }
-  file { '/opt/puppetlabs/server/pe_build':
-    ensure  => file,
-    content => '2015.2.0',
+    # mitigate PE-11366
+    dirtree { '/opt/puppetlabs/server':
+      path   => '/opt/puppetlabs/server',
+      ensure => present,
+    }
+    file { '/opt/puppetlabs/server/pe_build':
+      ensure  => file,
+      content => '2015.2.0',
+    }
+
   }
 }
