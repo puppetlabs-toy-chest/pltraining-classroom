@@ -37,7 +37,7 @@
     {"name":"puppet/download_file",           "version_requirement":">= 1.2.1"},
     {"name":"puppet/windowsfeature",          "version_requirement":">= 1.1.0"},
     {"name":"pltraining/dirtree",             "version_requirement":">= 0.2.2"},
-    {"name":"pltraining/dockeragent",         "version_requirement":">= 0.0.2"},
+    {"name":"pltraining/dockeragent",         "version_requirement":">= 0.0.3"},
     {"name":"pltraining/rbac",                "version_requirement":">= 0.0.2"},
     {"name":"pltraining/userprefs",           "version_requirement":">= 0.0.3"},
     {"name":"puppetlabs/acl",                 "version_requirement":">= 1.1.0"},
