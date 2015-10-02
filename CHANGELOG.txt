@@ -2,6 +2,10 @@
 
 ## Release Notes
 
+### v1.5.4
+
+* Updates for 2015.2.1
+
 ### v1.5.3
 * Support for hosting docker registry on classroom master
 * Support for hosting yum repos on classroom master
