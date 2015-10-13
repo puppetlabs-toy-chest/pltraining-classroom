@@ -12,9 +12,10 @@ class classroom::params {
     # Path to the student's working directory
     $workdir = 'C:/puppetcode'
     $confdir = 'C:/ProgramData/PuppetLabs/puppet/etc'
+    $factdir = 'C:/ProgramData/PuppetLabs/facter'
 
     $codedir = $::aio_agent_version ? {
-      undef => 'C:/ProgramData/PuppetLabs/puppet/etc/modules',
+      undef   => 'C:/ProgramData/PuppetLabs/puppet/etc/modules',
       default => 'C:/ProgramData/PuppetLabs/code',
     }
   }
@@ -22,6 +23,7 @@ class classroom::params {
     $workdir = '/root/puppetcode'
     $confdir = '/etc/puppetlabs/puppet'
     $codedir = '/etc/puppetlabs/code'
+    $factdir = '/etc/puppetlabs/facter'
   }
 
   # blerg
