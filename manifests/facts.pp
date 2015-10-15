@@ -9,12 +9,6 @@ class classroom::facts (
   $role = $classroom::params::role,
 ) inherits classroom::params {
 
-  File {
-    owner => 'root',
-    group => 'root',
-    mode  => '0644',
-  }
-
   $dot_d = "${classroom::params::factdir}/facts.d/"
 
   file { [ $classroom::params::factdir, $dot_d ]:
