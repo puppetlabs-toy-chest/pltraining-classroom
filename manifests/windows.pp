@@ -11,8 +11,6 @@ class classroom::windows {
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
 
-  include userprefs::npp
-
   package { ['console2', 'putty']:
     ensure   => present,
     provider => 'chocolatey',
