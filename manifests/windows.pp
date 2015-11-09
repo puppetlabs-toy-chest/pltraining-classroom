@@ -13,10 +13,15 @@ class classroom::windows {
 
   include userprefs::npp
 
-  package { ['console2', 'putty']:
+  package { ['console2', 'putty', 'devbox-common.extension']:
     ensure   => present,
     provider => 'chocolatey',
     require  => Class['classroom::windows::chocolatey'],
+  }
+  package { 'devbox-unzip':
+    ensure   => present,
+    provider => 'chocolatey',
+    require  => Package['devbox-common.extension'],
   }
 
   ini_setting { 'certname':
