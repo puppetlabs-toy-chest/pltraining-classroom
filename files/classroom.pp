@@ -6,7 +6,6 @@ if $::osfamily == windows {
   # default package provider
   Package {
     provider => chocolatey,
-    require  => Exec['install-chocolatey'],
   }
 
   File {
