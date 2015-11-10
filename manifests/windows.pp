@@ -6,7 +6,7 @@ class classroom::windows {
     groups => ['Administrators'],
   }
 
-  include classroom::windows::chocolatey
+  include chocolatey
   include classroom::windows::geotrust
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
@@ -16,7 +16,7 @@ class classroom::windows {
   package { ['console2', 'putty', 'devbox-common.extension']:
     ensure   => present,
     provider => 'chocolatey',
-    require  => Class['classroom::windows::chocolatey'],
+    require  => Class['chocolatey'],
   }
   package { 'devbox-unzip':
     ensure   => present,

@@ -19,7 +19,7 @@ class classroom::agent::git {
   }
 
   if $::osfamily == 'windows'{
-    require classroom::windows::chocolatey
+    require chocolatey
 
     package { ['git', 'kdiff3']:
       ensure   => present,
