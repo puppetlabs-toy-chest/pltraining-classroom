@@ -16,7 +16,7 @@
     }
   ],
   "name": "pltraining-classroom",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",
@@ -25,6 +25,7 @@
   "issues_url": "https://github.com/puppetlabs/pltraining-classroom/issues",
   "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching Puppet Labs training courses!\n    - Configures and sets up classroom environment for Puppet Classroom trainings.",
   "dependencies": [
+    {"name":"chocolatey/chocolatey",          "version_requirement":">= 1.2.0"},
     {"name":"dwerder/graphite",               "version_requirement":">= 5.14.0"},
     {"name":"dwerder/grafana",                "version_requirement":">= 1.2.0"},
     {"name":"garethr/docker",                 "version_requirement":">= 4.0.2"},
