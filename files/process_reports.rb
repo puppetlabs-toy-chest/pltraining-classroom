@@ -39,6 +39,9 @@ Dir.glob("#{reportdir}/*/*.yaml").each do |file|
       :time   => report.time,
     }
 #    FileUtils.rm(file)
+  rescue NoMethodError => e
+    # see https://tickets.puppetlabs.com/browse/PUP-5192
+    FileUtils.rm(file)
   rescue Exception => e
     puts "Error: #{e.inspect}"
   end
