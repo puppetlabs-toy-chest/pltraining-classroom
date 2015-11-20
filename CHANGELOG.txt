@@ -1,6 +1,11 @@
 # pltraining/classroom
-
 ## Release Notes
+
+### v1.5.7
+
+* Remove custom chocolatey install script and use the upstream class.
+* Report processor exercise script can handle invalid reports
+    * due to https://tickets.puppetlabs.com/browse/PUP-5192
 
 ### v1.5.4
 
