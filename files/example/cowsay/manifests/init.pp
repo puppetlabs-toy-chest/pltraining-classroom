@@ -6,7 +6,8 @@ class cwosay {
   package { 'cowsay':
     ensure   => present,
   }
-  exec { "/usr/bin/cowsay '${message}'":
+  exec { 'cowsay':
+    command   => "/usr/bin/cowsay '${message}'",
     require   => Package['cowsay'],
     logoutput => true,
   }
