@@ -1,0 +1,16 @@
+---
+language: ruby
+bundler_args: --without development
+before_install: rm Gemfile.lock || true
+sudo: false
+script: "bundle exec rake spec SPEC_OPTS='--format documentation'"
+bundler_args: --without development
+rvm:
+- 1.9.3
+- 2.0.0
+- 2.1.5
+- 2.2.0
+env:
+  matrix:
+    - PUPPET_GEM_VERSION="~> 4.2"
+

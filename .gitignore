@@ -1,1 +1,8 @@
-pkg/*
+.*.sw?
+pkg
+spec/fixtures
+.rspec_system
+.vagrant
+vendor
+.DS_Store
+log/*
