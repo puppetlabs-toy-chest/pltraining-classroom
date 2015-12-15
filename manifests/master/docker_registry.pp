@@ -1,5 +1,7 @@
 class classroom::master::docker_registry {
-  include docker
+  class {'docker':
+    extra_parameters => '--insecure-registry localhost:5000',
+  }
 
   docker::image { 'registry:2': }
   docker::run {'registry':
