@@ -53,7 +53,6 @@ class classroom (
     'agent'    : { include classroom::agent      }
     'adserver' : { include classroom::agent      }
     'proxy'    : { include classroom::proxy      }
-    'tier3'    : { include classroom::tier3      }
     default    : { fail("Unknown role: ${role}") }
   }
 
@@ -62,6 +61,4 @@ class classroom (
   # trust classroom CA so students can download from the master
   include classroom::cacert
 
-  # temporary compatibility shim for PE 3.x
-  include classroom::compatibility
 }
