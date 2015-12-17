@@ -14,12 +14,6 @@ class classroom::master {
     target => '/usr/bin/pip',
   }
 
-  # Install hocon into pe-gem because it's missing from the default install
-  package { 'hocon':
-    ensure   => present,
-    provider => 'pe-gem',
-  }
-
   # Add the installer files for 32bit agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386
