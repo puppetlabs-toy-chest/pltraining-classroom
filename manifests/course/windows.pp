@@ -3,7 +3,6 @@
 class classroom::course::windows (
   $offline   = $classroom::params::offline,
   $autosetup = $classroom::params::autosetup,
-  $autoteam  = $classroom::params::autoteam,
   $role      = $classroom::params::role,
 ) inherits classroom::params {
 
@@ -11,7 +10,6 @@ class classroom::course::windows (
   class { 'classroom':
     offline   => $offline,
     autosetup => $autosetup,
-    autoteam  => $autoteam,
     role      => $role,
   }
 

@@ -28,6 +28,9 @@ class classroom::master {
     notify  => Service['pe-puppetserver'],
   }
 
+  # This is stupid, but it allows the rspec-puppet tests to pass
+#  Ini_setting['environment timeout'] -> Service<| title == 'pe-puppetserver' |>
+
   # Anything that needs to be top scope
   file { "${classroom::codedir}/environments/production/manifests/classroom.pp":
     ensure => file,
@@ -61,10 +64,7 @@ class classroom::master {
   # Now create all of the users who've checked in
   Classroom::User <<||>>
 
-  # Add autoteam yaml
-  include classroom::master::autoteam
-
   # Add files required for labs (mostly for offline mode)
   include classroom::master::lab_files
-  
+
 }

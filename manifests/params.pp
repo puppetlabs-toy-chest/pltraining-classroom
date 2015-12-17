@@ -5,9 +5,6 @@ class classroom::params {
   # Automatically configure environment, etc for students.
   $autosetup = false
 
-  # automatically assign teams for the capstone
-  $autoteam  = false
-
   if $::osfamily == 'windows' {
     # Path to the student's working directory
     $workdir = 'C:/puppetcode'
@@ -62,9 +59,6 @@ class classroom::params {
 
   # Default timeout for operations requiring downloads or the like
   $timeout = 600
-
-  # list of module repositorites that should be precreated for the virtual courses
-  $precreated_repositories = [ 'critical_policy', 'registry', 'profiles' ]
 
   # Windows active directory setup parameters
   $ad_domainname           = 'CLASSROOM.local'
