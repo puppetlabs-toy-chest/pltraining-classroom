@@ -3,7 +3,6 @@
 class classroom::course::architect (
   $offline   = $classroom::params::offline,
   $autosetup = $classroom::params::autosetup,
-  $autoteam  = $classroom::params::autoteam,
   $role      = $classroom::params::role,
   $manageyum = $classroom::params::manageyum,
 ) inherits classroom::params {
@@ -11,7 +10,6 @@ class classroom::course::architect (
   class { 'classroom':
     offline     => $offline,
     autosetup   => $autosetup,
-    autoteam    => $autoteam,
     role        => $role,
     manageyum   => $manageyum,
     managerepos => false,
@@ -61,7 +59,7 @@ class classroom::course::architect (
 
     # Set up agent containers on student masters
     include classroom::containers
-  
+
     # Use classroom master for yum cache
     include classroom::agent::yum_repos
   }

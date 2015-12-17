@@ -26,7 +26,6 @@
 class classroom (
   $offline      = $classroom::params::offline,
   $autosetup    = $classroom::params::autosetup,
-  $autoteam     = $classroom::params::autoteam,
   $role         = $classroom::params::role,
   $manageyum    = $classroom::params::manageyum,
   $managerepos  = $classroom::params::managerepos,
@@ -37,7 +36,6 @@ class classroom (
 ) inherits classroom::params {
   validate_bool($offline)
   validate_bool($autosetup)
-  validate_bool($autoteam)
   validate_bool($manageyum)
   validate_bool($managerepos)
 
@@ -60,5 +58,4 @@ class classroom (
 
   # trust classroom CA so students can download from the master
   include classroom::cacert
-
 }

@@ -23,7 +23,6 @@ class classroom::agent {
     }
   }
 
-
   # make sure our git environment is set up and usable
   include classroom::agent::git
 
@@ -55,8 +54,5 @@ class classroom::agent {
       username => $classroom::params::machine_name,
       require  => Class['classroom::agent::git'],
     }
-
-    # If we have teams defined for this node, build a working directory for each.
-    include classroom::agent::teams
   }
 }
