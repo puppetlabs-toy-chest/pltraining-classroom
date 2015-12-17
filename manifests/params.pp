@@ -88,17 +88,11 @@ class classroom::params {
   $r10k_remote  = '/root/environments'
   $r10k_basedir = "${confdir}/environments"
 
-  # is this a student's tier3 agent in Architect?
-  if $::fqdn =~ /^\S+\.\S+\.puppetlabs\.vm$/ {
-    $role = 'tier3'
-  }
-  else {
-    $role = $::hostname ? {
-      /^master|classroom|puppetfactory$/ => 'master',
-      'proxy'                            => 'proxy',
-      'adserver'                         => 'adserver',
-      default                            => 'agent'
-    }
+  $role = $::hostname ? {
+    /^master|classroom|puppetfactory$/ => 'master',
+    'proxy'                            => 'proxy',
+    'adserver'                         => 'adserver',
+    default                            => 'agent'
   }
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"

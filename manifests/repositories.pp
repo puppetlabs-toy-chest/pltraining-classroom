@@ -3,19 +3,19 @@ class classroom::repositories {
   assert_private('This class should not be called directly')
 
   if $classroom::manageyum and $::osfamily == 'RedHat' {
+
+     $enabled = $classroom::offline ? {
+      true  => '0',
+      false => '1',
+    }
+
     yumrepo { $classroom::repositories:
-      enabled => $classroom::offline ? {
-        true  => '0',
-        false => '1',
-      },
+      enabled => $enabled,
     }
     # Don't choke if another module has "include epel"
     if ! defined(Class['epel']) {
       class { 'epel':
-        epel_enabled => $classroom::offline ? {
-          true  => '0',
-          false => '1',
-        },
+        epel_enabled => $enabled,
       }
     }
   }
