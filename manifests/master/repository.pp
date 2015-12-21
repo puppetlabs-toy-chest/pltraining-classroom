@@ -50,6 +50,10 @@ define classroom::master::repository (
       source  => "${repo_root}/${name}.git",
       require => Vcsrepo["${repo_root}/${name}.git"],
     }
+    file { "${clone_root}/${name}":
+      ensure => directory,
+      before => Vcsrepo["${clone_root}/${name}"],
+    }
   }
   else {
     file { [ "${repo_root}/${name}.git", "${clone_root}/${name}" ]:
