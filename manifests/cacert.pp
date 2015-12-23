@@ -10,7 +10,7 @@ class classroom::cacert {
       notify => Exec['trust classroom ca'],
     }
 
-    if versioncmp($::aio_agent_verstion, '1.3.2') >= 0 {  
+    if versioncmp($::aio_agent_version, '1.3.2') >= 0 {  
       exec { 'trust classroom ca':
         command     => "cat ${classroom_cert} >> /opt/puppetlabs/puppet/ssl/cert.pem ",
         path        => '/bin/',
