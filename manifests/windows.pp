@@ -20,16 +20,16 @@ class classroom::windows {
   }
  
   # Unzip package is broken on chocolatey so download directly
-  exec { 'curl http://iweb.dl.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe -Outfile C:\unzip.exe':
+  exec { 'curl http://iweb.dl.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe -Outfile C:/Windows/Temp/unzip.exe':
     provider => powershell,
-    creates  => 'C:\unzip.exe',
+    creates  => 'C:/Windows/Temp/unzip.exe',
     before   => Package['GnuWin32: UnZip version 5.51'],
   }
 
   package { 'GnuWin32: UnZip version 5.51':
     ensure          => present,
     provider        => 'windows',
-    source          => 'C:\unzip.exe',
+    source          => 'C:/Windows/Temp/unzip.exe',
     install_options => '/VERYSILENT',
     require         => Package['devbox-common.extension'],
   }
