@@ -18,10 +18,20 @@ class classroom::windows {
     provider => 'chocolatey',
     require  => Class['chocolatey'],
   }
-  package { 'devbox-unzip':
-    ensure   => present,
-    provider => 'chocolatey',
-    require  => Package['devbox-common.extension'],
+ 
+  # Unzip package is broken on chocolatey so download directly
+  exec { 'curl http://iweb.dl.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe -Outfile C:\unzip.exe':
+    provider => powershell,
+    creates  => 'C:\unzip.exe',
+    before   => Package['GnuWin32: UnZip version 5.51'],
+  }
+
+  package { 'GnuWin32: UnZip version 5.51':
+    ensure          => present,
+    provider        => 'windows',
+    source          => 'C:\unzip.exe',
+    install_options => '/VERYSILENT',
+    require         => Package['devbox-common.extension'],
   }
 
   ini_setting { 'certname':
