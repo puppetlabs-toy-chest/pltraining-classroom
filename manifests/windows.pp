@@ -34,6 +34,10 @@ class classroom::windows {
     require         => Package['devbox-common.extension'],
   }
 
+  windows_env { 'PATH=C:\Program Files (x86)\GnuWin32\bin':
+    require   => Package['GnuWin32: UnZip version 5.51'],
+  }
+
   ini_setting { 'certname':
     ensure  => present,
     path    => "${classroom::confdir}/puppet.conf",
