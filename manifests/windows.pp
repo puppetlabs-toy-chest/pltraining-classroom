@@ -19,13 +19,13 @@ class classroom::windows {
     require  => Class['chocolatey'],
   }
  
-  # Unzip package is broken on chocolatey so download directly
-  exec { 'curl http://iweb.dl.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe -Outfile C:/Windows/Temp/unzip.exe':
-    provider => powershell,
-    creates  => 'C:/Windows/Temp/unzip.exe',
-    before   => Package['GnuWin32: UnZip version 5.51'],
+  # The Chocolatey Unzip package is broken; use pget and a package resource.
+  pget { 'unzip':
+    source         => 'http://iweb.dl.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe',
+    target         => 'C:/Windows/Temp',
+    targetfilename => 'unzip.exe',
+    before         => Package['GnuWin32: UnZip version 5.51'],
   }
-
   package { 'GnuWin32: UnZip version 5.51':
     ensure          => present,
     provider        => 'windows',
