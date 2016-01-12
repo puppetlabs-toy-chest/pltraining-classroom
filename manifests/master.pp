@@ -48,8 +48,16 @@ class classroom::master {
       default => "${classroom::codedir}/environments",
     }
 
-    File <| title == $environmentspath |> {
-      mode => '1777',
+    if versioncmp('2015.3.0', $::pe_server_version) < 0 {
+      File <| title == $environmentspath |> {
+        mode => '1777',
+      }
+    }
+    else {
+      file { $environmentspath:
+        ensure => directory,
+        mode   => '1777',
+      }
     }
 
     include classroom::master::repositories
