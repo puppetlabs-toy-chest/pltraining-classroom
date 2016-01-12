@@ -48,7 +48,7 @@ class classroom::master {
       default => "${classroom::codedir}/environments",
     }
 
-    if versioncmp('2015.3.0', $::pe_server_version) < 0 {
+    if versioncmp($::pe_server_version,'2015.3.0') < 0 {
       File <| title == $environmentspath |> {
         mode => '1777',
       }
