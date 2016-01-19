@@ -43,6 +43,21 @@ define classroom::agent::workdir (
       ensure => directory,
     }
 
+    file { "${classroom::codedir}/modules":
+      ensure => link,
+      target => "${workdir}/modules",
+      force  => true,
+    }
+
+    # Symlinks on the user desktop
+    if $::osfamily == 'Windows' {
+      $linkname = basename($workdir)
+      file { "C:/Users/Administrator/Desktop/${linkname}":
+        ensure => link,
+        target => $workdir,
+      }
+    }
+
     if $populate {
       # create the modules, manifests, site.pp and environment.conf
       # environment.conf required to prevent caching
@@ -98,15 +113,6 @@ define classroom::agent::workdir (
       ensure  => file,
       source  => 'puppet:///modules/classroom/dot_gitignore',
       require => Exec["initialize ${name} repo"],
-    }
-
-    # Symlinks on the user desktop
-    if $::osfamily == 'Windows' {
-      $linkname = basename($workdir)
-      file { "C:/Users/Administrator/Desktop/${linkname}":
-        ensure => link,
-        target => $workdir,
-      }
     }
 
   }
