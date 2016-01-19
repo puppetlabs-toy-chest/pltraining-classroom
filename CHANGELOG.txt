@@ -1,6 +1,15 @@
 # pltraining/classroom
 ## Release Notes
 
+### v1.5.9
+
+* Hotfix to restore management of student modulepath symlinks.
+
+### v1.5.8
+
+* Remove unused teams functionality.
+* Several 2015.x fixes.
+
 ### v1.5.7
 
 * Remove custom chocolatey install script and use the upstream class.
