@@ -60,8 +60,10 @@ class classroom::course::architect (
     # Set up agent containers on student masters
     include classroom::containers
 
-    # Use classroom master for yum cache
-    include classroom::agent::yum_repos
+    if $manageyum {
+      # Use classroom master for yum cache
+      include classroom::agent::yum_repos
+    }
   }
 
   class { 'classroom::facts':
