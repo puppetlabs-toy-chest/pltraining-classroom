@@ -2,7 +2,6 @@
 #
 class classroom::course::windows (
   $offline   = $classroom::params::offline,
-  $role      = $classroom::params::role,
 ) inherits classroom::params {
 
   # just wrap the classroom class

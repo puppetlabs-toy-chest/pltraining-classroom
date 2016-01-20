@@ -2,7 +2,6 @@
 #
 class classroom::course::architect (
   $offline   = $classroom::params::offline,
-  $role      = $classroom::params::role,
   $manageyum = $classroom::params::manageyum,
 ) inherits classroom::params {
   # just wrap the classroom class
