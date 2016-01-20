@@ -41,18 +41,15 @@ class classroom::master {
   # overrides the resource in the puppet_enterprise module and allows us to have
   # different users updating their own repositories.
   if $classroom::managerepos {
-    # As if this wasn't gross enough already... We need the title instead of just
-    # a symlink because we're actually overriding an attribute in the catalog.
-    $environmentspath = $::aio_agent_version ? {
-      undef   => "${classroom::confdir}/environments",
-      default => "${classroom::codedir}/environments",
-    }
+    $environmentspath = "${classroom::codedir}/environments"
 
+    # 2015.2.x manages the environmentpath but doesn't allow users to write
     if versioncmp($::pe_server_version,'2015.3.0') < 0 {
       File <| title == $environmentspath |> {
         mode => '1777',
       }
     }
+    # 2015.3.x doesn't manage the environmentpath
     else {
       file { $environmentspath:
         ensure => directory,

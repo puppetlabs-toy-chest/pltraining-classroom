@@ -11,7 +11,7 @@ class classroom::master::metrics {
 
   package { ['jmx', 'table_print']:
     ensure   => present,
-    provider => $classroom::puppetserver_gem_provider,
+    provider => puppetserver_gem,
   }
 
   file { '/usr/local/bin/puppetserver_compiles':
