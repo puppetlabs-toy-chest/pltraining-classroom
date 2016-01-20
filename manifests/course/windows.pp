@@ -2,14 +2,12 @@
 #
 class classroom::course::windows (
   $offline   = $classroom::params::offline,
-  $autosetup = $classroom::params::autosetup,
   $role      = $classroom::params::role,
 ) inherits classroom::params {
 
   # just wrap the classroom class
   class { 'classroom':
     offline   => $offline,
-    autosetup => $autosetup,
     role      => $role,
   }
 

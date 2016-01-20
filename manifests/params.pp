@@ -2,9 +2,6 @@ class classroom::params {
   # Configure NTP (and other services) to run in standalone mode
   $offline   = false
 
-  # Automatically configure environment, etc for students.
-  $autosetup = false
-
   if $::osfamily == 'windows' {
     # Path to the student's working directory
     $workdir = 'C:/puppetcode'

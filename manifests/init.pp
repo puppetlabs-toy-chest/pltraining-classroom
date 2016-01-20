@@ -20,12 +20,10 @@
 #
 #
 # $offline   : Configure NTP (and other services) to run in standalone mode
-# $autosetup : Automatically configure environment, etc.
 # $role      : What classroom role this node should play
 #
 class classroom (
   $offline      = $classroom::params::offline,
-  $autosetup    = $classroom::params::autosetup,
   $role         = $classroom::params::role,
   $manageyum    = $classroom::params::manageyum,
   $managerepos  = $classroom::params::managerepos,
@@ -35,7 +33,6 @@ class classroom (
   $consolepw    = $classroom::params::consolepw,
 ) inherits classroom::params {
   validate_bool($offline)
-  validate_bool($autosetup)
   validate_bool($manageyum)
   validate_bool($managerepos)
 
