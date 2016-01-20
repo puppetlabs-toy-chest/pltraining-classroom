@@ -39,7 +39,7 @@ class classroom::params {
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
 
   # where the agent installer tarball for secondary masters should go.
-  $publicdir = '/opt/puppetlabs/server/data/packages/public/classroom',
+  $publicdir = '/opt/puppetlabs/server/data/packages/public/classroom'
 
   # The directory where the VM caches stuff locally
   $cachedir = '/usr/src/installer'
