@@ -10,17 +10,18 @@ class classroom::cacert {
       notify => Exec['trust classroom ca'],
     }
 
-    if versioncmp($::aio_agent_version, '1.3.2') >= 0 {  
-      exec { 'trust classroom ca':
+    exec { 'trust classroom ca':
+      command     => '/usr/bin/update-ca-trust extract',
+      onlyif      => '/usr/bin/update-ca-trust enable',
+      refreshonly => true,
+    }
+
+    if versioncmp($::aio_agent_version, '1.3.2') >= 0 {
+      exec { 'add classroom cert to vendored curl':
         command     => "cat ${classroom_cert} >> /opt/puppetlabs/puppet/ssl/cert.pem ",
         path        => '/bin/',
         refreshonly => true,
-      }
-    } else {
-      exec { 'trust classroom ca':
-        command     => '/usr/bin/update-ca-trust extract',
-        onlyif      => '/usr/bin/update-ca-trust enable',
-        refreshonly => true,
+        subscribe   => File[$classroom_cert],
       }
     }
   }
