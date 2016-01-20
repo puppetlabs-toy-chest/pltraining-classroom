@@ -28,7 +28,6 @@ class classroom (
   $manageyum    = $classroom::params::manageyum,
   $managerepos  = $classroom::params::managerepos,
   $time_servers = $classroom::params::time_servers,
-  $workdir      = $classroom::params::workdir,
   $password     = $classroom::params::password,
   $consolepw    = $classroom::params::consolepw,
 ) inherits classroom::params {
@@ -37,8 +36,6 @@ class classroom (
   validate_bool($managerepos)
 
   validate_array($time_servers)
-
-  validate_absolute_path($workdir)
 
   validate_string($password)
   validate_string($consolepw)
