@@ -23,7 +23,7 @@ class classroom::master::ircd {
   # gems used by the irc report handler.
   package { 'carrier-pigeon':
     ensure   => present,
-    provider => $classroom::puppetserver_gem_provider,
+    provider => puppetserver_gem,
   }
 
 }

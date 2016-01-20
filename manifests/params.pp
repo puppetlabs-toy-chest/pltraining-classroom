@@ -10,11 +10,7 @@ class classroom::params {
     $workdir = 'C:/puppetcode'
     $confdir = 'C:/ProgramData/PuppetLabs/puppet/etc'
     $factdir = 'C:/ProgramData/PuppetLabs/facter'
-
-    $codedir = $::aio_agent_version ? {
-      undef   => 'C:/ProgramData/PuppetLabs/puppet/etc/modules',
-      default => 'C:/ProgramData/PuppetLabs/code',
-    }
+    $codedir = 'C:/ProgramData/PuppetLabs/code'
   }
   else {
     $workdir = '/root/puppetcode'
@@ -22,12 +18,6 @@ class classroom::params {
     $codedir = '/etc/puppetlabs/code'
     $factdir = '/etc/puppetlabs/facter'
   }
-
-  # blerg
-  $puppetserver_gem_provider = $::aio_agent_version ? {
-      undef   => pe_puppetserver_gem,
-      default => puppetserver_gem,
-    }
 
   # default user password
   $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
@@ -49,10 +39,7 @@ class classroom::params {
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
 
   # where the agent installer tarball for secondary masters should go.
-  $publicdir = $::aio_agent_version ? {
-    undef   => '/opt/puppet/packages/public/classroom',
-    default => '/opt/puppetlabs/server/data/packages/public/classroom',
-  }
+  $publicdir = '/opt/puppetlabs/server/data/packages/public/classroom',
 
   # The directory where the VM caches stuff locally
   $cachedir = '/usr/src/installer'
@@ -91,16 +78,16 @@ class classroom::params {
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
   if $role == 'master' {
-    if versioncmp(pick($::pe_server_version, $::pe_version), '3.8.0') < 0 {
+    if versioncmp(pick($::pe_server_version, $::pe_version), '2015.2.0') < 0 {
       fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-training.ova/\n\n")
     }
     # we expect instructors to have newer VMs. The student machine can be older.
-    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '2.25') < 0 {
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '3.0') < 0 {
       fail("Your VM is out of date. ${download}/puppet-training.ova/\n\n")
     }
   }
   else {
-    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '2.17') < 0 {
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '2.34') < 0 {
       fail("Your VM is out of date. ${download}/puppet-student.ova/\n\n")
     }
   }
