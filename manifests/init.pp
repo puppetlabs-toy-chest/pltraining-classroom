@@ -28,17 +28,11 @@ class classroom (
   $manageyum    = $classroom::params::manageyum,
   $managerepos  = $classroom::params::managerepos,
   $time_servers = $classroom::params::time_servers,
-  $password     = $classroom::params::password,
-  $consolepw    = $classroom::params::consolepw,
 ) inherits classroom::params {
   validate_bool($offline)
   validate_bool($manageyum)
   validate_bool($managerepos)
-
   validate_array($time_servers)
-
-  validate_string($password)
-  validate_string($consolepw)
 
   case $role {
     'master'   : { include classroom::master     }
