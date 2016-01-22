@@ -7,7 +7,6 @@ class classroom::cacert {
     file { $classroom_cert:
       ensure => file,
       source => "${classroom::confdir}/ssl/certs/ca.pem",
-      notify => Exec['trust classroom ca'],
     }
 
     exec { 'trust classroom ca':
@@ -22,7 +21,11 @@ class classroom::cacert {
         path        => '/bin/',
         refreshonly => true,
         subscribe   => File[$classroom_cert],
+        notify      => Exec['trust classroom ca'],
       }
+    }
+    else {
+      File[$classroom_cert] ~> Exec['trust classroom ca']
     }
   }
   else {
