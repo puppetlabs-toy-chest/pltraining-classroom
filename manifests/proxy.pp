@@ -12,7 +12,7 @@ class classroom::proxy {
     },
   }
 
-  haproxy::listen { 'wordpress00':
+  haproxy::listen { 'web00':
     ipaddress => $::ipaddress,
     ports     => '80',
     options   => {
