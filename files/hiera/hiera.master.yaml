@@ -13,3 +13,6 @@
   - "environments/%{environment}/hieradata/defaults"
   - classroom
   - tuning
+  - common
+  - defaults
+
