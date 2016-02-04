@@ -2,8 +2,6 @@ class classroom::course::virtual::fundamentals (
   $session_id = $classroom::params::session_id,
 ) inherits classroom::params {
 
-  include classroom::master::courseware
-
   showoff::presentation { 'fundamentals':
     path    => "${showoff::root}/courseware/fundamentals",
     require => Class['classroom::master::courseware'],
