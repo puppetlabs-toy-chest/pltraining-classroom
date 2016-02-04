@@ -10,4 +10,8 @@ class classroom::course::virtual::first_module (
     container_name   => 'centosagent',
     session_id       => $session_id,
   }
+
+  class { 'classroom::master::showoff':
+    password => $session_id,
+  }
 }
