@@ -16,6 +16,10 @@ class classroom::course::virtual::code_management (
     class { 'r10k':
       remote => 'https://github.com/puppetlabs-education/classroom-control.git',
     }
+
+    class { 'classroom::master::showoff':
+      password => $session_id,
+    }
   } else {
     include r10k
   }
