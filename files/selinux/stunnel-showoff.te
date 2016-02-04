@@ -1,0 +1,15 @@
+
+module stunnel-showoff 1.0;
+
+require {
+	type var_log_t;
+	type stunnel_t;
+	class capability dac_override;
+	class dir { write add_name };
+	class file { create open };
+}
+
+#============= stunnel_t ==============
+allow stunnel_t self:capability dac_override;
+allow stunnel_t var_log_t:dir { write add_name };
+allow stunnel_t var_log_t:file { create open };
