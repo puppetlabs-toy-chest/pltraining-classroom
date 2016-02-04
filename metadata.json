@@ -12,7 +12,7 @@
     },
     {
       "name": "puppet",
-      "version_requirement": "3.x"
+      "version_requirement": "4.x"
     }
   ],
   "name": "pltraining-classroom",
@@ -35,6 +35,7 @@
     {"name":"jordan/fileshare",               "version_requirement":">= 1.1.1"},
     {"name":"pltraining/dirtree",             "version_requirement":">= 0.2.2"},
     {"name":"pltraining/dockeragent",         "version_requirement":">= 0.0.3"},
+    {"name":"pltraining/puppetfactory",       "version_requirement":">= 0.4.3"},
     {"name":"pltraining/rbac",                "version_requirement":">= 0.0.2"},
     {"name":"pltraining/userprefs",           "version_requirement":">= 0.0.3"},
     {"name":"puppetlabs/apache",              "version_requirement":">= 1.1.1"},
