@@ -1,18 +1,17 @@
 # This is a wrapper class to include all the bits needed for Architect
 #
 class classroom::course::architect (
-  $offline   = $classroom::params::offline,
-  $autosetup = $classroom::params::autosetup,
-  $role      = $classroom::params::role,
-  $manageyum = $classroom::params::manageyum,
+  $offline      = $classroom::params::offline,
+  $manageyum    = $classroom::params::manageyum,
+  $time_servers = $classroom::params::time_servers,
 ) inherits classroom::params {
   # just wrap the classroom class
   class { 'classroom':
-    offline     => $offline,
-    autosetup   => $autosetup,
-    role        => $role,
-    manageyum   => $manageyum,
-    managerepos => false,
+    offline      => $offline,
+    role         => $role,
+    manageyum    => $manageyum,
+    time_servers => $time_servers,
+    managerepos  => false,
   }
 
   if $role == 'master' {

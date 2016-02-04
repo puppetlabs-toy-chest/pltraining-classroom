@@ -1,8 +1,8 @@
 # Create a classroom user on the master
 define classroom::user (
+  $password,
   $key        = undef,
-  $password   = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0', # puppetlabs
-  $consolepw  = 'puppetlabs',
+  $consolepw  = undef,
   $managerepo = true,
 ) {
   File {
