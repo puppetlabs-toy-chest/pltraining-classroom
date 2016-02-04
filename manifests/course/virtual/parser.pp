@@ -1,5 +1,6 @@
 class classroom::course::virtual::parser (
   $session_id = $classroom::params::session_id,
+  $role       = $classroom::params::role,
 ) inherits classroom::params {
 
   if $role = 'master' {
