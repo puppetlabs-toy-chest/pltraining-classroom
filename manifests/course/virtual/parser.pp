@@ -10,6 +10,9 @@ class classroom::course::virtual::parser (
       map_environments => false,
       session_id       => $session_id,
     }
+    class { 'classroom::master::showoff':
+      password => $session_id,
+    }
   }
   else {
     file { '/usr/local/bin/course_selector':
