@@ -12,7 +12,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 ### Set the computer name ###
 #############################
 $computerName = Read-Host -Prompt 'Input desired user name: '
-Rename-Computer $ComputerName
+Rename-Computer $ComputerName.ToLower()
 
 #########################
 ### Set the FQDN name ###
