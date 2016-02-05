@@ -119,11 +119,18 @@ class classroom::windows::adserver {
   }
 
   # Windows file share for UNC lab
-  fileshare { 'installer':
-    ensure  => present,
-    path    => 'C:\shares\classroom',
+
+  file { 'C:/shares/classroom': 
+    ensure  => directory,
     require => Class['staging'],
   }
+
+  fileshare { 'installer':
+    ensure  => present,
+    path    => 'C:/shares/classroom',
+    require => File['C:/shares/classroom'],
+  }
+
   acl { 'c:/shares/classroom/Brackets.msi':
     permissions => [
       { identity => 'Administrator', rights => ['full'] },
