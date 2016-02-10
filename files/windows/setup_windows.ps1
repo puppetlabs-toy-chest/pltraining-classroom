@@ -1,11 +1,13 @@
 ##############################
 ### Check if Administrator ###
 ##############################
-If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
-    [Security.Principal.WindowsBuiltInRole] "Administrator"))
-{
-    Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
-    Break
+$user = [Environment]::UserName
+If ($user -ne "Administrator") {
+      Write-Host "`n`n`nPlease logout and login as Administrator!`n`n`n"
+      Start-Sleep -s 5
+      break
+} else {
+      Write-Host "`n`n`nContinuing the setup.`n`n`n"
 }
 
 #############################
@@ -45,20 +47,25 @@ rm -force c:\secpol.cfg -confirm:$false
 ### Download setup_classroom.ps1 ###
 ####################################
 [System.Net.ServicePointManager]::ServerCertificateValidationCallback={$true}
-$url = "https://$master_ip:8140/packages/current/windows-x86_64/setup_classroom.ps1"
+$url = "https://master.puppetlabs.vm:8140/packages/current/windows-x86_64/setup_classroom.ps1"
 $output = "C:\Users\Administrator\setup_classroom.ps1"
 (New-Object System.Net.WebClient).DownloadFile($url, $output)
 
 #############################
 ### Download puppet agent ###
 #############################
-$url = "https://$master_ip:8140/packages/current/windows-x86_64/puppet-agent-x64.msi"
+$url = "https://master.puppetlabs.vm:8140/packages/current/windows-x86_64/puppet-agent-x64.msi"
 $output = "C:\Users\Administrator\Downloads\puppet-agent-x64.msi"
 (New-Object System.Net.WebClient).DownloadFile($url, $output)
 
 ############################
 ### Restart the computer ###
 ############################
-Start-Sleep -s 5
-Write-Host "`n`n`nRebooting in 5 seconds`n`n`n"
-Restart-Computer
+$confirmation = Read-Host "`n`n`nRebooting in 5 seconds, continue? y/n`n`n`n"
+If ($confirmation -eq 'y') {
+    Start-Sleep -s 5
+    Restart-Computer
+} else {
+    Write-Host "`n`n`nYou will have to reboot manually to continue with the setup!`n`n`n"
+    break
+}
