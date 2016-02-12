@@ -66,6 +66,9 @@ class classroom::master {
   # configure Hiera environments for the master
   include classroom::master::hiera
 
+  # Setup Windows Powershell Scripts
+  include classroom::master::windows
+
   # Now create all of the users who've checked in
   Classroom::User <<||>>
 
