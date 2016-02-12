@@ -9,7 +9,7 @@ class classroom::master::agent_tarball {
   # https://pm.puppetlabs.com/puppet-agent/2015.2.0/1.2.2/repos/puppet-agent-el-6-x86_64.tar.gz
   $filename    = "puppet-agent-${::platform_tag}.tar.gz"
   $download    = "https://pm.puppetlabs.com/puppet-agent/${pe_server_version}/${aio_agent_version}/repos/${filename}"
-  $destination = "${publicdir}/${pe_server_version}/${aio_agent_version}/repos"
+  $destination = "${publicdir}/classroom/${pe_server_version}/${aio_agent_version}/repos"
 
   dirtree { $destination:
     path    => $destination,

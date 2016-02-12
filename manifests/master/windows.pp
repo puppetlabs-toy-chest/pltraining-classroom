@@ -4,6 +4,8 @@
 class classroom::master::windows {
   assert_private('This class should not be called directly')
 
+  $publicdir = $classroom::params::publicdir
+
   File {
     ensure => file,
     owner  => 'root',
@@ -11,7 +13,6 @@ class classroom::master::windows {
     mode   => '0644',
   }
 
-  $publicdir   = "/opt/puppetlabs/server/data/packages/public"
   $destination = "${publicdir}/${pe_server_version}/windows-x86_64"
 
   file { "${destination}/setup_windows.ps1":
