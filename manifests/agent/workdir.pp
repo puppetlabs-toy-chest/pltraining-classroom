@@ -107,6 +107,11 @@ define classroom::agent::workdir (
         mode    => '0755',
         require => Exec["initialize ${name} repo"],
       }
+      file { "${workdir}/.gitattributes":
+        ensure  => file,
+        source  => 'puppet:///modules/classroom/dot_gitattributes_windows',
+        require => Exec["initialize ${name} repo"],
+      }
     }
 
     file { "${workdir}/.gitignore":
