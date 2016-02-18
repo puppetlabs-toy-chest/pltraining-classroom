@@ -4,8 +4,8 @@ class classroom::agent::hosts {
     ensure       => 'present',
     host_aliases => [$::hostname],
     ip           => $::ipaddress,
-    tag          => ['classroom','master'],
+    tag          => ['puppetlabs'],
   }
 
-  Host <<| tag == 'classroom' |>>
+  Host <<| tag == 'puppetlabs' |>>
 }
