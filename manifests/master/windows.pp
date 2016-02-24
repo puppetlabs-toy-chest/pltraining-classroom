@@ -14,6 +14,10 @@ class classroom::master::windows {
   }
 
   $destination = "${publicdir}/${pe_server_version}/windows-x86_64"
+  
+  file { $destination:
+    ensure => directory,
+  }
 
   file { "${destination}/setup_windows.ps1":
     source => "puppet:///modules/classroom/windows/setup_windows.ps1",
