@@ -1,6 +1,14 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.10
+
+* added WIP virtual profiles, not for current use
+* support for 2015.2+
+* windows agent caching and install scripts
+* general cleanup of unneeded code
+
+
 ### v1.5.9
 
 * Hotfix to restore management of student modulepath symlinks.
