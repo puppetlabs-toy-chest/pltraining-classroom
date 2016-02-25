@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.11
+
+* Host the maci0/systemd docker image for dockagent module
+
 ## v1.5.10
 
 * added WIP virtual profiles, not for current use
