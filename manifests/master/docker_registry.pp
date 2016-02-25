@@ -12,17 +12,15 @@ class classroom::master::docker_registry {
     ports            => ['5000:5000'],
   }
 
+  $image_name = "maci0/systemd"
   # Cache the centos image in the local registry
-  docker::image { 'centos':
-    image_tag => $::operatingsystemmajrelease,
-  }
+  docker::image { $image_name:}
 
   # Tag image
-  $image_name = "centos:${::operatingsystemmajrelease}"
   exec { "docker tag ${image_name} localhost:5000/${image_name}":
     path    => '/usr/bin/:/bin',
-    unless  => "docker images | grep localhost:5000/centos",
-    require => Docker::Image['centos'],
+    unless  => "docker images | grep localhost:5000/${image_name}",
+    require => Docker::Image[$image_name],
   }
   exec { "docker push localhost:5000/${image_name}":
     path    => $::path,
