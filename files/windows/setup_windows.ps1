@@ -58,6 +58,11 @@ $url = "https://master.puppetlabs.vm:8140/packages/current/windows-x86_64/puppet
 $output = "C:\Users\Administrator\Downloads\puppet-agent-x64.msi"
 (New-Object System.Net.WebClient).DownloadFile($url, $output)
 
+##########################
+### Set RunOnce Script ###
+##########################
+New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce -Value "Powershell C:\Users\Administrator\setup_classroom.ps1"
+
 ############################
 ### Restart the computer ###
 ############################
