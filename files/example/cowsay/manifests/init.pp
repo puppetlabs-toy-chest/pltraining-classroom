@@ -5,9 +5,11 @@ class cwosay {
 
   package { 'cowsay':
     ensure   => present,
+    provider => 'gem',
   }
   exec { 'cowsay':
-    command   => "/usr/bin/cowsay '${message}'",
+    command   => "cowsay '${message}'",
+    path      => '/usr/bin:/usr/local/bin',
     require   => Package['cowsay'],
     logoutput => true,
   }
