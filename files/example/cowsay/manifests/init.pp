@@ -8,7 +8,8 @@ class cwosay {
     provider => 'gem',
   }
   exec { 'cowsay':
-    command   => "/usr/local/bin/cowsay '${message}'",
+    command   => "cowsay '${message}'",
+    path      => '/usr/bin:/usr/local/bin',
     require   => Package['cowsay'],
     logoutput => true,
   }
