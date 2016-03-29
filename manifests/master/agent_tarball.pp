@@ -17,7 +17,7 @@ class classroom::master::agent_tarball {
     parents => true,
   }
 
-  file { $destination:
+  file { [$destination,$cachedir]:
     ensure => directory,
     owner  => 'root',
     group  => 'root',
