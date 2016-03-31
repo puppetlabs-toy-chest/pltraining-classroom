@@ -1,6 +1,12 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.12
+
+* Updated cowsay to use gem version
+* Windows agent instll script improvments
+* Support for yum_cache parameter in dockeragent module
+
 ## v1.5.11
 
 * Host the maci0/systemd docker image for dockagent module
