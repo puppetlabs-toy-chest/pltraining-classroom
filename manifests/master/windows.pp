@@ -13,7 +13,7 @@ class classroom::master::windows {
     mode   => '0644',
   }
 
-  $destination = "${publicdir}/${pe_server_version}/windows-x86_64"
+  $destination = "${publicdir}/current/windows-x86_64"
   
   file { $destination:
     ensure => directory,
