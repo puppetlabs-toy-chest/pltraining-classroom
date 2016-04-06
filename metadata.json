@@ -28,7 +28,7 @@
     {"name":"arusso/stunnel",                 "version_requirement":">= 2.1.2"},
     {"name":"chocolatey/chocolatey",          "version_requirement":">= 1.2.0"},
     {"name":"cyberious/pget",                 "version_requirement":">= 1.1.0"},
-    {"name":"dwerder/graphite",               "version_requirement":"= 5.16.1"},
+    {"name":"dwerder/graphite",               "version_requirement":"5.16.1"},
     {"name":"dwerder/grafana",                "version_requirement":">= 1.2.0"},
     {"name":"garethr/docker",                 "version_requirement":">= 4.0.2"},
     {"name":"hunner/wordpress",               "version_requirement":">= 0.6.0"},
