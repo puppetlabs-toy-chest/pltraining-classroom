@@ -120,15 +120,10 @@ class classroom::windows::adserver {
 
   # Windows file share for UNC lab
 
-  file { 'C:/shares/classroom': 
-    ensure  => directory,
-    require => Class['staging'],
-  }
-
   fileshare { 'installer':
     ensure  => present,
     path    => 'C:/shares/classroom',
-    require => File['C:/shares/classroom'],
+    require => Class['staging'],
   }
 
   acl { 'c:/shares/classroom/Brackets.msi':
