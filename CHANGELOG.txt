@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.14
+* Properly include the Windows installer
+
 ## v1.5.13
 * Pin to an older version of graphite
 * update Windows installer script location
