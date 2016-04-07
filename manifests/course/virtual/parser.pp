@@ -3,7 +3,7 @@ class classroom::course::virtual::parser (
   $role       = $classroom::params::role,
 ) inherits classroom::params {
 
-  if $role = 'master' {
+  if $role == 'master' {
     # Classroom for the parser course
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere less distracting
