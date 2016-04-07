@@ -14,9 +14,10 @@ class classroom::master {
     target => '/usr/bin/pip',
   }
 
-  # Add the installer files for 32bit agents
+  # Add the installer files for student agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386
+  include pe_repo::platform::windows_x86_64
 
   # Ensure the environment cache is disabled and restart if needed
   ini_setting {'environment timeout':
