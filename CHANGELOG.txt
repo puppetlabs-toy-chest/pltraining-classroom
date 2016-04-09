@@ -1,8 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
-## v1.5.15
+## v1.5.16
 * Corrected a conflict with the `pe_repo` windows class.
+
+## v1.5.15 (deleted)
+* Bad build :-/
 
 ## v1.5.14
 * Properly include the Windows installer
