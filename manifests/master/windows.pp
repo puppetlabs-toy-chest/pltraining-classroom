@@ -2,6 +2,7 @@
 # to download and configure the Windows Server for the installation of
 # the puppet agent.
 class classroom::master::windows {
+  require pe_repo::platform::windows_x86_64
   assert_private('This class should not be called directly')
 
   $publicdir = $classroom::params::publicdir
@@ -14,10 +15,6 @@ class classroom::master::windows {
   }
 
   $destination = "${publicdir}/current/windows-x86_64"
-  
-  file { $destination:
-    ensure => directory,
-  }
 
   file { "${destination}/setup_windows.ps1":
     source => "puppet:///modules/classroom/windows/setup_windows.ps1",
