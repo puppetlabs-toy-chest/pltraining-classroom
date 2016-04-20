@@ -40,6 +40,7 @@
     {"name":"pltraining/rbac",                "version_requirement":">= 0.0.2"},
     {"name":"pltraining/showoff",             "version_requirement":">= 0.0.1"},
     {"name":"pltraining/userprefs",           "version_requirement":">= 0.0.3"},
+    {"name":"pltraining/wetty",               "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/apache",              "version_requirement":">= 1.1.1"},
     {"name":"puppetlabs/concat",              "version_requirement":">= 1.1.1"},
     {"name":"puppetlabs/git",                 "version_requirement":">= 0.2.0"},
