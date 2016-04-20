@@ -1,7 +1,9 @@
 # This Class sets up the docker environment and containers for
 # the Infrastructure course
 #
-class classroom::course::infrastructure {
+class classroom::course::infrastructure (
+  $training_password = 'training'
+){
   $containers = {
     'test.puppetlabs.vm'  => ['10080:80'],
     'web1.puppetlabs.vm'  => ['20080:80'],
@@ -29,6 +31,12 @@ class classroom::course::infrastructure {
     source  => 'puppet:///modules/course_selector/scripts/course_selector.rb',
     require => Vcsrepo['/etc/puppetlabs/code/modules/course_selector'],
   }
+
+  user { 'training':
+    ensure   => present,
+    password => pw_hash($training_password, 'SHA-512', 'salt'),
+  }
+
 
   include wetty
 
