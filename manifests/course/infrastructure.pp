@@ -29,4 +29,7 @@ class classroom::course::infrastructure {
     source  => 'puppet:///modules/course_selector/scripts/course_selector.rb',
     require => Vcsrepo['/etc/puppetlabs/code/modules/course_selector'],
   }
+
+  include wetty
+
 }
