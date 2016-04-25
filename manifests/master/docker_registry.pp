@@ -20,7 +20,7 @@ class classroom::master::docker_registry {
   exec { "docker tag ${image_name} localhost:5000/${image_name}":
     path    => '/usr/bin/:/bin',
     unless  => "docker images | grep localhost:5000/${image_name}",
-    require => Docker::Image[$image_name],
+    require => [Docker::Image[$image_name],Docker::Image['registry']],
   }
   exec { "docker push localhost:5000/${image_name}":
     path    => $::path,

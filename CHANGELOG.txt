@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.17
+* Wetty support for Infrastructure Design
+* Improved windows agent install scripts
+
 ## v1.5.16
 * Corrected a conflict with the `pe_repo` windows class.
 
