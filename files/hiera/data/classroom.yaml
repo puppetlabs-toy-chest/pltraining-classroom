@@ -2,3 +2,4 @@
 puppet_enterprise::profile::console::rbac_session_timeout: 4320
 puppet_enterprise::profile::puppetdb::listen_address: '0.0.0.0'
 pe_repo::base_path: 'https://master.puppetlabs.vm:8140/packages/classroom'
+puppet_enterprise::master::puppetserver::jruby_environment_class_cache_enabled: true
