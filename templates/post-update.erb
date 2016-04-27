@@ -11,4 +11,11 @@ git reset --hard origin/master
 
 <% if @puppetversion == '3.7.2 (Puppet Enterprise 3.7.0)' %>
 [[ -f '/usr/local/bin/refresh_classes.sh' ]] && refresh_classes.sh
+<% else -%>
+# invalidate the environment cache
+CERT=/etc/puppetlabs/puppet/ssl/certs/master.puppetlabs.vm.pem
+KEY=/etc/puppetlabs/puppet/ssl/private_keys/master.puppetlabs.vm.pem
+CA=/etc/puppetlabs/puppet/ssl/ca/ca_crt.pem
+REQUEST=https://master.puppetlabs.vm:8140/puppet-admin-api/v1/environment-cache?environment=<%= @name %>
+curl -i --cert ${CERT} --key ${KEY} --cacert ${CA} -X DELETE ${REQUEST} >/dev/null 2>&1
 <% end %>
