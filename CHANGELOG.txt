@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.18
+
+* Improved environment cache behavior
+* Minor bugfixes
+
 ## v1.5.17
 * Wetty support for Infrastructure Design
 * Improved windows agent install scripts
