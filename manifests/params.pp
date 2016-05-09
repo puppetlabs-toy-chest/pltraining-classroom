@@ -68,7 +68,7 @@ class classroom::params {
 
   # Setup for Puppetfactory classes
   $session_id        = 'puppetlabs'
-  $courseware_source = '/home/centos/courseware'
+  $courseware_source = '/home/training/courseware'
 
   $role = $::hostname ? {
     /^master|classroom|puppetfactory$/ => 'master',
