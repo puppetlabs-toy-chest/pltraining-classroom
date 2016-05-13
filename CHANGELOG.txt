@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.19
+* Use abalone instead of wetty for Infrastructure Design
+
 ## v1.5.18
 
 * Improved environment cache behavior
