@@ -37,7 +37,8 @@ class classroom::course::infrastructure (
     password => pw_hash($training_password, 'SHA-512', 'salt'),
   }
 
-
-  include wetty
+  class {'abalone':
+    port => '80'
+  }
 
 }

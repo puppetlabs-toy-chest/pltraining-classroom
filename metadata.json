@@ -26,6 +26,7 @@
   "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching Puppet Labs training courses!\n    - Configures and sets up classroom environment for Puppet Classroom trainings.",
   "dependencies": [
     {"name":"arusso/stunnel",                 "version_requirement":">= 2.1.2"},
+    {"name":"binford2k/abalone"},
     {"name":"chocolatey/chocolatey",          "version_requirement":">= 1.2.0"},
     {"name":"cyberious/pget",                 "version_requirement":">= 1.1.0"},
     {"name":"dwerder/graphite",               "version_requirement":"5.16.1"},
@@ -40,7 +41,6 @@
     {"name":"pltraining/rbac",                "version_requirement":">= 0.0.2"},
     {"name":"pltraining/showoff",             "version_requirement":">= 0.0.1"},
     {"name":"pltraining/userprefs",           "version_requirement":">= 0.0.3"},
-    {"name":"pltraining/wetty",               "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/apache",              "version_requirement":">= 1.1.1"},
     {"name":"puppetlabs/concat",              "version_requirement":">= 1.1.1"},
     {"name":"puppetlabs/git",                 "version_requirement":">= 0.2.0"},
