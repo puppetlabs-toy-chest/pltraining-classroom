@@ -32,6 +32,14 @@ $master_ip = Read-Host -Prompt 'Input the IP Address of the Master'
 Write-Host "`n`nAdding entry to the hosts file`n`n"
 ac -Encoding UTF8 C:\Windows\system32\drivers\etc\hosts "$master_ip master.$DNSSuffix master"
 
+################################
+### Setup PowerShell Profile ###
+################################
+New-Item -ItemType directory -Path c:\puppetcode
+New-Item -path $profile -type file -force
+Write-Host "`n`nAdding PowerShell Profile`n`n"
+ac -Encoding UTF8 C:\Users\Administrator\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 "set-location c:\puppetcode"
+
 ###########################################
 ### Set password complexity requirement ###
 ###########################################
