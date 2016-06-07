@@ -8,7 +8,7 @@ class classroom::course::virtual::parser (
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere less distracting
       puppetcode       => '/var/opt/puppetcode',
-      map_environments => false,
+      map_environments => true,
       session_id       => $session_id,
     }
     class { 'classroom::master::showoff':
