@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.20
+
+* Improvment to powershell agent install script
+* Minor change to puppet 4 parser to enable automated testing
+
 ## v1.5.19
 * Use abalone instead of wetty for Infrastructure Design
 
