@@ -3,6 +3,7 @@ class classroom::course::puppetize (
   $offline      = $classroom::params::offline,
   $manageyum    = $classroom::params::manageyum,
   $time_servers = $classroom::params::time_servers,
+  $session_id   = $classroom::params::session_id,
 ) inherits classroom::params {
 
   if $::fqdn == 'master.puppetlabs.vm' {
@@ -70,6 +71,7 @@ class classroom::course::puppetize (
       if $::osfamily == 'windows' {
         # Windows Agents
         include chocolatey
+        include classroom::windows::disable_esc
         windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
       } else {
         # Linux Agents
