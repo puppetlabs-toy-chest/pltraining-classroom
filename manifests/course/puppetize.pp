@@ -44,8 +44,9 @@ class classroom::course::puppetize (
 
       class { 'puppetfactory':
         prefix               => false,
-        map_environments     => false,
-        map_modulepath       => true,
+        map_environments     => true,
+        puppetcode           => '/var/opt/puppetcode',
+        map_modulepath       => false,
         readonly_environment => true,
         dashboard            => "${showoff::root}/courseware/_files/tests",
         session_id           => $session_id,
