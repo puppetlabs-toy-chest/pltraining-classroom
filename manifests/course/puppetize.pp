@@ -72,6 +72,7 @@ class classroom::course::puppetize (
         # Windows Agents
         include chocolatey
         include classroom::windows::disable_esc
+        include classroom::windows::geotrust
         windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
       } else {
         # Linux Agents
