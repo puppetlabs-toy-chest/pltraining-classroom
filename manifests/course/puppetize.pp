@@ -13,14 +13,15 @@ class classroom::course::puppetize (
       group => 'root',
       mode  => '0644',
     }
-
-    # <Workaround for PE-15399>
-    pe_hocon_setting { 'file-sync.client.stream-file-threshold':
-      path    => '/etc/puppetlabs/puppetserver/conf.d/file-sync.conf',
-      setting => 'file-sync.client.stream-file-threshold',
-      value   => 512,
+    if(versioncmp($::pe_server_version, '2016.1.1') > 0) {
+      # <Workaround for PE-15399>
+      pe_hocon_setting { 'file-sync.client.stream-file-threshold':
+        path    => '/etc/puppetlabs/puppetserver/conf.d/file-sync.conf',
+        setting => 'file-sync.client.stream-file-threshold',
+        value   => 512,
+      }
+      # </Workaround> 
     }
-    # </Workaround> 
 
     ensure_packages(['gcc','zlib', 'zlib-devel'], {
       before => Package['puppetfactory']
