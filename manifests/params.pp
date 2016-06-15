@@ -67,7 +67,7 @@ class classroom::params {
   $r10k_basedir = "${confdir}/environments"
 
   # Setup for Puppetfactory classes
-  $session_id        = 'puppetlabs'
+  $session_id        = '12345'
   $courseware_source = '/home/training/courseware'
 
   $role = $::hostname ? {
