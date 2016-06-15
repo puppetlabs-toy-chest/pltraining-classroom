@@ -58,6 +58,8 @@ class classroom::course::puppetize (
       class { 'puppetfactory::facts':
         coursename => 'puppetizing',
       }
+      
+      include classroom::agent::git
 
       # Because PE writes a default, we have to do tricks to see if we've already managed this.
       # We don't want to stomp on instructors doing demonstrations.
