@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.21
+
+* Profile for puppetizing course
+* other changes to prepare for new course
+
 ## v1.5.20
 
 * Improvment to powershell agent install script
