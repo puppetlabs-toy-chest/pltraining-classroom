@@ -1,0 +1,16 @@
+---
+:backends:
+  - yaml
+
+:yaml:
+# datadir is empty here, so hiera uses its defaults:
+# - /etc/puppetlabs/code/environments/%{environment}/hieradata on *nix
+# - %CommonAppData%\PuppetLabs\code\environments\%{environment}\hieradata on Windows
+# When specifying a datadir, make sure the directory exists.
+  :datadir:
+
+:hierarchy:
+  - "%{::trusted.certname}"
+  - "%{osfamily}"
+  - common
+  - defaults

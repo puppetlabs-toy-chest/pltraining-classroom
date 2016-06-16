@@ -61,9 +61,9 @@ class classroom::course::puppetize (
     # Because PE writes a default, we have to do tricks to see if we've already managed this.
     # We don't want to stomp on instructors doing demonstrations.
     unless defined('$puppetlabs_class') {
-      file { '/etc/puppetlabs/code/hiera.yaml':
+      file { '/etc/puppetlabs/code-staging/hiera.yaml':
         ensure => file,
-        source => 'puppet:///modules/puppetfactory/puppetizing/hiera.yaml',
+        source => 'puppet:///modules/classroom/hiera/hiera.code-manager.yaml',
       }
     }
 
