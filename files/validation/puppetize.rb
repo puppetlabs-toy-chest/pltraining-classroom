@@ -6,16 +6,6 @@ require 'puppetdb'
 
 Puppet.initialize_settings
 
-def pinned_nodes(rule)
-  return nil unless rule.shift == 'or'
-
-  nodes = rule.collect do |item|
-    item[2] if (item[0] == '=' and item[1] == 'name')
-  end
-
-  nodes unless nodes.include? nil
-end
-
 classifier = PuppetClassify.new(
     "https://#{Puppet.settings[:server]}:4433/classifier-api",
     {
