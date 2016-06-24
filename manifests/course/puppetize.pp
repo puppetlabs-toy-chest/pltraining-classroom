@@ -57,6 +57,16 @@ class classroom::course::puppetize (
       gitlab_enabled       => false,
     }
 
+    package { ['puppetdb-ruby', 'colorize']:
+      ensure   => present,
+      provider => puppet_gem,
+    }
+
+    file { '/usr/local/bin/validate_classification.rb':
+      ensure => file,
+      mode   => '0755',
+      source => 'puppet:///modules/classroom/validation/puppetize.rb',
+    }
 
     # Because PE writes a default, we have to do tricks to see if we've already managed this.
     # We don't want to stomp on instructors doing demonstrations.
