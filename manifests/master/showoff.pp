@@ -16,6 +16,13 @@ class classroom::master::showoff (
     recurse => true,
     source  => $courseware_source,
     notify  => Exec['build_pdfs'],
+    require => File[$courseware_source],
+  }
+
+  # Create the courseware_source dir so the first puppet run doesn't error.
+  # The rake task will upload content to this dir for the presentation.
+  file { $courseware_source:
+    ensure => directory,
   }
 
   exec { 'build_pdfs':
