@@ -2,3 +2,5 @@ pkg/*
 log/*
 junit/*
 .vagrant
+Gemfile.lock
+
