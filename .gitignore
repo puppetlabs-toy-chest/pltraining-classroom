@@ -1,1 +1,4 @@
 pkg/*
+log/*
+junit/*
+.vagrant
