@@ -6,7 +6,7 @@ RSpec.configure do |c|
     :ipaddress                 => '127.0.0.1',
     :kernel                    => 'Linux',
     :operatingsystem           => 'CentOS',
-    :operatingsystemmajrelease => '6',
+    :operatingsystemmajrelease => '7',
     :osfamily                  => 'RedHat',
     :path                      => '/opt/puppetlabs/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin',
     :pe_concat_basedir         => '/opt/puppetlabs/puppet/cache/pe_concat',

@@ -1,0 +1,12 @@
+HOSTS:
+  master.puppetlabs.vm:
+    roles:
+      - master
+      - default
+    platform: centos-7-x86_64
+    hypervisor: vagrant
+    vagrant_memsize: 8192
+    vagrant_cpus: 4
+    box: pltraining/master-5.3
+CONFIG:
+  type: pe
