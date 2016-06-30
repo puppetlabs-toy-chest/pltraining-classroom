@@ -4,7 +4,6 @@ class classroom::course::virtual::code_management (
 ) inherits classroom::params {
  
   include r10k::mcollective
-  include puppet_enterprise::profile::mcollective::peadmin
   
   if $role == 'master' {
     class { 'puppetfactory':
@@ -22,5 +21,6 @@ class classroom::course::virtual::code_management (
     }
   } else {
     include r10k
+    include puppet_enterprise::profile::mcollective::peadmin
   }
 }
