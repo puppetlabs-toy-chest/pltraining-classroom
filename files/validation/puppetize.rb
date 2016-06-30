@@ -6,7 +6,25 @@ require 'puppetdb'
 
 Puppet.initialize_settings
 
-classifier = PuppetClassify.new(
+# TODO: This makes me sad sad.
+def pinned_nodes(rule)
+  return [] unless rule
+  return [] if rule.include? nil
+  # select only toplevel rules of format name = value, then return the values as an array
+  rule.select {|r| r[0] == '=' and r[1] == 'name' }.collect {|n| n[2] } rescue []
+end
+
+def matching_nodes(rule)
+  return [] unless rule
+  return [] if rule.include? nil
+  begin
+    $puppetdb.request('nodes', $classifier.rules.translate(rule)['query']).data
+  rescue => e
+    return []
+  end
+end
+
+$classifier = PuppetClassify.new(
     "https://#{Puppet.settings[:server]}:4433/classifier-api",
     {
       "ca_certificate_path" => Puppet.settings[:cacert],
@@ -15,7 +33,7 @@ classifier = PuppetClassify.new(
       "read_timeout"        => 90 # optional timeout, defaults to 90 if this key doesn't exist
     })
 
-puppetdb = PuppetDB::Client.new({
+$puppetdb = PuppetDB::Client.new({
     :server => "https://#{Puppet.settings[:server]}:8081/pdb/query",
     :pem    => {
         'ca_file' => Puppet.settings[:cacert],
@@ -23,47 +41,60 @@ puppetdb = PuppetDB::Client.new({
         'key'     => Puppet.settings[:hostprivkey],
     }}, 4)
 
-environments = classifier.environments.get_environments.collect { |env| env['name'] }
+environments = $classifier.environments.get_environments.collect { |env| env['name'] }
 environments.reject! { |env| ["agent-specified", "production"].include? env }
 
 results = {}
 environments.each do |student|
   errors = []
-  groups = classifier.groups.get_groups.select {|env| env['environment'] == student }
+  groups = $classifier.groups.get_groups.select {|env| env['environment'] == student }
 
   envgroups    = groups.select {|grp| grp['environment_trumps'] }
   parentgroups = groups.select {|grp| grp['parent'] == '00000000-0000-4000-8000-000000000000' and not grp['environment_trumps'] }
   childgroups  = groups - envgroups - parentgroups
 
-  child1rule   = ["and", childgroups.first['rule'], envgroups.first['rule']]
-  child2rule   = ["and", childgroups.last['rule'], envgroups.first['rule']]
+  envpinned    = pinned_nodes(envgroups.first['rule'])
+  parentpinned = pinned_nodes(parentgroups.first['rule'])
 
-  envpinned    = puppetdb.request('nodes', classifier.rules.translate(envgroups.first['rule'])['query']).data rescue []
-  parentpinned = puppetdb.request('nodes', classifier.rules.translate(parentgroups.first['rule'])['query']).data rescue []
-  child1pinned = puppetdb.request('nodes', classifier.rules.translate(child1rule)['query']).data rescue []
-  child2pinned = puppetdb.request('nodes', classifier.rules.translate(child2rule)['query']).data rescue []
+  envmatch    = matching_nodes(envgroups.first['rule'])
+  parentmatch = matching_nodes(parentgroups.first['rule'])
+  child1match = matching_nodes(["and", childgroups.first['rule'], envgroups.first['rule']])
+  child2match = matching_nodes(["and", childgroups.last['rule'], envgroups.first['rule']])
 
-  envwrong     = envpinned.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
-  parentwrong  = parentpinned.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
-  child1wrong  = child1pinned.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
-  child2wrong  = child2pinned.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
+  envpinwrong    = envpinned.reject { |n| n =~ /#{student}/ }
+  parentpinwrong = parentpinned.reject { |n| n =~ /#{student}/ }
 
+  envwrong     = envmatch.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
+  parentwrong  = parentmatch.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
+  child1wrong  = child1match.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
+  child2wrong  = child2match.reject { |n| n['certname'] =~ /#{student}/ }.collect { |n| n['certname'] }
+
+  # counting node groups
   errors << "Incorrect number of node groups (#{groups.size})" if groups.size != 4
   errors << "Incorrect number of environment groups (#{envgroups.size})" if envgroups.size != 1
   errors << "Incorrect number of parent classification groups (#{parentgroups.size})" if parentgroups.size != 1
   errors << "Incorrect number of child groups (#{childgroups.size})" if childgroups.size != 2
 
-  errors << "Incorrect number of nodes match the environment group (#{envpinned.size})" if envpinned.size != 2
-  errors << "Wrong nodes in env group: #{envwrong.inspect}" unless envwrong.empty?
+  # pinned nodes to env group
+  errors << "Incorrect number of nodes pinned to the environment group (#{envpinned.size})" if envpinned.size != 2
+  errors << "Wrong nodes pinned to env group: #{envpinwrong.inspect}" unless envpinwrong.empty?
+  # nodes matching env group (should be the same as pinned)
+  errors << "Incorrect number of nodes match the environment group (#{envmatch.size})" if envmatch.size != 2
+  errors << "Wrong nodes matching env group: #{envwrong.inspect}" unless envwrong.empty?
 
-  errors << "Incorrect number of nodes match the parent classification group (#{parentpinned.size})" if parentpinned.size != 2
-  errors << "Wrong nodes in parent group: #{parentwrong.inspect}" unless parentwrong.empty?
+  # pinned nodes to parent classification group
+  errors << "Incorrect number of nodes pinned to the parent group (#{parentpinned.size})" if parentpinned.size != 2
+  errors << "Wrong nodes pinned to parent group: #{parentpinwrong.inspect}" unless parentpinwrong.empty?
+  # nodes matching parent classification group (should be the same as pinned)
+  errors << "Incorrect number of nodes match the parent classification group (#{parentmatch.size})" if parentmatch.size != 2
+  errors << "Wrong nodes matching parent group: #{parentwrong.inspect}" unless parentwrong.empty?
 
-  errors << "Incorrect number of nodes match the '#{childgroups.first['name']}' group (#{child1pinned.size})" if child1pinned.size != 1
-  errors << "Wrong nodes in '#{childgroups.first['name']}' group: #{child1wrong.inspect}" unless child1wrong.empty?
-
-  errors << "Incorrect number of nodes match the '#{childgroups.last['name']}' group (#{child2pinned.size})" if child2pinned.size != 1
-  errors << "Wrong nodes in '#{childgroups.last['name']}' group: #{child2wrong.inspect}" unless child2wrong.empty?
+  # number of nodes matching child group 1
+  errors << "Incorrect number of nodes match the '#{childgroups.first['name']}' group (#{child1match.size})" if child1match.size != 1
+  errors << "Wrong nodes matching '#{childgroups.first['name']}' group: #{child1wrong.inspect}" unless child1wrong.empty?
+  # number of nodes matching child group 2
+  errors << "Incorrect number of nodes match the '#{childgroups.last['name']}' group (#{child2match.size})" if child2match.size != 1
+  errors << "Wrong nodes matching '#{childgroups.last['name']}' group: #{child2wrong.inspect}" unless child2wrong.empty?
 
   results[student] = errors
 end
