@@ -1,6 +1,12 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.22
+
+* Bugfix on managing puppet code for 2016.2
+* Basic beaker-rspec tests for several courses
+* additional validation for nodegroups in puppetizing
+
 ## v1.5.21
 
 * Profile for puppetizing course
