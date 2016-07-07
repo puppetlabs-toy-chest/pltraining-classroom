@@ -76,4 +76,7 @@ class classroom::master {
   # Add files required for labs (mostly for offline mode)
   include classroom::master::lab_files
 
+  # Configure performance logging
+  include classroom::master::perf_logging
+
 }
