@@ -2,6 +2,10 @@
 class classroom::master::perf_logging {
   assert_private('This class should not be called directly')
 
+  package { ['sysstat', 'tcpdump']:
+    ensure => present,
+  }
+
   file { '/usr/local/bin/classroom_performance':
     ensure => file,
     owner  => 'root',
