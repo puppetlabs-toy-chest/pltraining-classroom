@@ -13,25 +13,10 @@ class classroom::windows {
 
   include userprefs::npp
 
-  package { ['console2', 'putty', 'devbox-common.extension']:
+  package { ['console2', 'putty', 'unzip', 'devbox-common.extension']:
     ensure   => present,
     provider => 'chocolatey',
     require  => Class['chocolatey'],
-  }
- 
-  # The Chocolatey Unzip package is broken; use pget and a package resource.
-  pget { 'unzip':
-    source         => 'http://iweb.dl.sourceforge.net/project/gnuwin32/unzip/5.51-1/unzip-5.51-1.exe',
-    target         => 'C:/Windows/Temp',
-    targetfilename => 'unzip.exe',
-    before         => Package['GnuWin32: UnZip version 5.51'],
-  }
-  package { 'GnuWin32: UnZip version 5.51':
-    ensure          => present,
-    provider        => 'windows',
-    source          => 'C:/Windows/Temp/unzip.exe',
-    install_options => '/VERYSILENT',
-    require         => Package['devbox-common.extension'],
   }
 
   windows_env { 'PATH=C:\Program Files (x86)\GnuWin32\bin':
