@@ -71,7 +71,7 @@ class classroom::params {
   $courseware_source = '/home/training/courseware'
 
   $role = $::hostname ? {
-    /^master$|^classroom$|^puppetfactory$/ => 'master',
+    /^(master|classroom|puppetfactory)$/ => 'master',
     'proxy'                                => 'proxy',
     'adserver'                             => 'adserver',
     default                                => 'agent'
