@@ -1,6 +1,13 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.23
+
+* Remove duplicate parameter from fundamentals profile
+* Performance logging for the classroom
+* Cleanup workaround for missing package in Windows
+* Bugfix on managing puppet code for 2016.2 (Missing in last release)
+
 ## v1.5.22
 
 * Bugfix on managing puppet code for 2016.2
