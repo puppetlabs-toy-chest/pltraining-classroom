@@ -71,10 +71,10 @@ class classroom::params {
   $courseware_source = '/home/training/courseware'
 
   $role = $::hostname ? {
-    /^master|classroom|puppetfactory$/ => 'master',
-    'proxy'                            => 'proxy',
-    'adserver'                         => 'adserver',
-    default                            => 'agent'
+    /^master$|^classroom$|^puppetfactory$/ => 'master',
+    'proxy'                                => 'proxy',
+    'adserver'                             => 'adserver',
+    default                                => 'agent'
   }
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
