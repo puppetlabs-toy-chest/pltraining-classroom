@@ -61,6 +61,9 @@ class classroom::master {
     include classroom::master::repositories
   }
 
+  # Install showoff on the classroom master
+  include classroom::master::showoff
+
   # Ensure that time is set appropriately
   include classroom::master::time
 

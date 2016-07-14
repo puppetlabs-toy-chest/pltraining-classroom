@@ -9,11 +9,6 @@ class classroom::course::virtual::code_management (
 
     include classroom::master::showoff
 
-    # These are required by puppetfactory
-    package { ['gcc','zlib', 'zlib-devel']:
-      before => [ Package['puppetfactory'], Class['showoff'] ]
-    }
-
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere less distracting
       puppetcode => '/var/opt/puppetcode',
