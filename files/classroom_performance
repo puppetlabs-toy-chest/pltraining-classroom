@@ -2,16 +2,14 @@
 require 'json'
 require 'logger'
 require 'fileutils'
+require 'aws-sdk'
 
-TTL          = (2.5 * 60 * 60 * 24).to_i  # 2.5 days
 LOGGER       = Logger.new('/var/log/puppetlabs/classroom')
 LOGGER.level = Logger::DEBUG
 
 ## AWS configuration
-AWS_REGION = 's3-us-west-2.amazonaws.com'
-AWS_ACCESS = 'AKIAJZPNPIYQDXOJTFKA'
-AWS_SECRET = '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'
-AWS_BUCKET = 'classroom-performance'
+STATS_BUCKET = 'classroom-statistics'
+PERF_BUCKET  = 'classroom-performance'
 
 def display_help
   puts "This will take regular performance related snapshots and then upload"
@@ -24,52 +22,39 @@ def display_help
   puts "Interactive commands:"
   puts "  * log: Record a message into classroom log. This should be the only command you use."
   puts
-  puts "System commands (run via cron):"
+  puts "System commands:"
   puts "  * report: Upload classroom log for analysis."
   puts "  * snapshot: Take a periodic snapshot of classroom statistics."
   puts
 end
 
-# if the classroom infrastructure is older than TTL
-def time_to_report
-  files = Dir.glob('/etc/puppetlabs/puppet/ssl/certs/*').reject do |cert|
-    File.basename(cert) =~ /^(master\.|pe-internal-|ca\.)/
-  end
-  files.map! { |file| File.new(file).ctime }
-  files.sort!
-
-  # rough median, should indicate the age of the classroom infrastructure
-  Time.now > (files[files.length / 2] + TTL)
-end
 
 def submit_logs
-  require 'aws/s3'
-
-  event_id = JSON.parse(File.read('/home/training/courseware/showoff.json'))['key'] rescue nil || Time.now.to_i
-  filename = "classroom-perflogs-#{event_id}.tar.gz"
-  system("tar -cf /var/cache/#{filename} /var/log/puppetlabs/")
+  data = JSON.parse(File.read('/var/cache/showoff/courseware/stats/metadata.json')) rescue {}
+  event_id = data['event_id'] || Time.now.to_i
+  course   = data['course']   || 'none'
+  email    = data['email']    || 'none'
 
   begin
-    AWS::S3::DEFAULT_HOST.replace AWS_REGION
-    AWS::S3::Base.establish_connection!(
-      :access_key_id     => AWS_ACCESS,
-      :secret_access_key => AWS_SECRET
-    )
-    AWS::S3::S3Object.store(filename, open("/var/cache/#{filename}"), AWS_BUCKET)
+    # depends on root's credentials
+    s3 = Aws::S3::Resource.new(region:'us-west-2')
+
+    filename = "classroom-perflogs-#{course}-#{email}-#{event_id}.tar.gz"
+    system("tar -cf /var/cache/#{filename} /var/log/puppetlabs/")
+    obj = s3.bucket(PERF_BUCKET).object(filename)
+    obj.upload_file("/var/cache/#{filename}")
+
+    filename = "classroom-stats-#{course}-#{email}-#{event_id}.tar.gz"
+    system("tar -cf /var/cache/#{filename} /var/cache/showoff/courseware/stats/")
+    obj = s3.bucket(STATS_BUCKET).object(filename)
+    obj.upload_file("/var/cache/#{filename}")
+
   rescue => e
     LOGGER.warn "S3 upload failed. No network?"
     LOGGER.warn e.message
     LOGGER.debug e.backtrace
-
-    # Only a successful upload should stay
-    FileUtils.rm filename
   end
 
-end
-
-def already_reported
-  # if a file exists matching this pattern, then we've already submitted
-  not Dir.glob('/var/cache/classroom-perflogs*').empty?
 end
 
 def record_snapshot
@@ -80,15 +65,13 @@ def record_snapshot
   LOGGER.debug "-------------------------------- mpstat -P ALL -----------------------------\n#{`mpstat -P ALL`}"
 
   FileUtils.mkdir_p '/var/log/puppetlabs/classroom-traffic'
-  `tcpdump -G 30 -W 1 -w /var/log/puppetlabs/classroom-traffic/#{Time.now.to_i}.pcap -i any > /dev/null 2>&1 &`
+  `tcpdump -G 15 -W 1 -w /var/log/puppetlabs/classroom-traffic/#{Time.now.to_i}.pcap -i any > /dev/null 2>&1 &`
 end
 
 
 #### program starts ####
 case ARGV.shift
 when 'report'
-  exit 0 if already_reported
-  exit 0 unless time_to_report
   submit_logs
 
 when 'log'
