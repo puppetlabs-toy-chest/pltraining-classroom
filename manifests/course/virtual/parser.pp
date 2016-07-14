@@ -4,15 +4,20 @@ class classroom::course::virtual::parser (
 ) inherits classroom::params {
 
   if $role == 'master' {
+
+    include classroom::master::showoff
+
+    # These are required by puppetfactory
+    package { ['gcc','zlib', 'zlib-devel']:
+      before => [ Package['puppetfactory'], Class['showoff'] ]
+    }
+
     # Classroom for the parser course
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere less distracting
       puppetcode       => '/var/opt/puppetcode',
       map_environments => true,
       session_id       => $session_id,
-    }
-    class { 'classroom::master::showoff':
-      password => $session_id,
     }
   }
   else {

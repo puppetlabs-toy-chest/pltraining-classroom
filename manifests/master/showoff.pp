@@ -1,5 +1,4 @@
 class classroom::master::showoff (
-  Optional[String] $password,
   String $courseware_source = $classroom::params::courseware_source,
 ) inherits classroom::params {
   include stunnel
@@ -26,7 +25,7 @@ class classroom::master::showoff (
   }
 
   exec { 'build_pdfs':
-    command     => "rake watermark target=_files/share password=${password}",
+    command     => "rake watermark target=_files/share",
     cwd         => "${showoff::root}/courseware/",
     path        => '/bin:/usr/bin:/usr/local/bin',
     environment => ['HOME=/root'],
