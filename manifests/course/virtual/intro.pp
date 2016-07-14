@@ -2,8 +2,16 @@ class classroom::course::virtual::intro (
   $session_id = $classroom::params::session_id,
   $role       = $classroom::params::role,
 ) inherits classroom::params {
-  
+
   if $role == 'master' {
+
+    include classroom::master::showoff
+
+    # These are required by puppetfactory
+    package { ['gcc','zlib', 'zlib-devel']:
+      before => [ Package['puppetfactory'], Class['showoff'] ]
+    }
+
     # Classroom for Intro to puppet course
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere obvious
@@ -13,9 +21,6 @@ class classroom::course::virtual::intro (
       session_id       => $session_id,
     }
 
-    class { 'classroom::master::showoff':
-      password => $session_id,
-    }
   }
 
 }

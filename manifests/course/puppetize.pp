@@ -24,9 +24,11 @@ class classroom::course::puppetize (
       # </Workaround>
     }
 
+    include classroom::master::showoff
+
     # These are required by puppetfactory
     package { ['gcc','zlib', 'zlib-devel']:
-      before => Package['puppetfactory']
+      before => [ Package['puppetfactory'], Class['showoff'] ]
     }
 
     package { ['serverspec', 'puppetlabs_spec_helper']:

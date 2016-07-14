@@ -8,13 +8,11 @@ class classroom::course::virtual::fundamentals (
       mode  => '0644',
     }
 
-    class { 'classroom::master::showoff':
-      password => $session_id,
-    }
+    include classroom::master::showoff
 
-    ensure_packages(['gcc', 'zlib-devel'], {
-      before => Package['puppetfactory']
-    })
+    package {['gcc', 'zlib-devel']:
+      before => [ Package['puppetfactory'], Class['showoff'] ]
+    }
 
     package { ['serverspec', 'puppetlabs_spec_helper']:
       ensure   => present,

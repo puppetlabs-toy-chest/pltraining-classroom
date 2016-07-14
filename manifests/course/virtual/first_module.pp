@@ -5,6 +5,14 @@ class classroom::course::virtual::first_module (
 
   # Classroom for First Module
   if $role == 'master' {
+
+    include classroom::master::showoff
+
+    # These are required by puppetfactory
+    package { ['gcc','zlib', 'zlib-devel']:
+      before => [ Package['puppetfactory'], Class['showoff'] ]
+    }
+
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere obvious
       puppetcode       => '/var/puppetcode',
@@ -13,8 +21,5 @@ class classroom::course::virtual::first_module (
       session_id       => $session_id,
     }
 
-    class { 'classroom::master::showoff':
-      password => $session_id,
-    }
   }
 }

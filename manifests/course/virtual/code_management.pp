@@ -6,6 +6,14 @@ class classroom::course::virtual::code_management (
   include r10k::mcollective
 
   if $role == 'master' {
+
+    include classroom::master::showoff
+
+    # These are required by puppetfactory
+    package { ['gcc','zlib', 'zlib-devel']:
+      before => [ Package['puppetfactory'], Class['showoff'] ]
+    }
+
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere less distracting
       puppetcode => '/var/opt/puppetcode',
@@ -16,9 +24,6 @@ class classroom::course::virtual::code_management (
       remote => 'https://github.com/puppetlabs-education/classroom-control.git',
     }
 
-    class { 'classroom::master::showoff':
-      password => $session_id,
-    }
   } else {
     include r10k
     puppet_enterprise::mcollective::client { 'peadmin':
