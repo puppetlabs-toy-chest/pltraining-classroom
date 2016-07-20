@@ -4,6 +4,7 @@ class classroom::master::showoff (
   include stunnel
   require showoff
   require classroom::master::pdf_stack
+  require classroom::master::dependencies::rubygems
 
   # We use this resource so that any time an instructor uploads new content,
   # the PDF files will be rebuilt via the dependent exec statement

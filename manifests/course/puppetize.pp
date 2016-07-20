@@ -14,39 +14,11 @@ class classroom::course::puppetize (
       group => 'root',
       mode  => '0644',
     }
-    if(versioncmp($::pe_server_version, '2016.1.1') > 0) {
-      # <Workaround for PE-15399>
-      pe_hocon_setting { 'file-sync.client.stream-file-threshold':
-        path    => '/etc/puppetlabs/puppetserver/conf.d/file-sync.conf',
-        setting => 'file-sync.client.stream-file-threshold',
-        value   => 512,
-      }
-      # </Workaround>
-    }
 
+    include classroom::master::dependencies::dashboard
+    include classroom::master::dependencies::rubygems
+    include classroom::master::codemanager
     include classroom::master::showoff
-
-    # These are required by puppetfactory
-    package { ['gcc','zlib', 'zlib-devel']:
-      before => [ Package['puppetfactory'], Class['showoff'] ]
-    }
-
-    package { ['serverspec', 'puppetlabs_spec_helper']:
-      ensure   => present,
-      provider => gem,
-      require  => Package['puppet'],
-    }
-
-    # lol, this is great.
-    package { 'puppet':
-      ensure          => present,
-      provider        => gem,
-      install_options => { '--bindir' => '/tmp' },
-    }
-
-    class { 'puppetfactory::profile::showoff':
-      password => $session_id,
-    }
 
     class { 'puppetfactory':
       prefix               => false,
@@ -57,11 +29,6 @@ class classroom::course::puppetize (
       dashboard            => "${showoff::root}/courseware/_files/tests",
       session_id           => $session_id,
       gitlab_enabled       => false,
-    }
-
-    package { ['puppetdb-ruby', 'colorize']:
-      ensure   => present,
-      provider => puppet_gem,
     }
 
     file { '/usr/local/bin/validate_classification.rb':

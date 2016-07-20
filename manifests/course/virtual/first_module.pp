@@ -8,11 +8,6 @@ class classroom::course::virtual::first_module (
 
     include classroom::master::showoff
 
-    # These are required by puppetfactory
-    package { ['gcc','zlib', 'zlib-devel']:
-      before => [ Package['puppetfactory'], Class['showoff'] ]
-    }
-
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere obvious
       puppetcode       => '/var/puppetcode',
