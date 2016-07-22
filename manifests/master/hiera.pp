@@ -29,9 +29,9 @@ class classroom::master::hiera {
     target => "${classroom::codedir}/environments",
   }
 
-  file { "${hieradata}/defaults.yaml":
+  file { "${hieradata}/common.yaml":
     ensure  => file,
-    source  => 'puppet:///modules/classroom/hiera/data/defaults.yaml',
+    source  => 'puppet:///modules/classroom/hiera/data/common.yaml',
     replace => false,
   }
 
