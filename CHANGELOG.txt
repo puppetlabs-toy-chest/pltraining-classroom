@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.24
+
+* Improves single-server PDF generation
+
 ## v1.5.23
 
 * Remove duplicate parameter from fundamentals profile
