@@ -14,4 +14,14 @@ class classroom::windows::disable_esc {
     type  => dword,
     data  => '0',
   }
+  
+  # The settings don't take effect without logging out or restarting explorer.
+  # In general this is a code smell and should be avoided.
+  # The only reason to do it here is to make things run smoothly in the classroom.
+  exec { 'restart explorer to disable IEESC':
+    command     => '$(Stop-Process -Name Explorer)',
+    provider    => 'powershell',
+    subscribe   => [Registry::Value['IE_ESC_users'], Registry::Value['IE_ESC_admin']],
+    refreshonly => true,
+  }
 }
