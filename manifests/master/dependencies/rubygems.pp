@@ -7,7 +7,7 @@ class classroom::master::dependencies::rubygems {
   }
 
   # these are used for various scripts
-  package { ['puppetdb-ruby', 'colorize']:
+  package { ['puppetdb-ruby', 'colorize', 'puppetclassify']:
     ensure   => present,
     provider => puppet_gem,
   }
