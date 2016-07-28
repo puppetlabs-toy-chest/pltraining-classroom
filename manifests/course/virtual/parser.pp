@@ -7,11 +7,6 @@ class classroom::course::virtual::parser (
 
     include classroom::master::showoff
 
-    # These are required by puppetfactory
-    package { ['gcc','zlib', 'zlib-devel']:
-      before => [ Package['puppetfactory'], Class['showoff'] ]
-    }
-
     # Classroom for the parser course
     class { 'puppetfactory':
       # Put students' puppetcode directories somewhere less distracting
