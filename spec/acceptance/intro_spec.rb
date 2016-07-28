@@ -6,7 +6,6 @@ describe 'intro' do
       on master, "echo 'node default { include classroom::course::virtual::intro }' > /etc/puppetlabs/code/environments/production/manifests/site.pp"
     end
 
-
     it 'runs with changes' do
       on master, "puppet agent -t", :acceptable_exit_codes => [2]
     end

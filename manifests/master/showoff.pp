@@ -2,9 +2,9 @@ class classroom::master::showoff (
   String $courseware_source = $classroom::params::courseware_source,
 ) inherits classroom::params {
   include stunnel
+  require classroom::master::dependencies::rubygems
   require showoff
   require classroom::master::pdf_stack
-  require classroom::master::dependencies::rubygems
 
   # We use this resource so that any time an instructor uploads new content,
   # the PDF files will be rebuilt via the dependent exec statement
