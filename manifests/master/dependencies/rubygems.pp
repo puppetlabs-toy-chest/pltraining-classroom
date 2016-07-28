@@ -3,7 +3,7 @@ class classroom::master::dependencies::rubygems {
 
   # These are required by rubygems compiling native code
   package { ['gcc', 'zlib-devel']:
-    ensure => present;
+    ensure => present,
   }
 
   # these are used for various scripts
