@@ -23,6 +23,8 @@ class classroom::master::showoff (
   # The rake task will upload content to this dir for the presentation.
   file { $courseware_source:
     ensure => directory,
+    owner   => $showoff::user,
+    mode    => '0644',
   }
 
   exec { 'build_pdfs':
