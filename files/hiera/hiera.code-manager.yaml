@@ -13,4 +13,3 @@
   - "%{::trusted.certname}"
   - "%{osfamily}"
   - common
-  - defaults

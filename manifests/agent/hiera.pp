@@ -59,9 +59,9 @@ class classroom::agent::hiera {
     }
   }
 
-  file { "${hieradata}/defaults.yaml":
+  file { "${hieradata}/common.yaml":
     ensure  => file,
-    source  => 'puppet:///modules/classroom/hiera/data/defaults.yaml',
+    source  => 'puppet:///modules/classroom/hiera/data/common.yaml',
     replace => false,
   }
 }
