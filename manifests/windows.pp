@@ -6,7 +6,10 @@ class classroom::windows {
     groups => ['Administrators'],
   }
 
-  include chocolatey
+  class { 'chocolatey':
+    chocolatey_version => '0.9.10.3',
+  }
+
   include classroom::windows::geotrust
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
