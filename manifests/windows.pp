@@ -6,8 +6,10 @@ class classroom::windows {
     groups => ['Administrators'],
   }
 
-  class { 'chocolatey':
-    chocolatey_version => '0.9.10.3',
+  include chocolatey
+
+  chocolateyfeature { 'allowEmptyChecksums':
+    ensure => enabled,
   }
 
   include classroom::windows::geotrust
