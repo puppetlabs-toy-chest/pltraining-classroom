@@ -13,7 +13,8 @@ class classroom::course::infrastructure (
 
   $containers.each |$container_name,$ports| {
     dockeragent::node { $container_name:
-      ports => $ports,
+      ports      => $ports,
+      privileged => true,
     }
   }
 
