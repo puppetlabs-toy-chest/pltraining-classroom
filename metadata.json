@@ -16,7 +16,7 @@
     }
   ],
   "name": "pltraining-classroom",
-  "version": "1.5.26",
+  "version": "1.5.27",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",

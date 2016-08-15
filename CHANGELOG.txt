@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.27
+* Use privileged containers for ID
+* Change hiera paths
 
 ## v1.5.26
 * Bugfix for showoff dir
