@@ -23,11 +23,12 @@
 # $role      : What classroom role this node should play
 #
 class classroom (
-  $offline      = $classroom::params::offline,
-  $role         = $classroom::params::role,
-  $manageyum    = $classroom::params::manageyum,
-  $managerepos  = $classroom::params::managerepos,
-  $time_servers = $classroom::params::time_servers,
+  $offline        = $classroom::params::offline,
+  $role           = $classroom::params::role,
+  $manageyum      = $classroom::params::manageyum,
+  $managerepos    = $classroom::params::managerepos,
+  $manage_selinux = $classroom::params::manageselinux,
+  $time_servers   = $classroom::params::time_servers,
 ) inherits classroom::params {
   validate_bool($offline)
   validate_bool($manageyum)

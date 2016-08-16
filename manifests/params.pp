@@ -66,9 +66,12 @@ class classroom::params {
   $r10k_remote  = '/root/environments'
   $r10k_basedir = "${confdir}/environments"
 
-  # Setup for Puppetfactory classes
-  $session_id        = '12345'
-  $courseware_source = '/home/training/courseware'
+  # Default session ID for Puppetfactory classes
+  $session_id    = '12345'
+
+  # Showoff and printing stack configuration
+  $training_user  = 'training'
+  $manage_selinux = true
 
   $role = $::hostname ? {
     /^(master|classroom|puppetfactory)$/ => 'master',
