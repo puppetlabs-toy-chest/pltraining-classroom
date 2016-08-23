@@ -13,6 +13,7 @@ class classroom::course::virtual::appropriate_module (
       map_environments => true,
       container_name   => 'centosagent',
       session_id       => $session_id,
+      privileged       => true,
     }
 
   }

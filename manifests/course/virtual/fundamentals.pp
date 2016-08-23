@@ -18,6 +18,7 @@ class classroom::course::virtual::fundamentals (
       dashboard        => "${showoff::root}/courseware/_files/tests",
       session_id       => $session_id,
       gitlab_enabled   => false,
+      privileged       => true,
     }
 
 
