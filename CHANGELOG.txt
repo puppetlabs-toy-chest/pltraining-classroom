@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.29
+* Use privileged containers so services can run.
+
 ## v1.5.28
 * Fix courseware permissions allowing virtual presentations to succeed.
 
