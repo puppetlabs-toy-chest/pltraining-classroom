@@ -11,6 +11,7 @@ class classroom::windows {
   chocolateyfeature { 'allowEmptyChecksums':
     ensure => enabled,
   }
+  Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
 
   include classroom::windows::geotrust
   include classroom::windows::password_policy
