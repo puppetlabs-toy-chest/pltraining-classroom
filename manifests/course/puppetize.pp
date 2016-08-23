@@ -55,6 +55,11 @@ class classroom::course::puppetize (
       groups => ['Administrators'],
     }
 
+    chocolateyfeature { 'allowEmptyChecksums':
+      ensure => enabled,
+    }
+    Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
+
     # Windows Agents
     include chocolatey
     include classroom::windows::disable_esc
