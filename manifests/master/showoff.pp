@@ -34,7 +34,8 @@ class classroom::master::showoff (
     command     => "rake watermark target=_files/share",
     cwd         => "${showoff::root}/courseware/",
     path        => '/bin:/usr/bin:/usr/local/bin',
-    environment => ['HOME=/root'],
+    user        => $showoff::user,
+    environment => ['HOME=/tmp'],
     refreshonly => true,
   }
 
