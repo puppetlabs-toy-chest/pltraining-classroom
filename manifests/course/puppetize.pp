@@ -29,6 +29,7 @@ class classroom::course::puppetize (
       dashboard            => "${showoff::root}/courseware/_files/tests",
       session_id           => $session_id,
       gitlab_enabled       => false,
+      privileged           => true,
     }
 
     file { '/usr/local/bin/validate_classification.rb':

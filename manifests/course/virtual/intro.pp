@@ -14,6 +14,7 @@ class classroom::course::virtual::intro (
       map_environments => true,
       container_name   => 'centosagent',
       session_id       => $session_id,
+      privileged       => true,
     }
 
   }

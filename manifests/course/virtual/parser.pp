@@ -13,6 +13,7 @@ class classroom::course::virtual::parser (
       puppetcode       => '/var/opt/puppetcode',
       map_environments => true,
       session_id       => $session_id,
+      privileged       => true,
     }
   }
   else {
