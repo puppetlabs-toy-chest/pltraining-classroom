@@ -7,6 +7,11 @@ class classroom::windows {
   }
 
   include chocolatey
+
+  chocolateyfeature { 'allowEmptyChecksums':
+    ensure => enabled,
+  }
+
   include classroom::windows::geotrust
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
