@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.28
+* Fix courseware permissions allowing virtual presentations to succeed.
+
 ## v1.5.27
 * Use privileged containers for ID
 * Change hiera paths
