@@ -82,16 +82,16 @@ class classroom::params {
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
   if $role == 'master' {
-    if versioncmp(pick($::pe_server_version, $::pe_version), '2015.2.0') < 0 {
-      fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-training.ova/\n\n")
+    if versioncmp(pick($::pe_server_version, $::pe_version), '2016.1.1') < 0 {
+      fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-master.ova/\n\n")
     }
     # we expect instructors to have newer VMs. The student machine can be older.
-    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '3.0') < 0 {
-      fail("Your VM is out of date. ${download}/puppet-training.ova/\n\n")
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '4.1') < 0 {
+      fail("Your VM is out of date. ${download}/puppet-master.ova/\n\n")
     }
   }
   else {
-    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '2.34') < 0 {
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '4.0') < 0 {
       fail("Your VM is out of date. ${download}/puppet-student.ova/\n\n")
     }
   }
