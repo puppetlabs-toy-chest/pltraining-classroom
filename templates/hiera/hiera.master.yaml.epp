@@ -3,14 +3,15 @@
   - yaml
 
 :yaml:
-  :datadir: /etc/puppetlabs/code/hieradata
+  :datadir: <%= $hieradata %>
 
 :hierarchy:
   - "%{clientcert}"
   - overrides
   - "environments/%{environment}/hieradata/%{osfamily}"
-  - "environments/%{environment}/hieradata/%{clientcert}"
+  - "environments/%{environment}/hieradata/%{::trusted.certname}"
   - "environments/%{environment}/hieradata/common"
   - classroom
   - tuning
+  - sources
   - common

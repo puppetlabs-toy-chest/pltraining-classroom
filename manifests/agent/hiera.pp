@@ -40,7 +40,7 @@ class classroom::agent::hiera {
 
     file { "${classroom::workdir}/hiera.yaml":
       ensure  => file,
-      content => template('classroom/hiera/hiera.agent.yaml.erb'),
+      content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       replace => false,
     }
 
@@ -54,7 +54,7 @@ class classroom::agent::hiera {
     unless defined('$puppetlabs_class') {
       file { "${classroom::codedir}/hiera.yaml":
         ensure  => file,
-        content => template('classroom/hiera/hiera.agent.yaml.erb'),
+        content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       }
     }
   }

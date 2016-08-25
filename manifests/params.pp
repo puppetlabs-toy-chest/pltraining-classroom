@@ -32,6 +32,14 @@ class classroom::params {
   # manage git repositories for the student and the master
   $managerepos = true
 
+  # git configuration for the web-based alternative git workflow
+  $control_owner    = 'puppetlabs-education'
+  $per_student_repo = false
+  $gitserver        = {
+    'online'  => 'https://github.com',
+    'offline' => 'https://master.puppetlabs.vm:12345',
+  }
+
   # time servers to use if we've got network
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
 
