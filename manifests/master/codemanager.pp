@@ -44,6 +44,7 @@ class classroom::master::codemanager (
 
       dirtree { $hooks:
         ensure => present,
+        parents => true.
       }
 
       # install into system ruby too
