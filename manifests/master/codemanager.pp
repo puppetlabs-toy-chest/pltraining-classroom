@@ -63,6 +63,17 @@ class classroom::master::codemanager (
         ensure => link,
         target => '/etc/puppetfactory/hooks/create/cm_create_user.rb',
       }
+
+      # Drop in symlinks so the instructor can use these
+      file { '/usr/local/bin/cm_create_user.rb':
+        ensure => link,
+        target => '/etc/puppetfactory/hooks/create/cm_create_user.rb',
+      }
+      file { '/usr/local/bin/cm_delete_user.rb':
+        ensure => link,
+        target => '/etc/puppetfactory/hooks/delete/cm_delete_user.rb',
+      }
+
     }
 
   }
