@@ -74,5 +74,8 @@ class classroom::master::showoff (
       ensure => present,
     }
   }
+  
+  # TODO: this belongs in the master class, but should wait until we put the stack on all masters
+  include classroom::master::perf_logging
 
 }
