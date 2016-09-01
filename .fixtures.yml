@@ -11,7 +11,7 @@ fixtures:
     pe_hocon: "git@github.com:puppetlabs/puppetlabs-pe_hocon.git"
     pe_inifile:
       repo: "git@github.com:puppetlabs/puppetlabs-pe_inifile.git"
-      branch: "master"
+      branch: "2016.2.x"
     pe_java_ks: "git@github.com:puppetlabs/puppetlabs-pe_java_ks.git"
     pe_nginx: "git@github.com:puppetlabs/puppetlabs-pe_nginx.git"
     pe_postgresql: "git@github.com:puppetlabs/puppetlabs-pe_postgresql.git"
