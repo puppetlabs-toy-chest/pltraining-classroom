@@ -46,6 +46,9 @@ do
     "pp")  puppet parser validate ${file}
            ;;
 
+    "epp") puppet epp validate ${file}
+           ;;
+
     "erb") /opt/puppetlabs/puppet/bin/erb -P -x -T '-' ${file} | /opt/puppetlabs/puppet/bin/ruby -c >/dev/null
            ;;
 
