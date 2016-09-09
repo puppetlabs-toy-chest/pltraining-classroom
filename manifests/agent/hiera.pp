@@ -32,7 +32,7 @@ class classroom::agent::hiera {
       target => "${classroom::workdir}/hieradata",
     }
 
-    file { "${classroom::codedir}/hiera.yaml":
+    file { "${classroom::confdir}/hiera.yaml":
       ensure => link,
       target => "${classroom::workdir}/hiera.yaml",
       force  => true,
@@ -52,7 +52,7 @@ class classroom::agent::hiera {
 
     # Because PE writes a default, we have to do tricks to see if we've already managed this.
     unless defined('$puppetlabs_class') {
-      file { "${classroom::codedir}/hiera.yaml":
+      file { "${classroom::confdir}/hiera.yaml":
         ensure  => file,
         content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       }
