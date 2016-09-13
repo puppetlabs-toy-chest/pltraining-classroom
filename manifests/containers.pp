@@ -11,9 +11,11 @@ class classroom::containers {
   }
 
   dockeragent::node { "agent1.${::fqdn}":
-    ports => ['10080:80'],
+    ports      => ['10080:80'],
+    privileged => true,
   }
   dockeragent::node { "agent2.${::fqdn}":
     ports => ['20080:80'],
+    privileged => true,
   }
 }
