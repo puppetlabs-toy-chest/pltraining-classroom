@@ -11,15 +11,18 @@ class classroom::windows::alias {
     ensure => directory,
   }
 
-  file {"${alias_dir}/${psm_file}" :
+  file { 'alias_psd':
     ensure  => file,
     source  => "puppet:///modules/classroom/windows/${psm_file}",
+    path		=> "${alias_dir}/${psm_file}"
   }
 
   exec { "create_ps_datafile":
-    command   => "New-ModuleManifest -Path ${alias_dir}/${psd_file} -ModuleToProcess ${alias_dir}/${psm_file}; Import-Module alias",
-    creates   => "${alias_dir}/${psd_file}",
-    provider  => powershell,
+    command     => "New-ModuleManifest -Path ${alias_dir}/${psd_file} -ModuleToProcess ${alias_dir}/${psm_file}; Import-Module alias",
+    creates     => "${alias_dir}/${psd_file}",
+    refreshonly => true,
+    provider    => powershell,
+    subscribe   => File['alias_psd'],
   }
 
 }
