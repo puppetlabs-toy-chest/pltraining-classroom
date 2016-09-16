@@ -8,7 +8,7 @@ class classroom::agent {
   assert_private('This class should not be called directly')
 
   # A valid clientcert is not necessarily a valid Puppet environment name!
-  validate_re($classroom::machine_name, '^(?=.*[a-z])\A[a-z0-9][a-z0-9._]+\z', "The classroom environment supports lowercase alphanumeric names only. ${name} is not a valid name. Please ask your instructor for assistance.")
+  validate_re($classroom::machine_name, '^(?=.*[a-z])\A[a-z0-9][a-z0-9._]+\z', "The classroom environment supports lowercase alphanumeric hostnames only. '${classroom::machine_name}' is an invalid hostname. Please ask your instructor for assistance.")
 
   # windows goodies
   if $::osfamily  == 'windows' {
