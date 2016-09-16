@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.5.30
+* Hiera changes to support new path defaults
+* Use puppetlabs-chocolatey and other windows fixes
+
 ## v1.5.29
 * Use privileged containers so services can run.
 
