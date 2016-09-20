@@ -90,7 +90,8 @@ define classroom::agent::workdir (
       }
 
       file { "${workdir}/modules/profile/manifests/base.pp":
-        source => 'puppet:///modules/classroom/modules/profile/manifests/base.pp',
+        source  => 'puppet:///modules/classroom/modules/profile/manifests/base.pp',
+        replace => false,
       }
 
       file { "${workdir}/modules/role":
@@ -102,7 +103,8 @@ define classroom::agent::workdir (
       }
 
       file { "${workdir}/modules/role/manifests/classroom.pp":
-        source => 'puppet:///modules/classroom/modules/role/manifests/classroom.pp',
+        source  => 'puppet:///modules/classroom/modules/role/manifests/classroom.pp',
+        replace => false,
       }
 
       file { "${workdir}/hieradata":
