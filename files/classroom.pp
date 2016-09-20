@@ -2,7 +2,7 @@
 Package { allow_virtual => true }
 
 # top level tweaks for windows
-if $::osfamily == windows {
+if $::osfamily == 'windows' {
   # default package provider
   Package {
     provider => chocolatey,
