@@ -80,4 +80,8 @@ then
   echo
 fi
 
+# under certain circumstances (when you git commit and your CWD hasn't been added to the commit stage)
+# then Bash can lose track of your CWD and subsequent commands fail unexpectedly. This *should* recover it.
+cd && cd -
+
 quit $EXITCODE
