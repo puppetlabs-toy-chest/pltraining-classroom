@@ -49,12 +49,19 @@ define classroom::agent::workdir (
       force  => true,
     }
 
-    # Symlinks on the user desktop
+    # Install workdir symlink on the user desktop and configure git on
+    # Windows to handle various file types as binary.
     if $::osfamily == 'Windows' {
       $linkname = basename($workdir)
       file { "C:/Users/Administrator/Desktop/${linkname}":
         ensure => link,
         target => $workdir,
+      }
+
+      file { "${workdir}/.gitattributes":
+        ensure  => file,
+        source  => 'puppet:///modules/classroom/dot_gitattributes_windows',
+        require => Exec["initialize ${name} repo"],
       }
     }
 
@@ -105,11 +112,6 @@ define classroom::agent::workdir (
         ensure  => file,
         source  => 'puppet:///modules/classroom/pre-commit',
         mode    => '0755',
-        require => Exec["initialize ${name} repo"],
-      }
-      file { "${workdir}/.gitattributes":
-        ensure  => file,
-        source  => 'puppet:///modules/classroom/dot_gitattributes_windows',
         require => Exec["initialize ${name} repo"],
       }
     }
