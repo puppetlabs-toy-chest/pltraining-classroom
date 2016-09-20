@@ -17,17 +17,19 @@ define classroom::agent::workdir (
       $environment = undef
       $path = 'C:\Program Files\Git\bin'
       File {
-        owner => 'Administrator',
-        group => 'Users',
+        ensure => file,
+        owner  => 'Administrator',
+        group  => 'Users',
       }
     }
     default   : {
       $environment = 'HOME=/root'
       $path = '/usr/bin:/bin:/user/sbin:/usr/sbin'
       File {
-        owner => 'root',
-        group => 'root',
-        mode  => '0644',
+        ensure => file,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0644',
       }
     }
   }
@@ -68,14 +70,16 @@ define classroom::agent::workdir (
     if $populate {
       # create the modules, manifests, site.pp and environment.conf
       # environment.conf required to prevent caching
+      file { "${workdir}/manifests":
+        ensure => directory,
+      }
+
       file { "${workdir}/manifests/site.pp":
-        ensure  => file,
         source  => 'puppet:///modules/classroom/site.pp',
         replace => false,
       }
 
       file { "${workdir}/manifests/classroom.pp":
-        ensure  => file,
         source  => 'puppet:///modules/classroom/classroom.pp',
         replace => false,
       }
@@ -84,8 +88,30 @@ define classroom::agent::workdir (
         ensure => directory,
       }
 
-      file { "${workdir}/manifests":
+      file { "${workdir}/modules/profile":
         ensure => directory,
+      }
+
+      file { "${workdir}/modules/profile/manifests":
+        ensure => directory,
+      }
+
+      file { "${workdir}/modules/profile/manifests/base.pp":
+        source  => 'puppet:///modules/classroom/modules/profile/manifests/base.pp',
+        replace => false,
+      }
+
+      file { "${workdir}/modules/role":
+        ensure => directory,
+      }
+
+      file { "${workdir}/modules/role/manifests":
+        ensure => directory,
+      }
+
+      file { "${workdir}/modules/role/manifests/classroom.pp":
+        source  => 'puppet:///modules/classroom/modules/role/manifests/classroom.pp',
+        replace => false,
       }
 
       file { "${workdir}/hieradata":
@@ -109,7 +135,6 @@ define classroom::agent::workdir (
 
     if $::osfamily != 'windows' {
       file { "${workdir}/.git/hooks/pre-commit":
-        ensure  => file,
         source  => 'puppet:///modules/classroom/pre-commit',
         mode    => '0755',
         require => Exec["initialize ${name} repo"],
@@ -117,7 +142,6 @@ define classroom::agent::workdir (
     }
 
     file { "${workdir}/.gitignore":
-      ensure  => file,
       source  => 'puppet:///modules/classroom/dot_gitignore',
       require => Exec["initialize ${name} repo"],
     }
