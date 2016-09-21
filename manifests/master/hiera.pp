@@ -9,14 +9,19 @@ class classroom::master::hiera {
     mode  => '0644',
   }
 
-  $hieradata = "${classroom::codedir}/hieradata"
+  $hieradata = "${classroom::params::confdir}/hieradata"
 
-  file { "${classroom::codedir}/hiera.yaml":
-    ensure => file,
-    source => 'puppet:///modules/classroom/hiera/hiera.master.yaml',
+  # Because PE writes a default, we have to do tricks to see if we've already managed this.
+  # We don't want to stomp on instructors doing demonstrations.
+  unless defined('$puppetlabs_class') {
+    file { "${classroom::params::confdir}/hiera.yaml":
+      ensure  => file,
+      content => epp('classroom/hiera/hiera.master.yaml.epp', { 'hieradata' => $hieradata })
+    }
   }
 
-  # we need a global hieradata directory
+  # we need a global hieradata directory that's outside of the control repositories
+  # so that we can define sources for code manager (classroom::master::codemanager)
   file { $hieradata:
     ensure => directory,
   }
@@ -26,7 +31,7 @@ class classroom::master::hiera {
   # enabling the use of Hiera within student environments.
   file { "${hieradata}/environments":
     ensure => link,
-    target => "${classroom::codedir}/environments",
+    target => "${classroom::params::codedir}/environments",
   }
 
   file { "${hieradata}/common.yaml":
@@ -37,8 +42,9 @@ class classroom::master::hiera {
 
   # classroom parameters
   file { "${hieradata}/classroom.yaml":
-    ensure => file,
-    source => 'puppet:///modules/classroom/hiera/data/classroom.yaml',
+    ensure  => file,
+    source  => 'puppet:///modules/classroom/hiera/data/classroom.yaml',
+    replace => false,
   }
 
   # overrides for the master, but allow the instructor to edit

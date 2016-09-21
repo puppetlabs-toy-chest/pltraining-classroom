@@ -3,4 +3,5 @@ log/*
 junit/*
 .vagrant
 Gemfile.lock
+.bundle/
 

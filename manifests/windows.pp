@@ -7,9 +7,18 @@ class classroom::windows {
   }
 
   include chocolatey
+
+  chocolateyfeature { 'allowEmptyChecksums':
+    ensure => enabled,
+  }
+  Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
+
   include classroom::windows::geotrust
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
+  include classroom::windows::alias
+
+  windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin' : }
 
   include userprefs::npp
 
@@ -17,10 +26,6 @@ class classroom::windows {
     ensure   => present,
     provider => 'chocolatey',
     require  => Class['chocolatey'],
-  }
-
-  windows_env { 'PATH=C:\Program Files (x86)\GnuWin32\bin':
-    require   => Package['GnuWin32: UnZip version 5.51'],
   }
 
   ini_setting { 'certname':

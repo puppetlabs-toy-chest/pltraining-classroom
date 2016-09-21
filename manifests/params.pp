@@ -32,6 +32,14 @@ class classroom::params {
   # manage git repositories for the student and the master
   $managerepos = true
 
+  # git configuration for the web-based alternative git workflow
+  $control_owner    = 'puppetlabs-education'
+  $per_student_repo = false
+  $gitserver        = {
+    'online'  => 'https://github.com',
+    'offline' => 'https://master.puppetlabs.vm:12345',
+  }
+
   # time servers to use if we've got network
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
 
@@ -66,9 +74,12 @@ class classroom::params {
   $r10k_remote  = '/root/environments'
   $r10k_basedir = "${confdir}/environments"
 
-  # Setup for Puppetfactory classes
-  $session_id        = '12345'
-  $courseware_source = '/home/training/courseware'
+  # Default session ID for Puppetfactory classes
+  $session_id    = '12345'
+
+  # Showoff and printing stack configuration
+  $training_user  = 'training'
+  $manage_selinux = true
 
   $role = $::hostname ? {
     /^(master|classroom|puppetfactory)$/ => 'master',
@@ -79,16 +90,16 @@ class classroom::params {
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
   if $role == 'master' {
-    if versioncmp(pick($::pe_server_version, $::pe_version), '2015.2.0') < 0 {
-      fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-training.ova/\n\n")
+    if versioncmp(pick($::pe_server_version, $::pe_version), '2016.1.1') < 0 {
+      fail("Your Puppet Enterprise installation is out of date. ${download}/puppet-master.ova/\n\n")
     }
     # we expect instructors to have newer VMs. The student machine can be older.
-    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '3.0') < 0 {
-      fail("Your VM is out of date. ${download}/puppet-training.ova/\n\n")
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '4.1') < 0 {
+      fail("Your VM is out of date. ${download}/puppet-master.ova/\n\n")
     }
   }
   else {
-    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '2.34') < 0 {
+    if $::classroom_vm_release and versioncmp($::classroom_vm_release, '4.0') < 0 {
       fail("Your VM is out of date. ${download}/puppet-student.ova/\n\n")
     }
   }

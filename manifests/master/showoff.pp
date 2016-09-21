@@ -1,10 +1,13 @@
 class classroom::master::showoff (
-  String $courseware_source = $classroom::params::courseware_source,
+  String $training_user = $classroom::params::training_user,
 ) inherits classroom::params {
   include stunnel
   require classroom::master::dependencies::rubygems
   require showoff
   require classroom::master::pdf_stack
+
+  # where the source files are uploaded by the instructor's tooling
+  $courseware_source = "/home/${training_user}/courseware"
 
   # We use this resource so that any time an instructor uploads new content,
   # the PDF files will be rebuilt via the dependent exec statement
@@ -23,7 +26,7 @@ class classroom::master::showoff (
   # The rake task will upload content to this dir for the presentation.
   file { $courseware_source:
     ensure => directory,
-    owner   => $showoff::user,
+    owner   => $training_user,
     mode    => '0644',
   }
 
@@ -31,7 +34,8 @@ class classroom::master::showoff (
     command     => "rake watermark target=_files/share",
     cwd         => "${showoff::root}/courseware/",
     path        => '/bin:/usr/bin:/usr/local/bin',
-    environment => ['HOME=/root'],
+    user        => $showoff::user,
+    environment => ['HOME=/tmp'],
     refreshonly => true,
   }
 

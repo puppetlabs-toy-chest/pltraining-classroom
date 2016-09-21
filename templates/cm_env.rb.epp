@@ -1,0 +1,98 @@
+#! /usr/bin/env ruby
+require 'yaml'
+require 'optparse'
+require 'fileutils'
+require 'hocon'
+require 'hocon/parser/config_document_factory'
+require 'hocon/config_value_factory'
+
+SOURCES = '/etc/puppetlabs/puppet/hieradata/sources.yaml'
+MEEP    = '/etc/puppetlabs/enterprise/conf.d/common.conf'
+PATTERN = '<%= $gitserver %>/%s/<%= $control_repo %>'
+NAME    = File.basename($PROGRAM_NAME)
+
+options = {}
+optparse = OptionParser.new { |opts|
+  opts.banner = "Usage : #{NAME} <username>
+
+Add or remove a user's control repository to Code Manager sources.
+"
+
+  opts.on("-o", "--output", "Print resulting file to stdout.") do
+    options[:output] = true
+  end
+
+  opts.on("-n", "--noop", "Don't save updated file.") do
+    options[:noop] = true
+  end
+
+  opts.separator('')
+
+  opts.on("-h", "--help", "Displays this help") do
+    puts opts
+    exit
+  end
+}
+optparse.parse!
+
+if ARGV.size != 1
+  puts "Please call this script with the name of a user."
+  puts "  example usage: #{NAME} <username>"
+  exit 1
+end
+
+user   = ARGV[0].downcase
+source = {
+  'remote'  => sprintf(PATTERN, user),
+  'prefix'  => true,
+}
+
+File.open(SOURCES, 'w') { |f| f.write( { 'puppet_enterprise::master::code_manager::sources' => {} }.to_yaml) } unless File.exist? SOURCES
+File.open(MEEP, 'w')    { |f| f.write('') } unless File.exist? MEEP
+
+File.open(SOURCES) do |file|
+  # make sure we don't have any concurrency issues
+  file.flock(File::LOCK_EX)
+
+  # We need to duplicate the sources list in the MEEP config for recovery options
+  # I'd like to add it to code-manager.conf too and avoid the delay of running
+  # puppet, but that's a race condition that we cannot accept.
+  File.open(MEEP) do |anotherfile|
+    anotherfile.flock(File::LOCK_EX)
+
+    sources = YAML.load_file(SOURCES)
+    meep = Hocon::Parser::ConfigDocumentFactory.parse_file(MEEP)
+
+    # look at the script name to determine mode.
+    # We do this instead of an argument so it can be a Puppetfactory hook.
+    if NAME =~ /create/
+      sources['puppet_enterprise::master::code_manager::sources'][user] = source
+      meep = meep.set_config_value(
+                  "\"puppet_enterprise::master::code_manager::sources\".#{user}",
+                  Hocon::ConfigValueFactory.from_any_ref(source)
+                )
+
+      puts "Created Code Manager user #{user}"
+
+    elsif NAME =~ /delete/
+      sources['puppet_enterprise::master::code_manager::sources'].delete user rescue nil
+      meep = meep.remove_value("\"puppet_enterprise::master::code_manager::sources\".#{user}")
+      puts "Removed Code Manager user #{user}"
+
+    else
+      puts "Script name #{NAME} unknown"
+      exit 1
+    end
+
+    # Ruby 1.8.7, why don't you just go away now
+    unless options[:noop]
+      File.open(SOURCES, 'w') { |f| f.write(sources.to_yaml) }
+      File.open(MEEP, 'w')    { |f| f.write(meep.render)     }
+    end
+
+    if options[:output]
+      puts sources.to_yaml
+      puts meep.render
+    end
+  end
+end

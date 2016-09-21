@@ -1,8 +1,6 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
   $offline      = $classroom::params::offline,
-  $manageyum    = $classroom::params::manageyum,
-  $time_servers = $classroom::params::time_servers,
   $session_id   = $classroom::params::session_id,
 ) inherits classroom::params {
   # TODO: This class needs some refactoring, too much cutty-pastey
@@ -17,8 +15,8 @@ class classroom::course::puppetize (
 
     include classroom::master::dependencies::dashboard
     include classroom::master::dependencies::rubygems
-    include classroom::master::codemanager
     include classroom::master::showoff
+    include classroom::master::hiera
 
     class { 'puppetfactory':
       prefix               => false,
@@ -29,6 +27,7 @@ class classroom::course::puppetize (
       dashboard            => "${showoff::root}/courseware/_files/tests",
       session_id           => $session_id,
       gitlab_enabled       => false,
+      privileged           => true,
     }
 
     file { '/usr/local/bin/validate_classification.rb':
@@ -37,13 +36,9 @@ class classroom::course::puppetize (
       source => 'puppet:///modules/classroom/validation/puppetize.rb',
     }
 
-    # Because PE writes a default, we have to do tricks to see if we've already managed this.
-    # We don't want to stomp on instructors doing demonstrations.
-    unless defined('$puppetlabs_class') {
-      file { '/etc/puppetlabs/code-staging/hiera.yaml':
-        ensure => file,
-        source => 'puppet:///modules/classroom/hiera/hiera.code-manager.yaml',
-      }
+    class { 'classroom::master::codemanager':
+      control_repo => 'classroom-control-pi.git',
+      offline      => $offline,
     }
 
   } elsif $::osfamily == 'windows' {
@@ -53,6 +48,11 @@ class classroom::course::puppetize (
       ensure => present,
       groups => ['Administrators'],
     }
+
+    chocolateyfeature { 'allowEmptyChecksums':
+      ensure => enabled,
+    }
+    Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
 
     # Windows Agents
     include chocolatey

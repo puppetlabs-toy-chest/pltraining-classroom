@@ -13,6 +13,7 @@ class classroom::course::virtual::code_management (
       # Put students' puppetcode directories somewhere less distracting
       puppetcode => '/var/opt/puppetcode',
       session_id       => $session_id,
+      privileged       => true,
     }
 
     class { 'r10k':
