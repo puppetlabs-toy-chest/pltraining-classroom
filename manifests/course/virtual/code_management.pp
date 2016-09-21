@@ -10,9 +10,9 @@ class classroom::course::virtual::code_management (
     include classroom::master::showoff
 
     class { 'puppetfactory':
-      # Put students' puppetcode directories somewhere less distracting
-      puppetcode => '/var/opt/puppetcode',
-      session_id       => $session_id,
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "R10k", "ShellUser", "UserEnvironment" ],
+      usersuffix       => 'puppetlabs.vm',
+      session          => $session_id,
       privileged       => true,
     }
 
