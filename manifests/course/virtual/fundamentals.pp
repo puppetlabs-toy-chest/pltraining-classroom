@@ -14,8 +14,10 @@ class classroom::course::virtual::fundamentals (
     include classroom::master::dependencies::dashboard
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "R10k", "ShellUser", "UserEnvironment" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      controlrepo      => 'classroom-control-vf.git',
       repomodel        => 'peruser',
+      usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",
       session          => $session_id,
       privileged       => true,
@@ -25,11 +27,10 @@ class classroom::course::virtual::fundamentals (
       coursename => 'fundamentals',
     }
 
-#     class { 'classroom::master::codemanager':
-#       control_repo     => 'classroom-control-vf.git',
-#       per_student_repo => true,
-#       offline          => $offline,
-#     }
+    class { 'classroom::master::codemanager':
+      control_repo     => 'classroom-control-vf.git',
+      offline          => $offline,
+    }
 
   }
 }

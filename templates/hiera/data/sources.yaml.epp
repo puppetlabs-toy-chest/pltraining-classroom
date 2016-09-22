@@ -2,4 +2,4 @@
 puppet_enterprise::profile::master::code_manager_auto_configure: true
 puppet_enterprise::master::code_manager::sources:
   main:
-    remote: <%= $gitserver %>/<%= $control_repo %>
+    remote: <%= $gitserver %>/<%= $control_owner %>/<%= $control_repo %>
