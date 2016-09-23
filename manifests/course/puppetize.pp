@@ -18,16 +18,14 @@ class classroom::course::puppetize (
     include classroom::master::showoff
     include classroom::master::hiera
 
+
     class { 'puppetfactory':
-      prefix               => false,
-      map_environments     => true,
-      puppetcode           => '/var/opt/puppetcode',
-      map_modulepath       => false,
-      readonly_environment => true,
-      dashboard            => "${showoff::root}/courseware/_files/tests",
-      session_id           => $session_id,
-      gitlab_enabled       => false,
-      privileged           => true,
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      controlrepo      => 'classroom-control-pi.git',
+      repomodel        => 'single',
+      usersuffix       => $classroom::params::usersuffix,
+      session          => $session_id,
+      privileged       => true,
     }
 
     file { '/usr/local/bin/validate_classification.rb':

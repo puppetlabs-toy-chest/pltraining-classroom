@@ -9,11 +9,11 @@ class classroom::course::virtual::intro (
 
     # Classroom for Intro to puppet course
     class { 'puppetfactory':
-      # Put students' puppetcode directories somewhere obvious
-      puppetcode       => '/root/puppetcode',
-      map_environments => true,
-      container_name   => 'centosagent',
-      session_id       => $session_id,
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
+      puppetcode       => $classroom::params::workdir,
+      modulepath       => 'readwrite',
+      usersuffix       => $classroom::params::usersuffix,
+      session          => $session_id,
       privileged       => true,
     }
 

@@ -10,14 +10,15 @@ class classroom::course::virtual::code_management (
     include classroom::master::showoff
 
     class { 'puppetfactory':
-      # Put students' puppetcode directories somewhere less distracting
-      puppetcode => '/var/opt/puppetcode',
-      session_id       => $session_id,
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "R10k", "ShellUser" ],
+      controlrepo      => 'classroom-control-mpc.git',
+      usersuffix       => $classroom::params::usersuffix,
+      session          => $session_id,
       privileged       => true,
     }
 
     class { 'r10k':
-      remote => 'https://github.com/puppetlabs-education/classroom-control.git',
+      remote => 'https://github.com/puppetlabs-education/classroom-control-mpc.git',
     }
 
   } else {

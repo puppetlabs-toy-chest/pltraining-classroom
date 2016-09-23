@@ -7,12 +7,12 @@ class classroom::course::virtual::parser (
 
     include classroom::master::showoff
 
-    # Classroom for the parser course
     class { 'puppetfactory':
-      # Put students' puppetcode directories somewhere less distracting
-      puppetcode       => '/var/opt/puppetcode',
-      map_environments => true,
-      session_id       => $session_id,
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
+      puppetcode       => $classroom::params::workdir,
+      modulepath       => 'readwrite',
+      usersuffix       => $classroom::params::usersuffix,
+      session          => $session_id,
       privileged       => true,
     }
   }

@@ -9,11 +9,11 @@ class classroom::course::virtual::first_module (
     include classroom::master::showoff
 
     class { 'puppetfactory':
-      # Put students' puppetcode directories somewhere obvious
-      puppetcode       => '/var/puppetcode',
-      map_environments => true,
-      container_name   => 'centosagent',
-      session_id       => $session_id,
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
+      puppetcode       => $classroom::params::workdir,
+      modulepath       => 'readwrite',
+      usersuffix       => $classroom::params::usersuffix,
+      session          => $session_id,
       privileged       => true,
     }
 
