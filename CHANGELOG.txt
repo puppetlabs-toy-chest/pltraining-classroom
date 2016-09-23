@@ -1,6 +1,18 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.0
+
+* Updated profiles for classes
+* Updates to work with puppetfactory changes
+* Added "replace" attribute to prevent changing student's code
+* Make sure to install the Windows-specific .gitattributes file properly
+* Other windows-specific fixes for Fundamentals
+* Added new profile and role modules to the student work directory
+* Update site.pp to include a role class so we can allude to the roles and  
+  profiles pattern later in the course.
+* Added repo for stunnel and showoff for rspec testig
+
 ## v1.5.31
 * Moved `puppetlabs/windows` dependencies here so we can manage them better.
 * Added Windows version of the `validate_erb` function.
