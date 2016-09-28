@@ -21,7 +21,7 @@ class classroom::course::puppetize (
 
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ],
       controlrepo      => 'classroom-control-pi.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
