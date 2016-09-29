@@ -1,6 +1,7 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
   $instructor_github_account,
+  $gitserver   = undef,
   $offline      = $classroom::params::offline,
   $session_id   = $classroom::params::session_id,
 ) inherits classroom::params {
@@ -36,6 +37,7 @@ class classroom::course::puppetize (
     }
 
     class { 'classroom::master::codemanager':
+      gitserver     => $gitserver,
       control_repo  => 'classroom-control-pi.git',
       control_owner => $instructor_github_account,
       offline       => $offline,
@@ -57,6 +59,7 @@ class classroom::course::puppetize (
     # Windows Agents
     include chocolatey
     include classroom::windows::disable_esc
+    include classroom::windows::enable_rdp
     include classroom::windows::geotrust
     windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
   }

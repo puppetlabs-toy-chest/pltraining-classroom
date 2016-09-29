@@ -1,5 +1,6 @@
 class classroom::master::codemanager (
   $control_repo     = undef,
+  $gitserver       = undef,
   $offline          = $classroom::params::offline,
   $control_owner    = $classroom::params::control_owner,
 ) inherits classroom::params {
@@ -7,9 +8,11 @@ class classroom::master::codemanager (
 
   if $control_repo {
     $hieradata = "${classroom::params::confdir}/hieradata"
-    $gitserver = $offline ? {
-      true  => $classroom::params::gitserver['offline'],
-      false => $classroom::params::gitserver['online'],
+    if !$gitserver {
+      $gitserver = $offline ? {
+        true  => $classroom::params::gitserver['offline'],
+        false => $classroom::params::gitserver['online'],
+      }
     }
 
     pe_hocon_setting { 'enable code manager':
