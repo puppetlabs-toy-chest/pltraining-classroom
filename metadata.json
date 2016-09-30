@@ -68,5 +68,6 @@
     {"name":"puppet/download_file",           "version_requirement":">= 1.0.0"},
     {"name":"puppet/iis",                     "version_requirement":">= 2.0.0"},
     {"name":"puppet/windowsfeature",          "version_requirement":">= 1.0.0"}
+    {"name":"puppet/staging",                 "version_requirement":">= 2.0.1"}
   ]
 }
