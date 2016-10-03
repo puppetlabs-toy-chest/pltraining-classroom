@@ -16,7 +16,7 @@
     }
   ],
   "name": "pltraining-classroom",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",
@@ -67,7 +67,7 @@
     {"name":"puppetlabs/chocolatey",          "version_requirement":">= 0.8.0"},
     {"name":"puppet/download_file",           "version_requirement":">= 1.0.0"},
     {"name":"puppet/iis",                     "version_requirement":">= 2.0.0"},
-    {"name":"puppet/windowsfeature",          "version_requirement":">= 1.0.0"}
+    {"name":"puppet/windowsfeature",          "version_requirement":">= 1.0.0"},
     {"name":"puppet/staging",                 "version_requirement":">= 2.0.1"}
   ]
 }
