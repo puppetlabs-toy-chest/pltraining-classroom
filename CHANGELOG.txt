@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.1
+* Staging module dependency
+
 ## v1.6.0
 
 * Updated profiles for classes
