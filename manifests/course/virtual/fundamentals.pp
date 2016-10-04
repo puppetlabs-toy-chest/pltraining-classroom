@@ -1,4 +1,5 @@
 class classroom::course::virtual::fundamentals (
+  $control_owner,
   $offline    = $classroom::params::offline,
   $session_id = $classroom::params::session_id,
 ) inherits classroom::params {
@@ -28,8 +29,9 @@ class classroom::course::virtual::fundamentals (
     }
 
     class { 'classroom::master::codemanager':
-      control_repo     => 'classroom-control-vf.git',
-      offline          => $offline,
+      control_owner => $control_owner,
+      control_repo  => 'classroom-control-vf.git',
+      offline       => $offline,
     }
 
   }
