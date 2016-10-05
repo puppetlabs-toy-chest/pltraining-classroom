@@ -1,5 +1,6 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
+  $control_owner,
   $offline      = $classroom::params::offline,
   $session_id   = $classroom::params::session_id,
 ) inherits classroom::params {
@@ -35,8 +36,9 @@ class classroom::course::puppetize (
     }
 
     class { 'classroom::master::codemanager':
-      control_repo => 'classroom-control-pi.git',
-      offline      => $offline,
+      control_owner => $control_owner,
+      control_repo  => 'classroom-control-pi.git',
+      offline       => $offline,
     }
 
   } elsif $::osfamily == 'windows' {
