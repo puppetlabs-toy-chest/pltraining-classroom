@@ -10,7 +10,7 @@ class classroom::course::virtual::code_management (
     include classroom::master::showoff
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "R10k", "ShellUser" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "R10k", "ShellUser", "Gitviz" ],
       controlrepo      => 'classroom-control-mpc.git',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
