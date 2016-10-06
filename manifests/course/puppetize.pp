@@ -1,5 +1,6 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
+  $gitserver   = undef,
   $control_owner,
   $offline      = $classroom::params::offline,
   $session_id   = $classroom::params::session_id,
@@ -21,7 +22,7 @@ class classroom::course::puppetize (
 
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ],
       controlrepo      => 'classroom-control-pi.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
@@ -36,6 +37,7 @@ class classroom::course::puppetize (
     }
 
     class { 'classroom::master::codemanager':
+      gitserver     => $gitserver,
       control_owner => $control_owner,
       control_repo  => 'classroom-control-pi.git',
       offline       => $offline,
@@ -57,6 +59,7 @@ class classroom::course::puppetize (
     # Windows Agents
     include chocolatey
     include classroom::windows::disable_esc
+    include classroom::windows::enable_rdp
     include classroom::windows::geotrust
     windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
   }
