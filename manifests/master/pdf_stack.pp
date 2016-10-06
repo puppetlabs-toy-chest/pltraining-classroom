@@ -6,7 +6,7 @@ class classroom::master::pdf_stack {
     enabled             => '1',
     gpgcheck            => '1',
     gpgkey              => 'https://copr-be.cloud.fedoraproject.org/results/robert/gcj/pubkey.gpg',
-    skip_if_unavailable => 'True',
+    skip_if_unavailable => true,
   }
 
   yumrepo { 'robert-pdftk':
@@ -16,7 +16,7 @@ class classroom::master::pdf_stack {
     enabled             => '1',
     gpgcheck            => '1',
     gpgkey              => 'https://copr-be.cloud.fedoraproject.org/results/robert/pdftk/pubkey.gpg',
-    skip_if_unavailable => 'True',
+    skip_if_unavailable => true,
     require             => Yumrepo['robert-gcj'],
   }
 
