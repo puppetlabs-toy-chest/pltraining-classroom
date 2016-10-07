@@ -1,6 +1,5 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
-  $gitserver   = undef,
   $control_owner,
   $offline      = $classroom::params::offline,
   $session_id   = $classroom::params::session_id,
@@ -37,7 +36,6 @@ class classroom::course::puppetize (
     }
 
     class { 'classroom::master::codemanager':
-      gitserver     => $gitserver,
       control_owner => $control_owner,
       control_repo  => 'classroom-control-pi.git',
       offline       => $offline,
