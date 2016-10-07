@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v.1.6.2
+* Allow Code Manager to properly set the control repo
+* Added missing classes & plugins for virtual courses
+
 ## v1.6.1
 * Staging module dependency
 
@@ -12,7 +16,7 @@
 * Make sure to install the Windows-specific .gitattributes file properly
 * Other windows-specific fixes for Fundamentals
 * Added new profile and role modules to the student work directory
-* Update site.pp to include a role class so we can allude to the roles and  
+* Update site.pp to include a role class so we can allude to the roles and
   profiles pattern later in the course.
 * Added repo for stunnel and showoff for rspec testig
 
