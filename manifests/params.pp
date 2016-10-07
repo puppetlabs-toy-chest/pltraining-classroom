@@ -37,7 +37,7 @@ class classroom::params {
   $control_owner    = 'puppetlabs-education'
   $gitserver        = {
     'online'  => 'https://github.com',
-    'offline' => 'https://master.puppetlabs.vm:12345',
+    'offline' => 'https://master.puppetlabs.vm:3000',
   }
 
   # time servers to use if we've got network
