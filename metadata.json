@@ -1,22 +1,6 @@
 {
-  "operatingsystem_support": [
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [ "5.0", "6.0", "7.0" ]
-    }
-  ],
-  "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": "3.7.x"
-    },
-    {
-      "name": "puppet",
-      "version_requirement": "4.x"
-    }
-  ],
   "name": "pltraining-classroom",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",
@@ -24,6 +8,22 @@
   "project_page": "https://github.com/puppetlabs/pltraining-classroom",
   "issues_url": "https://github.com/puppetlabs/pltraining-classroom/issues",
   "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching Puppet Labs training courses!\n    - Configures and sets up classroom environment for Puppet Classroom trainings.",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [ "6.0", "7.0" ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": ">= 2015.1.0 < 2016.4.0"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "4.x"
+    }
+  ],
   "dependencies": [
     {"name":"arusso/stunnel",                 "version_requirement":">= 2.1.2"},
     {"name":"binford2k/abalone"},

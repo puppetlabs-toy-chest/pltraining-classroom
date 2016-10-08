@@ -1,7 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
-## v.1.6.2
+## v1.6.3
+* Correct variable redeclaration error
+* Updated requirements
+
+## v1.6.2
 * Allow Code Manager to properly set the control repo
 * Added missing classes & plugins for virtual courses
 
