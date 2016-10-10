@@ -1,7 +1,7 @@
 class classroom::course::virtual::fundamentals (
-  $control_owner,
-  $offline    = $classroom::params::offline,
-  $session_id = $classroom::params::session_id,
+  $control_owner = undef,
+  $offline       = $classroom::params::offline,
+  $session_id    = $classroom::params::session_id,
 ) inherits classroom::params {
   if $role == 'master' {
     File {
