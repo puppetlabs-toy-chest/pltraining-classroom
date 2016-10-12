@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.4
+* Allow repo per environment for Virtual Fundamentals
+
 ## v1.6.3
 * Correct variable redeclaration error
 * Updated requirements

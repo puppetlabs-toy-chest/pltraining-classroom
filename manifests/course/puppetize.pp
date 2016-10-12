@@ -26,7 +26,7 @@ class classroom::course::puppetize (
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
-      privileged       => true,
+      privileged       => false,
     }
 
     file { '/usr/local/bin/validate_classification.rb':

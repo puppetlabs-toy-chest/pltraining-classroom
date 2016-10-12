@@ -12,7 +12,7 @@ class classroom::course::virtual::appropriate_module (
       modulepath       => 'readwrite',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
-      privileged       => true,
+      privileged       => false,
     }
 
   }
