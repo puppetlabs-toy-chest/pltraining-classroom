@@ -111,7 +111,7 @@ class classroom::windows::adserver {
 
   # Download install for brackets lab
   class { 'staging':
-    path    => 'C:/shares/',
+    path    => 'C:/shares',
   }
   staging::file { 'Brackets.msi':
     source  => 'https://github.com/adobe/brackets/releases/download/release-1.3/Brackets.Release.1.3.msi',
