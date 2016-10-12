@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.5
+* Default to unprivilged containers in puppetfactory
+* Fix share path for windows essentials
+
 ## v1.6.4
 * Allow repo per environment for Virtual Fundamentals
 
