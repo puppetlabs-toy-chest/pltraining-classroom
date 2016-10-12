@@ -14,7 +14,7 @@ class classroom::course::virtual::intro (
       modulepath       => 'readwrite',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
-      privileged       => true,
+      privileged       => false,
     }
 
   }

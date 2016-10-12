@@ -21,7 +21,7 @@ class classroom::course::virtual::fundamentals (
       usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",
       session          => $session_id,
-      privileged       => true,
+      privileged       => false,
     }
 
     class { 'classroom::facts':

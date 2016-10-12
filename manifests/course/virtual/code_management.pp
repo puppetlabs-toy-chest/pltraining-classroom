@@ -14,7 +14,7 @@ class classroom::course::virtual::code_management (
       controlrepo      => 'classroom-control-mpc.git',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
-      privileged       => true,
+      privileged       => false,
     }
 
     class { 'r10k':
