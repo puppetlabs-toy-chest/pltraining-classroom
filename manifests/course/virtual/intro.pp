@@ -18,5 +18,7 @@ class classroom::course::virtual::intro (
     }
 
   }
+  # Add hosts entries for app orch demo
+  include classroom::agent::hosts
 
 }
