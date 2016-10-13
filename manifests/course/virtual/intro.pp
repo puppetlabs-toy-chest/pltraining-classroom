@@ -9,9 +9,7 @@ class classroom::course::virtual::intro (
 
     # Classroom for Intro to puppet course
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
-      puppetcode       => $classroom::params::workdir,
-      modulepath       => 'readwrite',
+      plugins          => [ "Certificates", "ConsoleUser", "Docker", "Logs", "ShellUser" ],
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
       privileged       => false,
