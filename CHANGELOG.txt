@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.6
+* Add course profile for Intro
+* Use on-sit Gogs git server for Puppetize
+* Setup for App Orch demo in Intro
+
 ## v1.6.5
 * Default to unprivilged containers in puppetfactory
 * Fix share path for windows essentials
