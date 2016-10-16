@@ -38,6 +38,9 @@ def submit_logs
   begin
     # depends on root's credentials
     s3 = Aws::S3::Resource.new(region:'us-west-2')
+    
+    # record the module versions in use
+    system("puppet module list > /var/log/puppetlabs/classroom-modules")
 
     filename = "classroom-perflogs-#{course}-#{email}-#{event_id}.tar.gz"
     system("tar -cf /var/cache/#{filename} /var/log/puppetlabs/")
