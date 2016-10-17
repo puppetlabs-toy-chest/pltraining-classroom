@@ -34,7 +34,7 @@ class classroom::proxy {
 
   @@host { $::fqdn:
     ensure       => present,
-    host_aliases => [$::hostname, 'irc.puppetlabs.vm'],
+    host_aliases => [$::hostname],
     ip           => $::ipaddress,
     tag          => 'puppetlabs',
   }

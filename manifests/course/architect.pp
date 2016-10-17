@@ -15,11 +15,7 @@ class classroom::course::architect (
   }
 
   if $role == 'master' {
-    # master gets the IRC server and reporting scripts
-    include classroom::master::ircd
-
-    # Include the Irssi setup and collect all hosts
-    include classroom::agent::irc
+    # Collect all hosts
     include classroom::agent::hosts
 
     # set up graphite/grafana on the classroom master
@@ -43,8 +39,7 @@ class classroom::course::architect (
     include classroom::agent::r10k
     include classroom::master::reporting_tools
 
-    # Include the Irssi setup and collect all hosts
-    include classroom::agent::irc
+    # Collect all hosts
     include classroom::agent::hosts
 
     # include metrics tools for labs & demos
