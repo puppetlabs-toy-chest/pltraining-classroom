@@ -29,6 +29,7 @@ class classroom (
   $managerepos    = $classroom::params::managerepos,
   $manage_selinux = $classroom::params::manage_selinux,
   $time_servers   = $classroom::params::time_servers,
+  $repositories   = $classroom::params::repositories,
 ) inherits classroom::params {
   validate_bool($offline)
   validate_bool($manageyum)

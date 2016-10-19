@@ -27,7 +27,7 @@ class classroom::params {
   }
 
   # Upstream yum repositories
-  $repositories = [ 'base', 'extras', 'updates' ]
+  $repositories = [ 'base', 'extras', 'updates', 'docker' ]
 
   # manage git repositories for the student and the master
   $managerepos = true
