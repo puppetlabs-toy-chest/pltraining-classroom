@@ -1,9 +1,15 @@
 class classroom::master::pdf_stack {
+
+  $enabled = $classroom::offline ? {
+    true  => '0',
+    false => '1',
+  }
+
   yumrepo { 'robert-gcj':
     ensure              => 'present',
     baseurl             => 'https://copr-be.cloud.fedoraproject.org/results/robert/gcj/epel-7-$basearch/',
     descr               => 'Copr repo for gcj owned by robert',
-    enabled             => '1',
+    enabled             => $enabled,
     gpgcheck            => '1',
     gpgkey              => 'https://copr-be.cloud.fedoraproject.org/results/robert/gcj/pubkey.gpg',
     skip_if_unavailable => true,
@@ -13,7 +19,7 @@ class classroom::master::pdf_stack {
     ensure              => 'present',
     baseurl             => 'https://copr-be.cloud.fedoraproject.org/results/robert/pdftk/epel-7-$basearch/',
     descr               => 'Copr repo for pdftk owned by robert',
-    enabled             => '1',
+    enabled             => $enabled,
     gpgcheck            => '1',
     gpgkey              => 'https://copr-be.cloud.fedoraproject.org/results/robert/pdftk/pubkey.gpg',
     skip_if_unavailable => true,
