@@ -22,6 +22,4 @@ class classroom::course::practitioner (
   class { 'classroom::facts':
     coursename => 'practitioner',
   }
-
-  Yumrepo <| |> -> Package <| |>
 }
