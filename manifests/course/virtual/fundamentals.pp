@@ -17,7 +17,7 @@ class classroom::course::virtual::fundamentals (
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
       controlrepo      => 'classroom-control-vf.git',
-      repomodel        => 'peruser',
+      repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",
       session          => $session_id,
