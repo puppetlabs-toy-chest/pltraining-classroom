@@ -2,16 +2,16 @@
 #
 class classroom::course::architect (
   $offline      = $classroom::params::offline,
-  $manageyum    = $classroom::params::manageyum,
+  $manage_yum   = $classroom::params::manage_yum,
   $time_servers = $classroom::params::time_servers,
 ) inherits classroom::params {
   # just wrap the classroom class
   class { 'classroom':
-    offline      => $offline,
-    role         => $role,
-    manageyum    => $manageyum,
-    time_servers => $time_servers,
-    managerepos  => false,
+    offline       => $offline,
+    role          => $role,
+    manage_yum    => $manage_yum,
+    time_servers  => $time_servers,
+    manage_repos  => false,
   }
 
   if $role == 'master' {
@@ -54,7 +54,7 @@ class classroom::course::architect (
     # Set up agent containers on student masters
     include classroom::containers
 
-    if $manageyum {
+    if $manage_yum {
       # Use classroom master for yum cache
       include classroom::agent::yum_repos
     }

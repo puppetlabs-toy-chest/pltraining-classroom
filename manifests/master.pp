@@ -41,7 +41,7 @@ class classroom::master {
   # if configured to do so, configure repos & environments on the master. This
   # overrides the resource in the puppet_enterprise module and allows us to have
   # different users updating their own repositories.
-  if $classroom::managerepos {
+  if $classroom::manage_repos {
     $environmentspath = "${classroom::codedir}/environments"
 
     # 2015.2.x manages the environmentpath but doesn't allow users to write

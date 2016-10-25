@@ -40,14 +40,14 @@ class classroom::agent {
   #
   # On the second run, the ssh key will exist and so this fact will be set.
   @@classroom::user { $::classroom::params::machine_name:
-    key        => $::root_ssh_key,
-    password   => $classroom::password,
-    consolepw  => $classroom::consolepw,
-    managerepo => $classroom::managerepos,
+    key         => $::root_ssh_key,
+    password    => $classroom::password,
+    consolepw   => $classroom::consolepw,
+    manage_repo => $classroom::manage_repos,
   }
 
   # if we are managing git repositories, then build out all this
-  if $classroom::managerepos {
+  if $classroom::manage_repos {
 
     classroom::agent::workdir { $classroom::workdir:
       ensure   => present,

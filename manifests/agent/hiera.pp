@@ -23,7 +23,7 @@ class classroom::agent::hiera {
 
   $hieradata = "${classroom::codedir}/hieradata"
 
-  if $classroom::managerepos {
+  if $classroom::manage_repos {
     file { $hieradata:
       ensure => link,
       # the hieradata dir is empty so forcing to
