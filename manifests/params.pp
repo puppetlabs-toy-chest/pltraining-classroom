@@ -21,7 +21,7 @@ class classroom::params {
   $consolepw = 'puppetlabs'
 
   # Should we manage upstream yum repositories in the classroom?
-  $manageyum = $::osfamily ? {
+  $manage_yum = $::osfamily ? {
     'RedHat' => true,
     default  => false,
   }
@@ -30,7 +30,7 @@ class classroom::params {
   $repositories = [ 'base', 'extras', 'updates', 'docker' ]
 
   # manage git repositories for the student and the master
-  $managerepos = true
+  $manage_repos = true
 
   # git configuration for the web-based alternative git workflow
   $usersuffix       = 'puppetlabs.vm'

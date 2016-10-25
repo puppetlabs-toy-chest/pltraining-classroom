@@ -1,9 +1,9 @@
 # Create a classroom user on the master
 define classroom::user (
   $password,
-  $key        = undef,
-  $consolepw  = undef,
-  $managerepo = true,
+  $key         = undef,
+  $consolepw   = undef,
+  $manage_repo = true,
 ) {
   File {
     owner => $name,
@@ -45,7 +45,7 @@ define classroom::user (
     }
   }
 
-  if $managerepo {
+  if $manage_repo {
     classroom::master::repository { $name:
       ensure => present,
     }

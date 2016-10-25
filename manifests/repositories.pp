@@ -2,7 +2,7 @@
 class classroom::repositories {
   assert_private('This class should not be called directly')
 
-  if $classroom::manageyum and $::osfamily == 'RedHat' {
+  if $classroom::manage_yum and $::osfamily == 'RedHat' {
 
      $enabled = $classroom::offline ? {
       true  => '0',
