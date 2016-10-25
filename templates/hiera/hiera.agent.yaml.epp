@@ -7,5 +7,5 @@
 
 :hierarchy:
   - "%{::trusted.certname}"
-  - "%{osfamily}"
+  - "%{environment}"
   - common

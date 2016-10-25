@@ -8,7 +8,6 @@
 :hierarchy:
   - "%{clientcert}"
   - overrides
-  - "environments/%{environment}/hieradata/%{osfamily}"
   - "environments/%{environment}/hieradata/%{::trusted.certname}"
   - "environments/%{environment}/hieradata/common"
   - classroom
