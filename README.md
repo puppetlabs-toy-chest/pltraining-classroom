@@ -18,4 +18,4 @@ appropriate class for more complete instructions.
 Contact
 -------
 
-education@puppetlabs.com
+education@puppet.com
