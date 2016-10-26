@@ -59,6 +59,7 @@ class classroom::course::puppetize (
     include classroom::windows::disable_esc
     include classroom::windows::enable_rdp
     include classroom::windows::geotrust
+    include classroom::windows::rubygems_update
     windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
   }
 
