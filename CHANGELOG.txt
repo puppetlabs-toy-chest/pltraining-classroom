@@ -1,9 +1,16 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.7
+* RubyGems SSL fix for Windows
+* Update the NTP class calling params
+* Update the Virtual Fundamentals profile to the single repo model
+* Remove IRC management
+* Make Practitioner work better offline
+
 ## v1.6.6
 * Add course profile for Intro
-* Use on-sit Gogs git server for Puppetize
+* Use on-site Gogs git server for Puppetize
 * Setup for App Orch demo in Intro
 
 ## v1.6.5
