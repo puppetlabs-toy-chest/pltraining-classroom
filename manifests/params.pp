@@ -35,6 +35,7 @@ class classroom::params {
   # git configuration for the web-based alternative git workflow
   $usersuffix       = 'puppetlabs.vm'
   $control_owner    = 'puppetlabs-education'
+  $repo_model       = 'single'
   $gitserver        = {
     'online'  => 'https://github.com',
     'offline' => 'https://master.puppetlabs.vm:3000',
