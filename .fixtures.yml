@@ -20,9 +20,9 @@ fixtures:
     pe_r10k: "git@github.com:puppetlabs/puppetlabs-pe_r10k.git"
     pe_staging: "git@github.com:puppetlabs/puppetlabs-pe_staging.git"
     puppet_enterprise: "git@github.com:puppetlabs/puppetlabs-puppet_enterprise.git"
-    stunnel: "git@github.com:puppetlabs/puppetlabs-stunnel.git"
     showoff: "git@github.com:puppetlabs/pltraining-showoff.git"
   forge_modules:
+    stunnel: "arusso/stunnel"
     firewall: "puppetlabs/firewall"
     chocolatey: "chocolatey/chocolatey"
     graphite: "dwerder/graphite"
