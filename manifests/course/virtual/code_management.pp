@@ -28,7 +28,7 @@ class classroom::course::virtual::code_management (
       keypair_name     => 'pe-internal-peadmin-mcollective-client',
       create_user      => true,
       logfile          => '/var/lib/peadmin/.mcollective.d/client.log',
-      stomp_password   => pe_chomp(file('/etc/puppetlabs/mcollective/credentials','/dev/null')),
+      stomp_password   => chomp(file('/etc/puppetlabs/mcollective/credentials','/dev/null')),
       stomp_port       => 61613,
       stomp_user       => 'mcollective',
     }
