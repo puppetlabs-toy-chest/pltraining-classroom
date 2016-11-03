@@ -3,6 +3,7 @@ class classroom::master::pdf_stack {
   $enabled = $classroom::offline ? {
     true  => '0',
     false => '1',
+    undef => '1',   # TODO: this is a terrible temporary hack
   }
 
   yumrepo { 'robert-gcj':
