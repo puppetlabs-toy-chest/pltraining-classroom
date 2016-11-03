@@ -4,7 +4,6 @@ fixtures:
     dockeragent: "git://github.com/puppetlabs/pltraining-dockeragent.git"
     rbac: "git://github.com/puppetlabs/pltraining-rbac.git"
     userprefs: "git://github.com/puppetlabs/pltraining-userprefs.git"
-    showoff: "git@github.com:puppetlabs/pltraining-showoff.git"
   forge_modules:
     abalone: "binford2k/abalone"
     firewall: "puppetlabs/firewall"
@@ -39,5 +38,6 @@ fixtures:
     staging: "puppet/staging"
     sysctl: "fiddyspence/sysctl"
     ssh: "attachmentgenie/ssh"
+    showoff: "pltraining/showoff"
   symlinks:
     classroom: "#{source_dir}"
