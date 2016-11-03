@@ -24,7 +24,7 @@ class classroom::master::agent_tarball {
     mode   => '0755',
   }
 
-  pe_staging::file { "${cachedir}/${filename}":
+  staging::file { "${cachedir}/${filename}":
     source => $download,
     target => "${cachedir}/${filename}",
     before => File["${destination}/${filename}"],
