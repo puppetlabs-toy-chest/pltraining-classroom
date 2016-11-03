@@ -46,7 +46,7 @@
     {"name":"puppetlabs/haproxy",             "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/inifile",             "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/mysql",               "version_requirement":">= 2.3.1"},
-    {"name":"puppetlabs/ntp",                 "version_requirement":">= 3.2.0"},
+    {"name":"puppetlabs/ntp",                 "version_requirement":"< 6.0.0"},
     {"name":"puppetlabs/pe_gem",              "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/pe_puppetserver_gem", "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/puppetserver_gem",    "version_requirement":">= 0.1.0"},
