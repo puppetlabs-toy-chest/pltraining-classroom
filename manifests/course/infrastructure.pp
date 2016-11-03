@@ -3,7 +3,7 @@
 #
 class classroom::course::infrastructure (
   $training_password = $classroom::params::training_password
-){
+) inherits classroom::params {
   $containers = {
     'test.puppetlabs.vm'  => ['10080:80'],
     'web1.puppetlabs.vm'  => ['20080:80'],
