@@ -22,6 +22,7 @@ fixtures:
     puppet_enterprise: "git@github.com:puppetlabs/puppetlabs-puppet_enterprise.git"
     showoff: "git@github.com:puppetlabs/pltraining-showoff.git"
   forge_modules:
+    abalone: "binford2k/abalone"
     firewall: "puppetlabs/firewall"
     chocolatey: "chocolatey/chocolatey"
     graphite: 
