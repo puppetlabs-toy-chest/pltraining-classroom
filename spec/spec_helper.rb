@@ -5,6 +5,7 @@ RSpec.configure do |c|
   c.default_facts = {
     :ipaddress                 => '127.0.0.1',
     :kernel                    => 'Linux',
+    :architecture => 'x86_64',
     :operatingsystem           => 'CentOS',
     :operatingsystemrelease    => '7.2.1211',
     :operatingsystemmajrelease => '7',
@@ -14,8 +15,22 @@ RSpec.configure do |c|
     :pe_server_version => '2016.4.0',
     :aio_agent_version => '1.7.1',
     :puppetversion => '4.7.0',
+    :pe_version => '2016.4',
+    :platform_tag => 'el-7-x86_64',
+    :is_pe => true,
+    :kernelversion => '3.10.0',
+    :memorysize => '16.00 GB',
+    :processorcount => '4',
+    :is_virtual => true,
+    :root_ssh_key => 'foo',
+    :pe_build => '2016.4',
+    :classroom_vm_release => '5.7',
     :puppetserver => 'master.puppetlabs.vm',
+    :staging_http_get => '/staging',
     :os => {
+      :selinux => {
+        :enabled => false
+      },
       :family => 'RedHat',
       :release  => {
         :major => '7'
@@ -27,10 +42,32 @@ RSpec.configure do |c|
   end
 end
 
-puts
-puts '******************************************************'
-puts
-puts 'This will currently fail due to an rspec-puppet bug:'
-puts 'https://github.com/rodjek/rspec-puppet/issues/322'
-puts
-puts '******************************************************'
+GLOBAL_PRE = "
+define pe_hocon_setting (
+  $ensure = '',
+  $path = '',
+  $setting = '',
+  $value = '',
+){}
+define pe_ini_setting (
+  $ensure = '',
+  $path = '',
+  $section = '',
+  $setting = '',
+  $value = '',
+){}
+define puppet_enterprise::mcollective::client (
+  $ensure           = '',
+  $activemq_brokers = [],
+  $keypair_name     = '',
+  $create_user      = true,
+  $logfile          = '',
+  $stomp_password   = '',
+  $stomp_port       = '',
+  $stomp_user       = ''
+) {}
+class pe_repo::platform::el_6_i386 {}
+class pe_repo::platform::ubuntu_1404_amd64 {}
+class pe_repo::platform::windows_x86_64 {}
+"
+

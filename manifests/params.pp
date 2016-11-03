@@ -19,6 +19,7 @@ class classroom::params {
   # default user password
   $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
   $consolepw = 'puppetlabs'
+  $training_password = '$6$salt$rmd1JvAa.v2uesiL5xR9OTcyDAcSTc1A9IeXJo00CMK0s.svJC/tshztZ7BkqVzZHaxK6.6XBnEGfdaI1jK4O1'
 
   # Should we manage upstream yum repositories in the classroom?
   $manage_yum = $::osfamily ? {
@@ -27,7 +28,7 @@ class classroom::params {
   }
 
   # Upstream yum repositories
-  $repositories = [ 'base', 'extras', 'updates', 'docker' ]
+  $repositories = [ 'base', 'extras', 'updates' ]
 
   # manage git repositories for the student and the master
   $manage_repos = true

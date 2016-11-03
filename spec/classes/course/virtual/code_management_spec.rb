@@ -6,7 +6,10 @@ describe 'classroom::course::virtual::code_management' do
     let(:pre_condition) {
       "service { 'pe-puppetserver':
           ensure => running,
-        }"
+        }
+        package {'r10k':
+          ensure => present,
+        }" + GLOBAL_PRE
     }
     let(:node) { 'master.puppetlabs.vm' }
     let(:facts) { {
@@ -17,6 +20,14 @@ describe 'classroom::course::virtual::code_management' do
   end
 
   context "applied to agent" do
+    let(:pre_condition) {
+      "service { 'pe-puppetserver':
+          ensure => running,
+        }
+        package {'r10k':
+          ensure => present,
+        }" + GLOBAL_PRE
+    }
     let(:node) { 'agent.puppetlabs.vm' }
     let(:facts) { {
       :servername => 'master.puppetlabs.vm'

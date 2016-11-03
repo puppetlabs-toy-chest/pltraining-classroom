@@ -6,11 +6,12 @@ describe 'classroom::course::virtual::hiera' do
     let(:pre_condition) {
       "service { 'pe-puppetserver':
           ensure => running,
-        }"
+        }" + GLOBAL_PRE
     }
     let(:node) { 'master.puppetlabs.vm' }
     let(:facts) { {
-      :servername => 'master.puppetlabs.vm'
+      :servername => 'master.puppetlabs.vm',
+      :puppetlabs_class => 'hiera',
     } }
 
     it { should compile }

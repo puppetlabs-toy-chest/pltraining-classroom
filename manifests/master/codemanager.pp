@@ -1,3 +1,4 @@
+# Configuration for PE code manager to avoid chicken -> egg -> chicken
 class classroom::master::codemanager (
   $control_repo     = undef,
   $repo_model       = $classroom::params::repo_model,

@@ -2,8 +2,8 @@
 # the Infrastructure course
 #
 class classroom::course::infrastructure (
-  $training_password = 'training'
-){
+  $training_password = $classroom::params::training_password
+) inherits classroom::params {
   $containers = {
     'test.puppetlabs.vm'  => ['10080:80'],
     'web1.puppetlabs.vm'  => ['20080:80'],
@@ -35,7 +35,7 @@ class classroom::course::infrastructure (
 
   user { 'training':
     ensure   => present,
-    password => pw_hash($training_password, 'SHA-512', 'salt'),
+    password => $training_password,
   }
 
   class {'abalone':

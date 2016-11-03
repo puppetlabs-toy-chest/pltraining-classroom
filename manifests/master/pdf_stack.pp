@@ -1,3 +1,4 @@
+# Dependencies for PDF rendering
 class classroom::master::pdf_stack {
 
   $enabled = $classroom::offline ? {

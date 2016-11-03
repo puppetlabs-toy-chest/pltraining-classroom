@@ -38,7 +38,7 @@ class classroom::master::student_environment {
   }
 
   # We only want to write this once so it isn't confusing later on.
-  unless ($puppetlabs_class) {
+  unless ($::puppetlabs_class) {
     # intentionally broken example code
     file { "${environment}/modules/cowsay":
       ensure  => directory,
@@ -84,8 +84,8 @@ class classroom::master::student_environment {
 
     # mitigate PE-11366
     dirtree { '/opt/puppetlabs/server':
-      path   => '/opt/puppetlabs/server',
       ensure => present,
+      path   => '/opt/puppetlabs/server',
     }
     file { '/opt/puppetlabs/server/pe_build':
       ensure  => file,
