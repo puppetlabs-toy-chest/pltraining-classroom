@@ -28,6 +28,9 @@ RSpec.configure do |c|
     :puppetserver => 'master.puppetlabs.vm',
     :staging_http_get => '/staging',
     :os => {
+      :selinux => {
+        :enabled => false
+      },
       :family => 'RedHat',
       :release  => {
         :major => '7'
