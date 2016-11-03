@@ -6,7 +6,7 @@ describe 'classroom::course::virtual::parser' do
     let(:pre_condition) {
       "service { 'pe-puppetserver':
           ensure => running,
-        }"
+        }" + GLOBAL_PRE
     }
     let(:node) { 'master.puppetlabs.vm' }
     let(:facts) { {

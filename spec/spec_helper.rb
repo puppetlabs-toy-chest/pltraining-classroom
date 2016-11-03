@@ -16,21 +16,47 @@ RSpec.configure do |c|
     :puppetversion => '4.7.0',
     :puppetserver => 'master.puppetlabs.vm',
     :os => {
+      :selinux => {
+        :enabled => false
+      },
       :family => 'RedHat',
       :release  => {
         :major => '7'
       }
     }
   }
+  
   c.after(:suite) do
     RSpec::Puppet::Coverage.report!
   end
 end
 
-puts
-puts '******************************************************'
-puts
-puts 'This will currently fail due to an rspec-puppet bug:'
-puts 'https://github.com/rodjek/rspec-puppet/issues/322'
-puts
-puts '******************************************************'
+GLOBAL_PRE = "
+define pe_hocon_setting (
+  $ensure = '',
+  $path = '',
+  $setting = '',
+  $value = '',
+){}
+define pe_ini_setting (
+  $ensure = '',
+  $path = '',
+  $section = '',
+  $setting = '',
+  $value = '',
+){}
+define puppet_enterprise::mcollective::client (
+  $ensure           = '',
+  $activemq_brokers = [],
+  $keypair_name     = '',
+  $create_user      = true,
+  $logfile          = '',
+  $stomp_password   = '',
+  $stomp_port       = '',
+  $stomp_user       = ''
+) {}
+class pe_repo::platform::el_6_i386 {}
+class pe_repo::platform::ubuntu_1404_amd64 {}
+class pe_repo::platform::windows_x86_64 {}
+"
+
