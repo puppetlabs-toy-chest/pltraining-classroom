@@ -25,7 +25,9 @@ fixtures:
     stunnel: "arusso/stunnel"
     firewall: "puppetlabs/firewall"
     chocolatey: "chocolatey/chocolatey"
-    graphite: "dwerder/graphite"
+    graphite: 
+      repo: "dwerder/graphite"
+      ref: "5.16.1"
     grafana: "dwerder/grafana"
     docker: "garethr/docker"
     wordpress: "hunner/wordpress"
@@ -37,7 +39,9 @@ fixtures:
     haproxy: "puppetlabs/haproxy"
     inifile: "puppetlabs/inifile"
     mysql: "puppetlabs/mysql"
-    ntp: "puppetlabs/ntp"
+    ntp: 
+      repo: "puppetlabs/ntp"
+      ref: "4.2.0"
     pe_puppetserver_gem: "puppetlabs/pe_puppetserver_gem"
     puppetserver_gem: "puppetlabs/puppetserver_gem"
     stdlib: "puppetlabs/stdlib"
@@ -46,5 +50,6 @@ fixtures:
     epel: "stahnma/epel"
     exports: "zack/exports"
     r10k: "zack/r10k"
+    stunnel: "arusso/stunnel"
   symlinks:
     classroom: "#{source_dir}"

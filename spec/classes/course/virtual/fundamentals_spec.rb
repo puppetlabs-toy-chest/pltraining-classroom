@@ -1,10 +1,11 @@
 require 'spec_helper'
 
-describe 'classroom' do
+describe 'classroom::course::virtual::fundamentals' do
 
   parameter_matrix = [
     { :offline => true },
-    { :time_servers => ["time.apple.com"] }
+    { :offline => true, :control_owner => 'puppetlabs-education' },
+    { :control_owner => 'puppetlabs-education' }
   ]
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
