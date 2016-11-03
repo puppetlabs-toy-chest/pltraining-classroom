@@ -24,7 +24,9 @@ fixtures:
   forge_modules:
     firewall: "puppetlabs/firewall"
     chocolatey: "chocolatey/chocolatey"
-    graphite: "dwerder/graphite"
+    graphite: 
+      repo: "dwerder/graphite"
+      ref: "5.16.1"
     grafana: "dwerder/grafana"
     docker: "garethr/docker"
     wordpress: "hunner/wordpress"
