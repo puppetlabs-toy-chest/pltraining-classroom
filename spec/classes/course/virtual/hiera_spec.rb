@@ -10,7 +10,8 @@ describe 'classroom::course::virtual::hiera' do
     }
     let(:node) { 'master.puppetlabs.vm' }
     let(:facts) { {
-      :servername => 'master.puppetlabs.vm'
+      :servername => 'master.puppetlabs.vm',
+      :puppetlabs_class => 'hiera',
     } }
 
     it { should compile }

@@ -23,9 +23,16 @@ describe 'classroom::course::architect' do
     end
 
     context "applied to agent: #{params.to_s}" do
+      let(:pre_condition) {"
+        package {'r10k':
+          ensure => present
+        }"
+      }
       let(:node) { 'agent.puppetlabs.vm' }
       let(:facts) { {
-        :servername => 'master.puppetlabs.vm'
+        :servername => 'master.puppetlabs.vm',
+        :puppetlabs_class => 'architect',
+        :ipaddress_docker0 => '172.16.42.1'
       } }
       let(:params) { params }
 

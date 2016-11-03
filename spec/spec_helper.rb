@@ -5,6 +5,7 @@ RSpec.configure do |c|
   c.default_facts = {
     :ipaddress                 => '127.0.0.1',
     :kernel                    => 'Linux',
+    :architecture => 'x86_64',
     :operatingsystem           => 'CentOS',
     :operatingsystemrelease    => '7.2.1211',
     :operatingsystemmajrelease => '7',
@@ -14,18 +15,25 @@ RSpec.configure do |c|
     :pe_server_version => '2016.4.0',
     :aio_agent_version => '1.7.1',
     :puppetversion => '4.7.0',
+    :pe_version => '2016.4',
+    :platform_tag => 'el-7-x86_64',
+    :is_pe => true,
+    :kernelversion => '3.10.0',
+    :memorysize => '16.00 GB',
+    :processorcount => '4',
+    :is_virtual => true,
+    :root_ssh_key => 'foo',
+    :pe_build => '2016.4',
+    :classroom_vm_release => '5.7',
     :puppetserver => 'master.puppetlabs.vm',
+    :staging_http_get => '/staging',
     :os => {
-      :selinux => {
-        :enabled => false
-      },
       :family => 'RedHat',
       :release  => {
         :major => '7'
       }
     }
   }
-  
   c.after(:suite) do
     RSpec::Puppet::Coverage.report!
   end
