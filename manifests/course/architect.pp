@@ -24,10 +24,6 @@ class classroom::course::architect (
     # include metrics tools for labs & demos
     include classroom::master::metrics
 
-    # Configure the classroom so that any secondary masters will get the
-    # agent tarball from the classroom master.
-    include classroom::master::agent_tarball
-
     # serve our cached yum repositories so we can stop caching them for students
     include classroom::master::yum_server
 
