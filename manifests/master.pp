@@ -14,12 +14,6 @@ class classroom::master {
     target => '/usr/bin/pip',
   }
 
-  # zlib-devel is require for nokogiri
-  package { 'zlib-devel':
-    ensure => present,
-    before => Class['showoff'],
-  }
-
   # Add the installer files for student agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386

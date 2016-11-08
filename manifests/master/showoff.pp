@@ -2,6 +2,7 @@ class classroom::master::showoff (
   String $training_user = $classroom::params::training_user,
 ) inherits classroom::params {
   include stunnel
+  require classroom::master::dependencies::rubygems
   require showoff
   require classroom::master::pdf_stack
 
