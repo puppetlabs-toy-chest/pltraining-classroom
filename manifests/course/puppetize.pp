@@ -15,6 +15,7 @@ class classroom::course::puppetize (
     }
 
     include classroom::master::dependencies::dashboard
+    include classroom::master::dependencies::rubygems
     include classroom::master::showoff
     include classroom::master::hiera
     include classroom::master::gogs
