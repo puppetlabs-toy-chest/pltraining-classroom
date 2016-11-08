@@ -2,10 +2,9 @@ class classroom::course::virtual::parser (
   $session_id = $classroom::params::session_id,
   $role       = $classroom::params::role,
 ) inherits classroom::params {
+  include classroom::virtual
 
   if $role == 'master' {
-
-    include classroom::master::showoff
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],

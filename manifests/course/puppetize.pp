@@ -4,7 +4,7 @@ class classroom::course::puppetize (
   $offline      = $classroom::params::offline,
   $session_id   = $classroom::params::session_id,
 ) inherits classroom::params {
-  # TODO: This class needs some refactoring, too much cutty-pastey
+  include classroom::virtual
 
   if $::fqdn == 'master.puppetlabs.vm' {
     # Classroom Master
@@ -15,11 +15,8 @@ class classroom::course::puppetize (
     }
 
     include classroom::master::dependencies::dashboard
-    include classroom::master::dependencies::rubygems
-    include classroom::master::showoff
     include classroom::master::hiera
     include classroom::master::gogs
-
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ],
@@ -42,26 +39,6 @@ class classroom::course::puppetize (
       offline       => $offline,
     }
 
-  } elsif $::osfamily == 'windows' {
-
-    # TODO: copied from classroom::windows, in the sake of rapid development
-    user { 'Administrator':
-      ensure => present,
-      groups => ['Administrators'],
-    }
-
-    chocolateyfeature { 'allowEmptyChecksums':
-      ensure => enabled,
-    }
-    Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
-
-    # Windows Agents
-    include chocolatey
-    include classroom::windows::disable_esc
-    include classroom::windows::enable_rdp
-    include classroom::windows::geotrust
-    include classroom::windows::rubygems_update
-    windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
   }
 
   # All nodes
