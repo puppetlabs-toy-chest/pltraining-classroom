@@ -3,6 +3,8 @@ class classroom::course::virtual::fundamentals (
   $offline       = $classroom::params::offline,
   $session_id    = $classroom::params::session_id,
 ) inherits classroom::params {
+  include classroom::virtual
+
   if $role == 'master' {
     File {
       owner => 'root',
@@ -11,7 +13,6 @@ class classroom::course::virtual::fundamentals (
     }
 
     include classroom::master::hiera
-    include classroom::master::showoff
     include classroom::master::dependencies::dashboard
 
     class { 'puppetfactory':

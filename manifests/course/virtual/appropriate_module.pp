@@ -1,10 +1,10 @@
 class classroom::course::virtual::appropriate_module (
   $session_id = $classroom::params::session_id,
-  $role = $classroom::params::role,
+  $role       = $classroom::params::role,
 ) inherits classroom::params {
-  if $role == 'master' {
+  include classroom::virtual
 
-    include classroom::master::showoff
+  if $role == 'master' {
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],

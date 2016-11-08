@@ -1,14 +1,11 @@
 class classroom::course::virtual::code_management (
   $session_id = $classroom::params::session_id,
-  $role = $classroom::params::role,
+  $role       = $classroom::params::role,
 ) inherits classroom::params {
-
+  include classroom::virtual
   include r10k::mcollective
 
   if $role == 'master' {
-
-    include classroom::master::showoff
-
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "R10k", "ShellUser", "Gitviz" ],
       controlrepo      => 'classroom-control-mpc.git',

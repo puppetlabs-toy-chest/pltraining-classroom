@@ -2,10 +2,9 @@ class classroom::course::virtual::intro (
   $session_id = $classroom::params::session_id,
   $role       = $classroom::params::role,
 ) inherits classroom::params {
+  include classroom::virtual
 
   if $role == 'master' {
-
-    include classroom::master::showoff
 
     # Classroom for Intro to puppet course
     class { 'puppetfactory':
