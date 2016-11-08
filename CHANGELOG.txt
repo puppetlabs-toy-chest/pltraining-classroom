@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.9
+* Revert removing gem dependencies
+
 ## v1.6.8
 * Spec tests and associated fixes
 * Some small fixes for package dependencies
