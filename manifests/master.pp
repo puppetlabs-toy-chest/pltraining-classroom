@@ -14,6 +14,10 @@ class classroom::master {
     target => '/usr/bin/pip',
   }
 
+  if $classroom::offline {
+    include classroom::master::gitea
+  }
+
   # Add the installer files for student agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386

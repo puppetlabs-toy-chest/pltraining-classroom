@@ -20,6 +20,7 @@
 #
 #
 # $offline   : Configure NTP (and other services) to run in standalone mode
+#              Sets up local gitea git service.
 # $role      : What classroom role this node should play
 #
 class classroom (
