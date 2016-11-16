@@ -3,9 +3,9 @@
 class classroom::master::gitea {
   service { 'gitea':
     ensure  => 'running',
-    require => Package['gitea'],
   }
-  package { 'gitea':
-    source => "/usr/src/rpm_cache/gitea.rpm",
+  package { '/usr/src/rpm_cache/gitea.rpm':
+    source => '/usr/src/rpm_cache/gitea.rpm',
+    before => Service['gitea'],
   }
 }
