@@ -10,7 +10,7 @@ class classroom::master::gitea {
     ensure => file,
     owner  => 'git',
     group  => 'git',
-    mode   => '0644'
+    mode   => '0644',
     source => 'puppet:///modules/classroom/app.ini.erb',
     notify => Service['gitea'],
   }
