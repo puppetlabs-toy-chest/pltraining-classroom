@@ -12,7 +12,7 @@ class classroom::params {
   }
   else {
     $workdir = '/root/puppetcode'
-    $testdir = '/root/puppetcode'
+    $testdir = '/var/puppetcode'
     $confdir = '/etc/puppetlabs/puppet'
     $codedir = '/etc/puppetlabs/code'
     $factdir = '/etc/puppetlabs/facter'
