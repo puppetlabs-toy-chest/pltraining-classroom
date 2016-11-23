@@ -9,7 +9,7 @@ class classroom::course::virtual::first_module (
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
-      puppetcode       => '/var/puppetcode',
+      puppetcode       => $classroom::params::testdir,
       modulepath       => 'readwrite',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
