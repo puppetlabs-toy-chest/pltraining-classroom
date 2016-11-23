@@ -5,12 +5,14 @@ class classroom::params {
   if $::osfamily == 'windows' {
     # Path to the student's working directory
     $workdir = 'C:/puppetcode'
+    $testdir = 'C:/temp'
     $confdir = 'C:/ProgramData/PuppetLabs/puppet/etc'
     $factdir = 'C:/ProgramData/PuppetLabs/facter'
     $codedir = 'C:/ProgramData/PuppetLabs/code'
   }
   else {
     $workdir = '/root/puppetcode'
+    $testdir = '/var/puppetcode'
     $confdir = '/etc/puppetlabs/puppet'
     $codedir = '/etc/puppetlabs/code'
     $factdir = '/etc/puppetlabs/facter'
