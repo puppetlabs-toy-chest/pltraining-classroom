@@ -39,7 +39,7 @@ class classroom::params {
   $repo_model       = 'single'
   $gitserver        = {
     'online'  => 'https://github.com',
-    'offline' => 'https://master.puppetlabs.vm:3000',
+    'offline' => 'http://master.puppetlabs.vm:3000',
   }
 
   # time servers to use if we've got network
