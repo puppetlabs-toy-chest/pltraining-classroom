@@ -4,5 +4,4 @@ junit/*
 .vagrant
 Gemfile.lock
 .bundle/
-spec/fixtures/modules
-spec/fixtures/manifests
+spec/fixtures/
