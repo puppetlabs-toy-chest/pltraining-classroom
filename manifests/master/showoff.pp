@@ -16,7 +16,7 @@ class classroom::master::showoff (
     ensure  => directory,
     owner   => $showoff::user,
     mode    => '0644',
-    recurse => true,
+    recurse => remote,
     source  => $courseware_source,
     notify  => Exec['build_pdfs'],
     require => File[$courseware_source],
