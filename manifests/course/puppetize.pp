@@ -16,7 +16,6 @@ class classroom::course::puppetize (
 
     include classroom::master::dependencies::dashboard
     include classroom::master::hiera
-    include classroom::master::gogs
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ],
