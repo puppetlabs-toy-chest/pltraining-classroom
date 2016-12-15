@@ -38,9 +38,12 @@ already been addressed in the `master` branch.
   * To quickly create a topic branch based on master; `git checkout -b
     fix/master/my_contribution master`. Please avoid working directly on the
     `master` branch.
-* Make commits of logical units.
+* Make atomic commits of logical units. Do not combine unrelated fixes.
 * Check for unnecessary whitespace with `git diff --check` before committing.
 * Make sure your commit messages are in the proper format.
+* Don't update version numbers or changelogs. Instead, write a good commit 
+  subject and description. We will use the commit subject to update the 
+  changelog as needed.
 
 ````
     (PUP-1234) Make the example in CONTRIBUTING imperative and concrete
@@ -102,9 +105,9 @@ to detect in advance.
 
 If the code change results in a test failure, we will make our best effort to
 correct the error. If a fix cannot be determined and committed within 24 hours
-of its discovery, the commit(s) responsible _may_ be reverted, at the
-discretion of the committer and maintainers. This action would be taken to help 
-maintain passing states in our testing pipelines.
+of its discovery or as needed for expediency, the commit(s) responsible _may_ 
+be reverted, at the discretion of the committer and maintainers. This action 
+would be taken to help maintain passing states in our testing pipelines.
 
 The original contributor will be notified of the revert in the Jira ticket
 associated with the change. A reference to the test(s) and operating system(s)
