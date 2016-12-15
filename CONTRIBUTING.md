@@ -88,7 +88,7 @@ a ticket number.
 * Submit a pull request to the repository in the puppetlabs organization.
 * Update your Jira ticket to mark that you have submitted code and are ready for it to be reviewed (Status: Ready for Merge).
   * Include a link to the pull request in the ticket.
-* The education team looks at Pull Requests on a regular basis.
+* The Education team looks at pull requests on a regular basis.
 * After feedback has been given we expect responses within two weeks. After two
   weeks we may close the pull request if it isn't showing any activity.
 
@@ -128,4 +128,4 @@ unpublished changes in the release branch.
 * [Bug tracker (Jira)](https://tickets.puppetlabs.com)
 * [Contributor License Agreement](http://links.puppet.com/cla)
 * [General GitHub documentation](https://help.github.com/)
-* [GitHub pull request documentation](https://help.github.com/send-pull-requests/)
+* [GitHub pull request documentation](https://help.github.com/articles/about-pull-requests/)
