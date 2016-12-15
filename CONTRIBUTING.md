@@ -61,6 +61,7 @@ already been addressed in the `master` branch.
 
 * Make sure you have added the necessary tests for your changes.
 * Run _all_ the tests to assure nothing else was accidentally broken.
+  * Tests can be run with the command `rake spec`
 
 ## Making Trivial Changes
 
