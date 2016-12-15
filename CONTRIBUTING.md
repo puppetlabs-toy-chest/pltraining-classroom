@@ -26,7 +26,7 @@ we can have a chance of keeping on top of things.
 
 Releases are made from the `release` branch, which should always be in a
 releasable state. `master` is the active development branch and changes 
-are periodically moved to the release branch for integration testing.
+are periodically moved to the release branch for acceptance testing.
 
 Before you begin working on an issue or feature, check that it hasn't
 already been addressed in the `master` branch.
@@ -113,8 +113,8 @@ ticket. This test(s) should be used to check future submissions of the code to
 ensure the issue has been resolved.
 
 ## Release Policy
-Stable features and bug fixes will be moved to the release branch on a weekly
-basis for automated integration and acceptance testing. Published releases will
+Stable features and bug fixes are moved to the release branch on a regular
+basis for full automated integration and acceptance testing. Published releases
 happen on an as needed basis, generally at least once a month if there are
 unpublished changes in the release branch.
 
