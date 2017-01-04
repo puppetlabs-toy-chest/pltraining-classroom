@@ -3,7 +3,6 @@ class classroom::course::virtual::code_management (
   $role       = $classroom::params::role,
 ) inherits classroom::params {
   include classroom::virtual
-  include r10k::mcollective
 
   if $role == 'master' {
     class { 'puppetfactory':
