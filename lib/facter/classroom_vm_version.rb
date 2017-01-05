@@ -8,7 +8,7 @@ Facter.add('classroom_vm_release') do
     end
     next unless File.file? path
 
-    version = File.read(path).match(/\d+\.\d+/)
+    version = File.read(path).match(/(\d+\.\d+)$/)
     version[1] if version
   end
 end
