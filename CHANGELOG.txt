@@ -1,6 +1,13 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.10
+* Pin to known good version of nokogiri
+* Contribution Guidelines
+* Spec tests
+* Gitea rpm instead of gogs docker container
+* Improvments to virtual course profiles
+
 ## v1.6.9
 * Revert removing gem dependencies
 
