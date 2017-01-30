@@ -55,7 +55,7 @@ class classroom::master::showoff (
 
   stunnel::tun { 'showoff-ssl':
     accept  => '9091',
-    connect => 'localhost:9090',
+    connect => '127.0.0.1:9090',
     options => 'NO_SSLv2',
     cert    => '/etc/stunnel/showoff.pem',
     client  => false,
