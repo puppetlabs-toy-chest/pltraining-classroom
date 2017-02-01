@@ -12,7 +12,7 @@ class classroom::master::docker_registry {
     ports            => ['5000:5000'],
   }
 
-  $image_name = "maci0/systemd"
+  $image_name = "centos:7"
   # Cache the centos image in the local registry
   docker::image { $image_name:}
 
