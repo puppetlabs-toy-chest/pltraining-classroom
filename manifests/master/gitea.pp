@@ -6,11 +6,6 @@ class classroom::master::gitea {
     provider => 'rpm',
     source   => '/usr/src/rpm_cache/gitea.rpm',
     before   => File['/home/git/go/bin/custom/conf/app.ini'],
-    require  => Package['golang-bin', 'golang-src', 'golang'],
-  }
-
-  package { ['golang-bin', 'golang-src', 'golang']:
-    ensure => present,
   }
 
   file { '/home/git/go/bin/custom/conf/app.ini':
