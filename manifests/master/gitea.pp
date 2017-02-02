@@ -18,7 +18,7 @@ class classroom::master::gitea {
     owner   => 'git',
     group   => 'git',
     mode    => '0644',
-    content => template('classroom/app.ini.erb'),
+    source  => 'puppet:///modules/classroom/app.ini',
     notify  => Service['gitea'],
   }
 
