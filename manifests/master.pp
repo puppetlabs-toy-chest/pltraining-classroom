@@ -30,7 +30,7 @@ class classroom::master {
       # the rubygems.org site, even though the local gem cache
       # is configured. Seems to work better if this line is removed
       # altogether.
-      file_line { 'Remove rubygems.org from ${gemrc_file} when offline':
+      file_line { "Remove rubygems.org from ${gemrc_file} when offline":
         ensure            => absent,
         path              => $gemrc_file,
         match             => '\-\ https:\/\/rubygems\.org',
