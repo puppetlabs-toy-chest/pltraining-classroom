@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.12
+* Use 127.0.0.1 for showoff stunnel to avoid DNS issues
+* Hide the puppetcode dir for parser course
+* Add virtual profile to ID course
+
 ## v1.6.11
 * Use centos:7 container
 * Added support for environment-specific Hiera data on master
