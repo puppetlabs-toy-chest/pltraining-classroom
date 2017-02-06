@@ -5,7 +5,7 @@ require 'table_print'
 
 client = JMX.connect(:host => ARGV.first, :port => ARGV.last)
 
-metric_names = client.query_names("metrics:*")
+metric_names = client.query_names("puppetserver:*")
 resources = []
 metric_names.each do |metric_name|
    name_property = metric_name.get_key_property("name").sub(/^"/, "").sub(/"$/, "")
