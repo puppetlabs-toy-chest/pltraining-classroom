@@ -12,9 +12,9 @@ end
 
 def metric_name(name)
   if name =~ /\A[\w.-]+\z/
-    "metrics:name=puppetlabs.#{MetricsId}.#{name}"
+    "puppetserver:name=puppetlabs.#{MetricsId}.#{name}"
   else
-    "metrics:name=\"puppetlabs.#{MetricsId}.#{name}\""
+    "puppetserver:name=\"puppetlabs.#{MetricsId}.#{name}\""
   end
 end
 
