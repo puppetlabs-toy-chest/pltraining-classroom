@@ -48,7 +48,7 @@ class classroom::windows::adserver {
     command     => "Import-Module ADDSDeployment; Install-ADDSForest -Force -DomainName ${classroom::ad_domainname} -DomainMode 6 -DomainNetbiosName ${classroom::ad_netbiosdomainname} -ForestMode 6 -DatabasePath c:\\windows\\ntds -LogPath c:\\windows\\ntds -SysvolPath c:\\windows\\sysvol -SafeModeAdministratorPassword (convertto-securestring '${classroom::ad_dsrmpassword}' -asplaintext -force) -InstallDns",
     provider    => powershell,
     onlyif      => "if((gwmi WIN32_ComputerSystem).Domain -eq \'${classroom::ad_domainname}\'){exit 1}",
-    timeout     => '0',
+    timeout     => '600',
     before      => Exec['SetMachineQuota'],
   }
 
