@@ -8,6 +8,10 @@ sleep_until_puppetserver_started(master)
 sleep_until_puppetdb_started(master)
 sleep_until_nc_started(master)
 
+
+# Run puppet once VM is up before classification
+on master, "puppet agent -t", :acceptible_exit_codes => [0, 2]
+
 # Install a blank presentation and dummy rakefile
 on master, "mkdir -p /home/training/courseware"
 rakefile = 
