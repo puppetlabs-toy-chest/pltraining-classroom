@@ -14,6 +14,10 @@ class classroom::course::puppetize (
       mode  => '0644',
     }
 
+    class { 'classroom':
+      offline => $offline,
+    }
+
     include classroom::master::dependencies::dashboard
     include classroom::master::hiera
 
@@ -38,10 +42,12 @@ class classroom::course::puppetize (
       offline       => $offline,
     }
 
+  } else {
+    include classroom::agent::git
+    include classroom::agent::time
   }
 
   # All nodes
-  include classroom::agent::git
   class { 'classroom::facts':
     coursename => 'puppetizing',
   }
