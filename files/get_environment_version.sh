@@ -6,13 +6,18 @@ if (( $# != 1 )); then
   exit 1
 fi
 
-ENVROOT='/etc/puppetlabs/code/environments'
-GITDIR="${ENVROOT}/${1}/.git"
+CODEDIR='/etc/puppetlabs/code/environments'
+CODESTAGE='/etc/puppetlabs/code-staging/environments'
+GITCODEDIR="${CODEDIR}/${1}/.git"
+GITCODESTAGE="${CODESTAGE}/${1}/.git"
 
-# check to make sure the env repo exists
-if [ -d ${GITDIR} ];
-then
-  git --git-dir ${GITDIR} rev-parse --short HEAD
+# Are we using old-school git clones?
+if [ -d ${GITCODEDIR} ]; then
+  git --git-dir ${GITCODEDIR} rev-parse --short HEAD
+  
+elif [ -d ${GITCODESTAGE} ]; then 
+  git --git-dir ${GITCODESTAGE} rev-parse --short HEAD
+
 else
   date '+%s'
 fi
