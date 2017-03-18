@@ -39,6 +39,11 @@ class classroom::master::pdf_stack {
     require => Yumrepo['robert-pdftk'],
   }
 
+  package { 'puppet-courseware-manager':
+    ensure   => present,
+    provider => gem,
+  }
+
   $fonts = [
     'ucs-miscfixed-fonts.noarch',
     'xorg-x11-fonts-75dpi.noarch',
