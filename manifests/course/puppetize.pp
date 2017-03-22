@@ -14,6 +14,12 @@ class classroom::course::puppetize (
       mode  => '0644',
     }
 
+    # If we're operating in offline mode, start up the gitea service
+    # to host git repositories
+    if str2bool($offline) {
+      include classroom::master::gitea
+    }
+
     include classroom::master::dependencies::dashboard
     include classroom::master::hiera
 
