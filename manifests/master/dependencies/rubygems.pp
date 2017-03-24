@@ -2,7 +2,7 @@ class classroom::master::dependencies::rubygems {
   assert_private('This class should not be called directly')
 
   # These are required by rubygems compiling native code
-  package { ['gcc', 'zlib', 'zlib-devel']:
+  package { ['cmake3', 'gcc', 'zlib', 'zlib-devel']:
     ensure => present,
   }
 
