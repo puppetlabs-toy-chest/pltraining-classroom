@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.14
+* Fix stagedir path for parser and hiera courses
+
 ## v1.6.13
 * Fix metrics endpoints
 * Make rubygems work offline
