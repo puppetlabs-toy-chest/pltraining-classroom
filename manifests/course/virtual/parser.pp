@@ -9,6 +9,7 @@ class classroom::course::virtual::parser (
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
       puppetcode       => '/var/puppetcode',
+      stagedir         => '/etc/puppetlabs/code',
       modulepath       => 'readwrite',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
