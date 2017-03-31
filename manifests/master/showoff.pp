@@ -31,7 +31,7 @@ class classroom::master::showoff (
   }
 
   exec { 'build_pdfs':
-    command     => "rake watermark target=_files/share",
+    command     => "courseware watermark --output _files/share --no-cache",
     cwd         => "${showoff::root}/courseware/",
     path        => '/bin:/usr/bin:/usr/local/bin',
     user        => $showoff::user,
