@@ -9,6 +9,7 @@ class classroom::course::virtual::hiera (
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
       puppetcode       => $classroom::params::workdir,
+      stagedir         => '/etc/puppetlabs/code/',
       modulepath       => 'readwrite',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,
