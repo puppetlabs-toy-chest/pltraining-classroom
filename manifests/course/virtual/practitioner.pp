@@ -5,6 +5,8 @@ class classroom::course::virtual::practitioner (
 ) inherits classroom::params {
   include classroom::virtual
 
+  include classroom::master::reporting_tools
+
   if $role == 'master' {
     File {
       owner => 'root',
