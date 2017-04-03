@@ -10,7 +10,7 @@ class classroom::virtual {
     include classroom::master::perf_logging
   } else {
     # if we ever have universal classification for virtual agents, it will go here
-
+    include classroom::agent::packages
   }
 
   if $::osfamily == 'windows' {
