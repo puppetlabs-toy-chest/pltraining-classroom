@@ -5,7 +5,6 @@ class classroom::course::virtual::practitioner (
 ) inherits classroom::params {
   include classroom::virtual
 
-  include classroom::master::reporting_tools
 
   if $role == 'master' {
     File {
@@ -16,6 +15,7 @@ class classroom::course::virtual::practitioner (
 
     include classroom::master::hiera
     include classroom::master::dependencies::dashboard
+    include classroom::master::reporting_tools
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
