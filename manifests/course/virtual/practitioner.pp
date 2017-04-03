@@ -12,7 +12,6 @@ class classroom::course::virtual::practitioner (
       mode  => '0644',
     }
 
-    include classroom::master::hiera
     include classroom::master::dependencies::dashboard
 
     class { 'puppetfactory':

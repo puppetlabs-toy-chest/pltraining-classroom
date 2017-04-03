@@ -59,6 +59,14 @@ class classroom::agent::hiera {
     }
   }
 
+  file { '/usr/local/bin/hiera_explain.rb':
+    ensure => file,
+    owner => 'root',
+    group => 'root',
+    mode  => '0777',
+    source => 'puppet:///modules/classroom/hiera_explain.rb',
+  }
+
   file { "${hieradata}/common.yaml":
     ensure  => file,
     source  => 'puppet:///modules/classroom/hiera/data/common.yaml',
