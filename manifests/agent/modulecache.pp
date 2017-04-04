@@ -1,35 +1,39 @@
-# Ensures that all offline agents have access to cached modules
+#This module leverages the fact that we can add /usr/src/forge to our base-
+# modulepath to automagically account for offline classes. 
 #
-# Warning: Do not use in production - this is a hack specifically for
-# puppetlabs training courses
-#
-# Use:
-#   Classify all agent nodes
-#
-class classroom::agent::cache (
-
-  #This variable should configure Puppet to use the local cache.
-  $offline_bmp_line = 'basemodulepath = /etc/puppetlabs/code/modules:/opt/puppetlabs/puppet/modules:/usr/src/forge'
-
+class classroom::agent::modulecache (
+  $config = '/etc/puppetlabs/puppet/puppet.conf',
+  $offline_bmp = '/etc/puppetlabs/code/modules:/usr/src/forge:/opt/puppetlabs/puppet/modules/',
 ) {
-  assert_private('This class should not be called directly')
 
-  if $::kernel =~ /Linux/ {
-    if $::classroom::offline {
-      file_line { 'add module cache to basemodulepath' :
-        ensure  => present,
-        path    => '/etc/puppetlabs/puppet/puppet.conf',
-        line    => $offline_bmp_line,
-        after   => '/\[main\]/',
-        match   => '/^\s*basemodulepath\s*=/',
-        replace => true,
+  case $::kernel {
+
+    'linux' : {
+
+      case $::classroom::offline {
+        true  : {
+          $ensure = 'present'
+          $type  = 'offline'
+        }
+        default : {
+          $ensure = 'absent'
+          $type  = 'online'
+        }
       }
-  } else {
-      file_line { 'remove module cache from basemodulepath' :
-        ensure => absent,
-        path   => '/etc/puppetlabs/puppet/puppet.conf',
-        line   => $offline_bmp_line,
+
+      ini_setting { "basemodulepath configured for ${type} instruction" :
+        ensure  => $ensure,
+        path    => $config,
+        section => 'main',
+        setting => 'basemodulepath',
+        value   => $offline_bmp,
       }
+
+
+    }
+
+    default : {}
+
   }
 
 }
