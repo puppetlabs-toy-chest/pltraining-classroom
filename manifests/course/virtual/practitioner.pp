@@ -1,9 +1,10 @@
-class classroom::course::virtual::fundamentals (
+class classroom::course::virtual::practitioner (
   $control_owner = undef,
   $offline       = $classroom::params::offline,
   $session_id    = $classroom::params::session_id,
 ) inherits classroom::params {
   include classroom::virtual
+
 
   if $role == 'master' {
     File {
@@ -13,10 +14,11 @@ class classroom::course::virtual::fundamentals (
     }
 
     include classroom::master::dependencies::dashboard
+    include classroom::master::reporting_tools
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
-      controlrepo      => 'classroom-control-vf.git',
+      controlrepo      => 'classroom-control-vp.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",
@@ -25,14 +27,26 @@ class classroom::course::virtual::fundamentals (
     }
 
     class { 'classroom::facts':
-      coursename => 'fundamentals',
+      coursename => 'practitioner',
     }
 
     class { 'classroom::master::codemanager':
       control_owner => $control_owner,
-      control_repo  => 'classroom-control-vf.git',
+      control_repo  => 'classroom-control-vp.git',
       offline       => $offline,
     }
 
   }
+  elsif $role == 'agent' {
+    puppet_enterprise::mcollective::client { 'peadmin':
+      activemq_brokers => ['master.puppetlabs.vm'],
+      keypair_name     => 'pe-internal-peadmin-mcollective-client',
+      create_user      => true,
+      logfile          => '/var/lib/peadmin/.mcollective.d/client.log',
+      stomp_password   => chomp(file('/etc/puppetlabs/mcollective/credentials','/dev/null')),
+      stomp_port       => 61613,
+      stomp_user       => 'mcollective',
+    }
+  }
+
 }

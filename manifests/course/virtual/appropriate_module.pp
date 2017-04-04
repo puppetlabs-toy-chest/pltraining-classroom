@@ -1,6 +1,7 @@
 class classroom::course::virtual::appropriate_module (
   $session_id = $classroom::params::session_id,
   $role       = $classroom::params::role,
+  $offline    = $classroom::params::offline,
 ) inherits classroom::params {
   include classroom::virtual
 

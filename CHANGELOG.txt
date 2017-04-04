@@ -1,6 +1,14 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.14
+* Fix stagedir path for parser and hiera courses
+
+## v1.6.13
+* Fix metrics endpoints
+* Make rubygems work offline
+* Remove unused incompatible dependency module pget
+
 ## v1.6.12
 * Use 127.0.0.1 for showoff stunnel to avoid DNS issues
 * Hide the puppetcode dir for parser course

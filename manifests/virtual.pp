@@ -5,12 +5,18 @@ class classroom::virtual {
   if $classroom::params::role == 'master' {
     include classroom::master::dependencies::rubygems
     include classroom::master::showoff
+    include classroom::master::hiera
 
     # Configure performance logging
     include classroom::master::perf_logging
+
+    if $offline {
+      include classroom::master::gitea
+    }
   } else {
     # if we ever have universal classification for virtual agents, it will go here
-
+    include classroom::agent::hiera
+    include classroom::agent::packages
   }
 
   if $::osfamily == 'windows' {
