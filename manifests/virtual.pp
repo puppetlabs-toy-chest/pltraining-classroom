@@ -9,6 +9,10 @@ class classroom::virtual {
 
     # Configure performance logging
     include classroom::master::perf_logging
+
+    if $offline {
+      include classroom::master::gitea
+    }
   } else {
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera

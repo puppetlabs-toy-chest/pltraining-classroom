@@ -2,7 +2,8 @@
 # the Infrastructure course
 #
 class classroom::course::infrastructure (
-  $training_password = $classroom::params::training_password
+  $training_password = $classroom::params::training_password,
+  $offline           = $classroom::params::offline
 ) inherits classroom::params {
   include classroom::virtual
   
