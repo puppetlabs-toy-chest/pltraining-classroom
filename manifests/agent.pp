@@ -34,8 +34,8 @@ class classroom::agent {
   # Ensure that the time is always synced with the classroom master
   include classroom::agent::time
 
-  # Promote cached modules to code/modules if we're offline
-  include classroom::agent::cache
+  # Configure basemodulepath for online or offline instruction
+  include classroom::agent::modulecache
 
   # export a classroom::user with our ssh key.
   #
