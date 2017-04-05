@@ -40,4 +40,7 @@ class classroom::virtual {
     windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
   }
 
+
+  # fix augeas lens until it's updated in PE
+  include classroom::agent::augeas
 }
