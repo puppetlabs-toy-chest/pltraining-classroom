@@ -1,6 +1,7 @@
 class classroom::course::virtual::parser (
   $session_id = $classroom::params::session_id,
   $role       = $classroom::params::role,
+  $offline    = $classroom::params::offline,
 ) inherits classroom::params {
   include classroom::virtual
 
@@ -8,7 +9,8 @@ class classroom::course::virtual::parser (
 
     class { 'puppetfactory':
       plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
-      puppetcode       => $classroom::params::workdir,
+      puppetcode       => '/var/puppetcode',
+      stagedir         => '/etc/puppetlabs/code',
       modulepath       => 'readwrite',
       usersuffix       => $classroom::params::usersuffix,
       session          => $session_id,

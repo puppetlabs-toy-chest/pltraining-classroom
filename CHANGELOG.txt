@@ -1,6 +1,32 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.6.14
+* Fix stagedir path for parser and hiera courses
+
+## v1.6.13
+* Fix metrics endpoints
+* Make rubygems work offline
+* Remove unused incompatible dependency module pget
+
+## v1.6.12
+* Use 127.0.0.1 for showoff stunnel to avoid DNS issues
+* Hide the puppetcode dir for parser course
+* Add virtual profile to ID course
+
+## v1.6.11
+* Use centos:7 container
+* Added support for environment-specific Hiera data on master
+* Remove unused go packages
+* Pin wkhtmltopdf to 0.12.3-1
+
+## v1.6.10
+* Pin to known good version of nokogiri
+* Contribution Guidelines
+* Spec tests
+* Gitea rpm instead of gogs docker container
+* Improvments to virtual course profiles
+
 ## v1.6.9
 * Revert removing gem dependencies
 

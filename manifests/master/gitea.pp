@@ -6,11 +6,10 @@ class classroom::master::gitea {
     provider => 'rpm',
     source   => '/usr/src/rpm_cache/gitea.rpm',
     before   => File['/home/git/go/bin/custom/conf/app.ini'],
-    require  => Package['golang-bin', 'golang-src', 'golang'],
   }
-
-  package { ['golang-bin', 'golang-src', 'golang']:
+  package { 'golang':
     ensure => present,
+    before => Package['gitea'],
   }
 
   file { '/home/git/go/bin/custom/conf/app.ini':
@@ -18,7 +17,7 @@ class classroom::master::gitea {
     owner   => 'git',
     group   => 'git',
     mode    => '0644',
-    content => template('classroom/app.ini.erb'),
+    source  => 'puppet:///modules/classroom/app.ini',
     notify  => Service['gitea'],
   }
 

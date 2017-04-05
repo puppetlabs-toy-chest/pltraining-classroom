@@ -1,9 +1,9 @@
 class classroom::course::virtual::code_management (
   $session_id = $classroom::params::session_id,
   $role       = $classroom::params::role,
+  $offline    = $classroom::params::offline,
 ) inherits classroom::params {
   include classroom::virtual
-  include r10k::mcollective
 
   if $role == 'master' {
     class { 'puppetfactory':
