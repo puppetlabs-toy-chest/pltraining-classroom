@@ -27,6 +27,9 @@ RSpec.configure do |c|
     :classroom_vm_release => '5.7',
     :puppetserver => 'master.puppetlabs.vm',
     :staging_http_get => '/staging',
+    :augeas => {
+      :version => '1.4.0'
+    },
     :os => {
       :selinux => {
         :enabled => false
