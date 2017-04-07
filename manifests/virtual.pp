@@ -1,5 +1,7 @@
 # common configuration for all virtual classes
-class classroom::virtual {
+class classroom::virtual (
+  Boolean $offline = false,
+) {
   assert_private('This class should not be called directly')
 
   if $classroom::params::role == 'master' {
