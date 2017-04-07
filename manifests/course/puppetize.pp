@@ -18,7 +18,7 @@ class classroom::course::puppetize (
     include classroom::master::hiera
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz", "Gitea" ],
       controlrepo      => 'classroom-control-pi.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,

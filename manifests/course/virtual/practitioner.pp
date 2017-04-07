@@ -17,7 +17,7 @@ class classroom::course::virtual::practitioner (
     include classroom::master::reporting_tools
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitea" ],
       controlrepo      => 'classroom-control-vp.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,

@@ -15,7 +15,7 @@ class classroom::course::virtual::fundamentals (
     include classroom::master::dependencies::dashboard
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitea" ],
       controlrepo      => 'classroom-control-vf.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
