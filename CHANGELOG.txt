@@ -1,6 +1,14 @@
 # pltraining/classroom
 ## Release Notes
 
+## v.1.7.0
+* Use DSC for adserver in windows
+* Virtual Practitioner profile
+* Update Gitea profile and dependencies
+* bug fixes for hiera course
+* bug fixes for windows course
+* bug fixes for kerberos and postfix
+
 ## v1.6.14
 * Fix stagedir path for parser and hiera courses
 
