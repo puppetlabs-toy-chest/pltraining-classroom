@@ -3,7 +3,9 @@ class classroom::course::virtual::first_module (
   $role       = $classroom::params::role,
   $offline    = $classroom::params::offline,
 ) inherits classroom::params {
-  include classroom::virtual
+  class { 'classroom::virtual':
+    offline => $offline,
+  }
 
   # Classroom for First Module
   if $role == 'master' {

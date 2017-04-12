@@ -3,8 +3,9 @@ class classroom::course::virtual::practitioner (
   $offline       = $classroom::params::offline,
   $session_id    = $classroom::params::session_id,
 ) inherits classroom::params {
-  include classroom::virtual
-
+  class { 'classroom::virtual':
+    offline => $offline,
+  }
 
   if $role == 'master' {
     File {

@@ -3,7 +3,9 @@ class classroom::course::virtual::code_management (
   $role       = $classroom::params::role,
   $offline    = $classroom::params::offline,
 ) inherits classroom::params {
-  include classroom::virtual
+  class { 'classroom::virtual':
+    offline => $offline,
+  }
 
   if $role == 'master' {
     class { 'puppetfactory':
