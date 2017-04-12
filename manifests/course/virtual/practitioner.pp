@@ -1,9 +1,11 @@
 class classroom::course::virtual::practitioner (
-  $control_owner = undef,
+  $control_owner,
   $offline       = $classroom::params::offline,
   $session_id    = $classroom::params::session_id,
 ) inherits classroom::params {
-  include classroom::virtual
+  class { 'classroom::virtual':
+    offline => $offline,
+  }
 
   if $role == 'master' {
     File {
@@ -12,11 +14,19 @@ class classroom::course::virtual::practitioner (
       mode  => '0644',
     }
 
-    include classroom::master::hiera
     include classroom::master::dependencies::dashboard
+    include classroom::master::reporting_tools
+
+    $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
+
+    if $offline {
+      $plugin_list = flatten([$base_plugin_list, "Gitea" ])
+    } else {
+      $plugin_list = $base_plugin_list
+    }
 
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      plugins          => $plugin_list,
       controlrepo      => 'classroom-control-vp.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,

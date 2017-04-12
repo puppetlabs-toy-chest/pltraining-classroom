@@ -1,7 +1,16 @@
+require 'puppetlabs_spec_helper/module_spec_helper'
 require 'beaker-rspec'
 
-on default, puppet('module', 'install', 'pltraining-classroom', '--modulepath=/etc/puppetlabs/code/modules')
-copy_module_to(default, source: '.', module_name: 'classroom', target_module_path: '/etc/puppetlabs/code/modules')
+rsync_to(master, 'spec/fixtures/modules/', '/etc/puppetlabs/code/modules')
+
+sleep 100
+sleep_until_puppetserver_started(master)
+sleep_until_puppetdb_started(master)
+sleep_until_nc_started(master)
+
+
+# Run puppet once VM is up before classification
+on master, "puppet agent -t", :acceptible_exit_codes => [0, 2]
 
 # Install a blank presentation and dummy rakefile
 on master, "mkdir -p /home/training/courseware"
