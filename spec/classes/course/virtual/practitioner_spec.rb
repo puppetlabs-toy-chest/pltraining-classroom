@@ -1,8 +1,9 @@
 require 'spec_helper'
 
-describe 'classroom::course::virtual::fundamentals' do
+describe 'classroom::course::virtual::practitioner' do
 
   parameter_matrix = [
+    { :offline => true },
     { :offline => true, :control_owner => 'puppetlabs-education' },
     { :control_owner => 'puppetlabs-education' }
   ]
