@@ -1,9 +1,11 @@
 class classroom::course::virtual::fundamentals (
-  $control_owner = undef,
+  $control_owner,
   $offline       = $classroom::params::offline,
   $session_id    = $classroom::params::session_id,
 ) inherits classroom::params {
-  include classroom::virtual
+  class { 'classroom::virtual':
+    offline => $offline,
+  }
 
   if $role == 'master' {
     File {
@@ -14,8 +16,16 @@ class classroom::course::virtual::fundamentals (
 
     include classroom::master::dependencies::dashboard
 
+    $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
+
+    if $offline {
+      $plugin_list = flatten([$base_plugin_list, "Gitea" ])
+    } else {
+      $plugin_list = $base_plugin_list
+    }
+
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ],
+      plugins          => $plugin_list,
       controlrepo      => 'classroom-control-vf.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,

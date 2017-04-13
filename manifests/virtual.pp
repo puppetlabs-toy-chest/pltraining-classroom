@@ -1,5 +1,7 @@
 # common configuration for all virtual classes
-class classroom::virtual {
+class classroom::virtual (
+  Boolean $offline = false,
+) {
   assert_private('This class should not be called directly')
 
   if $classroom::params::role == 'master' {
@@ -17,6 +19,7 @@ class classroom::virtual {
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera
     include classroom::agent::packages
+    include classroom::agent::postfix_ipv4
   }
 
   if $::osfamily == 'windows' {
@@ -40,4 +43,7 @@ class classroom::virtual {
     windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
   }
 
+
+  # fix augeas lens until it's updated in PE
+  include classroom::agent::augeas
 }
