@@ -6,7 +6,9 @@ class classroom::windows {
     groups => ['Administrators'],
   }
 
-  include chocolatey
+  class {'chocolatey':
+    chocolatey_version => '0.10.3',
+  }
 
   chocolateyfeature { 'allowEmptyChecksums':
     ensure => enabled,
