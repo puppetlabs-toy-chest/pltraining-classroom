@@ -4,7 +4,9 @@ class classroom::course::puppetize (
   $offline      = $classroom::params::offline,
   $session_id   = $classroom::params::session_id,
 ) inherits classroom::params {
-  include classroom::virtual
+  class { 'classroom::virtual':
+    offline => $offline,
+  }
 
   if $::fqdn == 'master.puppetlabs.vm' {
     # Classroom Master
@@ -17,8 +19,16 @@ class classroom::course::puppetize (
     include classroom::master::dependencies::dashboard
     include classroom::master::hiera
 
+    $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ]
+
+    if $offline {
+      $plugin_list = flatten([$base_plugin_list, "Gitea" ])
+    } else {
+      $plugin_list = $base_plugin_list
+    }
+
     class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ],
+      plugins          => $plugin_list,
       controlrepo      => 'classroom-control-pi.git',
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,

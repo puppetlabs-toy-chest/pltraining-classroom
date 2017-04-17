@@ -2,7 +2,6 @@ require 'spec_helper_acceptance'
 
 describe 'classroom' do
     before(:all) do
-      sleep_until_puppetserver_started(master)
       on master, "echo 'node default { include classroom }' > /etc/puppetlabs/code/environments/production/manifests/site.pp"
     end
 

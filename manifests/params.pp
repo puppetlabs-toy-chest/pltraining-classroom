@@ -59,7 +59,7 @@ class classroom::params {
   # Windows active directory setup parameters
   $ad_domainname           = 'CLASSROOM.local'
   $ad_netbiosdomainname    = 'CLASSROOM'
-  $ad_dsrmpassword         = 'Puppetlabs1'
+  $ad_dsrmpassword         = 'PuppetLabs1'
 
   # Tuning parameters for classroom master performance
   $jruby_purge        = false    # See https://tickets.puppetlabs.com/browse/PE-9704

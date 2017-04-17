@@ -2,12 +2,13 @@ class classroom::windows::alias {
 
   assert_private('This class should not be called directly')
 
+  $ps_module_root = 'C:/Users/Administrator/Documents/WindowsPowerShell'
   $ps_module_path = 'C:/Users/Administrator/Documents/WindowsPowerShell/Modules'
   $alias_dir      = "${ps_module_path}/alias"
   $psm_file       = 'alias.psm1'
   $psd_file       = 'alias.psd1'
 
-  file { [$ps_module_path, $alias_dir] :
+  file { [$ps_module_root, $ps_module_path, $alias_dir] :
     ensure => directory,
   }
 

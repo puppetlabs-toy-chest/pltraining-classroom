@@ -7,6 +7,10 @@ class classroom::master::gitea {
     source   => '/usr/src/rpm_cache/gitea.rpm',
     before   => File['/home/git/go/bin/custom/conf/app.ini'],
   }
+  package { 'golang':
+    ensure => present,
+    before => Package['gitea'],
+  }
 
   file { '/home/git/go/bin/custom/conf/app.ini':
     ensure  => file,

@@ -9,6 +9,8 @@
   - "%{clientcert}"
   - overrides
   - "environments/%{environment}/hieradata/%{::trusted.certname}"
+  - "environments/%{environment}/hieradata/nodes/%{clientcert}"
+  - "environments/%{environment}/hieradata/%{environment}"
   - "environments/%{environment}/hieradata/common"
   - "%{environment}"
   - classroom
