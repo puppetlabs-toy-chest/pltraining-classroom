@@ -15,6 +15,8 @@ class classroom::virtual (
     if $offline {
       include classroom::master::gitea
     }
+  } elsif $classroom::params::role == 'proxy' {
+    include classroom::master::proxy
   } else {
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera
