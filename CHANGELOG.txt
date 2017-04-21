@@ -1,6 +1,16 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.1
+* Fix some Unix paths when applied on Windows
+* Don't fail when the augeas fact isn't available
+* Fix a few typos
+* Classify the proxy node in virtual classes that use it
+* Include peadmin classification on Practioner student nodes
+* Install a known good version of chocolatey to mitigate recent breakage
+* Control repo fixes for virtual practitioner
+* Configure Gitea automatically in offline mode
+
 ## v.1.7.0
 * Use DSC for adserver in windows
 * Virtual Practitioner profile
