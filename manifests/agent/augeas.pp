@@ -1,5 +1,5 @@
 class classroom::agent::augeas {
-  if $facts['augeas']['version'] == '1.4.0' {
+  if $facts.dig('augeas', 'version') == '1.4.0' {
     # The version of Augeas that ships with PE doesn't support current krb5.conf
     # until it's updated, install a new lens.
     $lens_dirs = [
