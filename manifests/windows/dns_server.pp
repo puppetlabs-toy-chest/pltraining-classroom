@@ -2,7 +2,6 @@
 define classroom::windows::dns_server (
   $ip = '8.8.8.8',
 ) {
-    }
     # Only run on windows
     if $::osfamily  == 'windows' {
       exec { 'set_dns':
