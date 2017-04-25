@@ -40,11 +40,12 @@ class classroom::agent::git {
     class { '::git':
       before => [ File[$sshpath], Exec['generate_key'] ],
     }
-  }
-
-  file { $sshpath:
-    ensure => directory,
-    mode   => '0600',
+    
+    # this may be causing odd directory permissions on windows
+    file { $sshpath:
+      ensure => directory,
+      mode   => '0600',
+    }    
   }
 
   exec { 'generate_key':
