@@ -1,8 +1,12 @@
 class classroom::agent::packages {
-  $packages = [
-    'openssl',         # used for generating password hashes for user resources
-  ]
 
+  $packages = $osfamily ? {
+    'windows' => [],
+    default   => [
+      'openssl',         # used for generating password hashes for user resources
+    ],
+  }
+  
   package { $packages:
     ensure => present,
   }
