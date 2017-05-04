@@ -15,11 +15,16 @@ class classroom::virtual (
     if $offline {
       include classroom::master::gitea
     }
+  } elsif $classroom::params::role == 'proxy' {
+    include classroom::proxy
   } else {
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera
     include classroom::agent::packages
-    include classroom::agent::postfix_ipv4
+    
+    unless $osfamily == 'windows' {
+      include classroom::agent::postfix_ipv4
+    }
   }
 
   if $::osfamily == 'windows' {
@@ -35,7 +40,10 @@ class classroom::virtual (
     Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
 
     # Windows Agents
-    include chocolatey
+    class {'chocolatey':
+      chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
+    }
+
     include classroom::windows::disable_esc
     include classroom::windows::enable_rdp
     include classroom::windows::geotrust

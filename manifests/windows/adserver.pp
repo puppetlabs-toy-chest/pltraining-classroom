@@ -8,61 +8,73 @@ class classroom::windows::adserver {
     provider => powershell,
   }
 
-  # Install AD Server feature
-#  dsc_windowsfeature { 'ADDSInstall':
-#    dsc_ensure => 'Present',
-#    dsc_name   => 'AD-Domain-Services',
-#    require    => [Exec['RequirePassword'],Exec['Install WMF5']],
-#  }
-
-  exec { "add-feature-adserver":
-    command   => "Import-Module ServerManager; Install-WindowsFeature AD-Domain-Services -IncludeManagementTools -IncludeAllSubFeature -Restart:\$true",
-    onlyif    => "Import-Module ServerManager; if (@(Get-WindowsFeature AD-Domain-Services | ?{\$_.Installed -match \'false\'}).count -eq 0) { exit 1 }",
-    provider  => powershell,
-    before    => Exec['Config ADDS'],
+  exec { 'Install WMF5':
+    command  => file('classroom/install_wmf5.ps1'),
+    unless   => 'if ($PSVersionTable.PSVersion.Major -ne 5){exit 1}',
+    provider => powershell,
+    notify   => Reboot['after_wmf5_install'],
   }
+
+  reboot { 'after_wmf5_install':
+    when => pending,
+  }
+  # Install AD Server feature
+  dsc_windowsfeature { 'ADDSInstall':
+    dsc_ensure => 'Present',
+    dsc_name   => 'AD-Domain-Services',
+    require    => [Exec['RequirePassword'],Exec['Install WMF5']],
+  }
+
+  #  exec { "add-feature-adserver":
+  #  command   => "Import-Module ServerManager; Install-WindowsFeature AD-Domain-Services -IncludeManagementTools -IncludeAllSubFeature -Restart:\$true",
+  #  onlyif    => "Import-Module ServerManager; if (@(Get-WindowsFeature AD-Domain-Services | ?{\$_.Installed -match \'false\'}).count -eq 0) { exit 1 }",
+  #  provider  => powershell,
+  #  before    => Exec['Config ADDS'],
+  #}
 
  # Setup Classroom Domain
-#  dsc_xaddomain { 'FirstDS':
-#    dsc_domainname                    => $classroom::ad_domainname,
-#    dsc_domainadministratorcredential => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
-#    dsc_safemodeadministratorpassword => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
-#    require                           => Dsc_windowsfeature['ADDSInstall'],
-#  }
+  dsc_xaddomain { 'FirstDS':
+    dsc_domainname                    => $classroom::ad_domainname,
+    dsc_domainadministratorcredential => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
+    dsc_safemodeadministratorpassword => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
+    require                           => Dsc_windowsfeature['ADDSInstall'],
+  }
 #
-#  reboot {'after_AD':
-#    subscribe => Dsc_xaddomain['FirstDS'],
-#    notify    => Dsc_xwaitforaddomain['DscForestWait'],
-#  }
+  reboot {'dsc_reboot':
+    #    subscribe => Dsc_xaddomain['FirstDS'],
+    #notify        => Dsc_xwaitforaddomain['DscForestWait'],
+    message        => 'DSC has requested a reboot',
+    when           => 'pending',
+  }
 #
-#  dsc_xwaitforaddomain { 'DscForestWait':
-#    dsc_domainname           => $classroom::ad_domainname,
-#    dsc_domainusercredential => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
-#    dsc_retrycount           => '50',
-#    dsc_retryintervalsec     => '30',
-#    require                  => Dsc_xaddomain['FirstDS']
-#  }
+  dsc_xwaitforaddomain { 'DscForestWait':
+    dsc_domainname           => $classroom::ad_domainname,
+    dsc_domainusercredential => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
+    dsc_retrycount           => '50',
+    dsc_retryintervalsec     => '30',
+    require                  => Dsc_xaddomain['FirstDS']
+  }
 #
 
-  exec { 'Config ADDS':
-    command     => "Import-Module ADDSDeployment; Install-ADDSForest -Force -DomainName ${classroom::ad_domainname} -DomainMode 6 -DomainNetbiosName ${classroom::ad_netbiosdomainname} -ForestMode 6 -DatabasePath c:\\windows\\ntds -LogPath c:\\windows\\ntds -SysvolPath c:\\windows\\sysvol -SafeModeAdministratorPassword (convertto-securestring '${classroom::ad_dsrmpassword}' -asplaintext -force) -InstallDns",
-    provider    => powershell,
-    onlyif      => "if((gwmi WIN32_ComputerSystem).Domain -eq \'${classroom::ad_domainname}\'){exit 1}",
-    timeout     => '600',
-    before      => Exec['SetMachineQuota'],
-  }
+#  exec { 'Config ADDS':
+#    command     => "Import-Module ADDSDeployment; Install-ADDSForest -Force -DomainName ${classroom::ad_domainname} -DomainMode 6 -DomainNetbiosName ${classroom::ad_netbiosdomainname} -ForestMode 6 -DatabasePath c:\\windows\\ntds -LogPath c:\\windows\\ntds -SysvolPath c:\\windows\\sysvol -SafeModeAdministratorPassword (convertto-securestring '${classroom::ad_dsrmpassword}' -asplaintext -force) -InstallDns",
+#    provider    => powershell,
+#    onlyif      => "if((gwmi WIN32_ComputerSystem).Domain -eq \'${classroom::ad_domainname}\'){exit 1}",
+#    timeout     => '0',
+#    before      => Exec['SetMachineQuota'],
+#  }
 
-  reboot { 'after ADDS':
-    subscribe => Exec['Config ADDS'],
-  }
+#  reboot { 'after ADDS':
+#    subscribe => Exec['Config ADDS'],
+#  }
 
   # Increase the number of machines that a single user can join to the domain
   exec { 'SetMachineQuota':
     command      => 'get-addomain |set-addomain -Replace @{\'ms-DS-MachineAccountQuota\'=\'99\'}',
     unless       => 'if ((get-addomain | get-adobject -prop \'ms-DS-MachineAccountQuota\' | select -exp \'ms-DS-MachineAccountQuota\') -lt 99) {exit 1}',
     provider     => powershell,
-    #    require => Dsc_xwaitforaddomain['DscForestWait'],
-    require      => Reboot['after ADDS'],
+        require => Dsc_xwaitforaddomain['DscForestWait'],
+    #    require      => Reboot['after_AD'],
   }
 
   exec { 'STUDENTS OU':
@@ -72,42 +84,42 @@ class classroom::windows::adserver {
     require  => Exec['SetMachineQuota']
   }
 
-#  dsc_xadgroup { 'WebsiteAdmins':
-#    dsc_groupname => $title,
-#    dsc_groupscope => 'Global',
-#    dsc_description => 'Web Admins',
-#    dsc_ensure      => 'Present',
-#  }
-  exec { 'Website Admins Group':
-    command     => "import-module activedirectory;New-ADGroup -Description 'Website Administrators' -DisplayName 'WebAdmins' -Name 'WebAdmins' -GroupCategory 'Security' -GroupScope 'Global' -Path 'CN=Users,DC=CLASSROOM,DC=LOCAL'",
-    onlyif      => "\$groupname = \"WebAdmins\";\$path = \"CN=Users,DC=CLASSROOM,DC=LOCAL\";\$oustring = \"CN=\$groupname,\$path\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1}",
-    provider    => powershell,
-    require     => Exec['STUDENTS OU'],
+  dsc_xadgroup { 'WebsiteAdmins':
+    dsc_groupname => 'WebsiteAdmins',
+    dsc_groupscope => 'Global',
+    dsc_description => 'Web Admins',
+    dsc_ensure      => 'Present',
+  }
+  #  exec { 'Website Admins Group':
+  #  command     => "import-module activedirectory;New-ADGroup -Description 'Website Administrators' -DisplayName 'WebAdmins' -Name 'WebAdmins' -GroupCategory 'Security' -GroupScope 'Global' -Path 'CN=Users,DC=CLASSROOM,DC=LOCAL'",
+  #  onlyif      => "\$groupname = \"WebAdmins\";\$path = \"CN=Users,DC=CLASSROOM,DC=LOCAL\";\$oustring = \"CN=\$groupname,\$path\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1}",
+  #  provider    => powershell,
+  #  require     => Exec['STUDENTS OU'],
+  #}
+
+  dsc_xaduser { 'admin':
+    dsc_domainname => $classroom::ad_domainname,
+    dsc_domainadministratorcredential =>
+      {
+        'user' => 'Administrator',
+        'password' => $classroom::ad_dsrmpassword,
+      },
+    dsc_username => 'admin',
+    dsc_password =>
+      {
+        'user' => 'admin',
+        'password' => 'M1Gr3atP@ssw0rd',
+      },
+    dsc_ensure => 'present',
+    require => Dsc_xwaitforaddomain['DscForestWait']
   }
 
-#  dsc_xaduser { 'admin':
-#    dsc_domainname                    => $classroom::ad_domainname,
-#    dsc_domainadministratorcredential =>
-#      {
-#        'user' => 'Administrator',
-#        'password' => $classroom::addsrmpassword,
-#      },
-#    dsc_username => 'admin',
-#    dsc_password =>
-#      {
-#        'user' => 'admin',
-#        'password' => 'M1Gr3atP@ssw0rd',
-#      },
-#    dsc_ensure => 'Present',
-#    require => Dsc_xwaitforaddomain['DscForestWait']
-#  }
-
-  exec { "Add User - admin":
-    command     => "import-module servermanager;add-windowsfeature -name 'rsat-ad-powershell' -includeAllSubFeature;import-module activedirectory;New-ADUser -name 'Classroom Admin' -DisplayName 'Classroom Admin' -GivenName 'Classroom' -SurName 'Admin' -Email 'admin@CLASSROOM.local' -Samaccountname 'admin' -UserPrincipalName 'admin@CLASSROOM.local' -Description 'Classroom Administrator' -PasswordNeverExpires \$true -path 'OU=STUDENTS,DC=CLASSROOM,DC=local' -AccountPassword (ConvertTo-SecureString 'Adm1nP@SSw0rd' -AsPlainText -force) -Enabled \$true;",
-    onlyif      => "\$oustring = \"CN=Classroom Admin,OU=STUDENTS,DC=CLASSROOM,DC=local\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1}",
-    provider    => powershell,
-    require     => Exec['STUDENTS OU'],
-  }
+  #  exec { "Add User - admin":
+  #  command     => "import-module servermanager;add-windowsfeature -name 'rsat-ad-powershell' -includeAllSubFeature;import-module activedirectory;New-ADUser -name 'Classroom Admin' -DisplayName 'Classroom Admin' -GivenName 'Classroom' -SurName 'Admin' -Email 'admin@CLASSROOM.local' -Samaccountname 'admin' -UserPrincipalName 'admin@CLASSROOM.local' -Description 'Classroom Administrator' -PasswordNeverExpires \$true -path 'OU=STUDENTS,DC=CLASSROOM,DC=local' -AccountPassword (ConvertTo-SecureString 'Adm1nP@SSw0rd' -AsPlainText -force) -Enabled \$true;",
+  #  onlyif      => "\$oustring = \"CN=Classroom Admin,OU=STUDENTS,DC=CLASSROOM,DC=local\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1}",
+  #  provider    => powershell,
+  #  require     => Exec['STUDENTS OU'],
+  #}
 
   # Download install for brackets lab
   class { 'staging':

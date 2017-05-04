@@ -12,19 +12,21 @@ class classroom::master::docker_registry {
     ports            => ['5000:5000'],
   }
 
-  $image_name = "centos:7"
+  $image_name = 'centos'
+  $image_tag = '7'
+  $image_name_full = "${image_name}:${image_tag}"
   # Cache the centos image in the local registry
-  docker::image { $image_name:}
+  docker::image { $image_name_full:}
 
   # Tag image
-  exec { "docker tag ${image_name} localhost:5000/${image_name}":
+  exec { "docker tag ${image_name_full} localhost:5000/${image_name_full}":
     path    => '/usr/bin/:/bin',
     unless  => "docker images | grep localhost:5000/${image_name}",
-    require => [Docker::Image[$image_name],Docker::Image['registry']],
+    require => [Docker::Image[$image_name_full],Docker::Image['registry']],
   }
-  exec { "docker push localhost:5000/${image_name}":
+  exec { "docker push localhost:5000/${image_name_full}":
     path    => $::path,
     unless  => "curl -Is -X GET http://localhost:5000/v2/centos/manifests/${::operatingsystemmajrelease} | grep '200 OK'",
-    require => Exec["docker tag ${image_name} localhost:5000/${image_name}"]
+    require => Exec["docker tag ${image_name_full} localhost:5000/${image_name_full}"]
   }
 }
