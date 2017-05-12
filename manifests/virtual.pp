@@ -21,7 +21,10 @@ class classroom::virtual (
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera
     include classroom::agent::packages
-    include classroom::agent::postfix_ipv4
+    
+    unless $osfamily == 'windows' {
+      include classroom::agent::postfix_ipv4
+    }
   }
 
   if $::osfamily == 'windows' {
