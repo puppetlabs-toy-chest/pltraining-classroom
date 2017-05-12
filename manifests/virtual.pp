@@ -37,7 +37,10 @@ class classroom::virtual (
     Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
 
     # Windows Agents
-    include chocolatey
+    class {'chocolatey':
+      chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
+    }
+
     include classroom::windows::disable_esc
     include classroom::windows::enable_rdp
     include classroom::windows::geotrust

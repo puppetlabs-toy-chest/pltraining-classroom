@@ -7,7 +7,7 @@ class classroom::windows {
   }
 
   class {'chocolatey':
-    chocolatey_version => '0.10.3',
+    chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
   }
 
   chocolateyfeature { 'allowEmptyChecksums':
