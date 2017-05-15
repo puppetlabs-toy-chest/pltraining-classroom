@@ -16,12 +16,12 @@ class classroom::agent::rubygems (
     # When offline, install gems from the /var/cache/rubygems directory,
     # and install them in the order listed here
     $rspec_puppet_gems = [ 'diff-lcs', 'rspec-support', 'rspec-mocks', 'rspec-expectations', 'rspec-core', 'rspec', 'rspec-puppet' ]
-    offline_gem_installer($rspec_puppet_gems, 'puppet_gem')
+    classroom::offline_gem_installer($rspec_puppet_gems, 'puppet_gem')
 
     $psh_gems = [ 'metaclass', 'mocha', 'puppet-syntax', 'puppet-lint', 'puppetlabs_spec_helper' ]
-    offline_gem_installer($psh_gems, 'puppet_gem')
+    classroom::offline_gem_installer($psh_gems, 'puppet_gem')
 
     $serverspec_gems = [ 'sfl', 'net-telnet', 'net-scp', 'specinfra', 'multi_json', 'rspec-its', 'serverspec' ]
-    offline_gem_installer($serverspec_gems, 'gem')
+    classroom::offline_gem_installer($serverspec_gems, 'gem')
   }
 }

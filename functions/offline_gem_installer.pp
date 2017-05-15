@@ -3,7 +3,7 @@ function classroom::offline_gem_installer(Array $gems, String $provider) {
     package { $gemname:
       ensure          => present,
       install_options => '-l',
-      source          => "/var/cache/rubygems/${gemname}-[0-9]*.gem",
+      source          => "/var/cache/rubygems/gems/${gemname}-[0-9]*.gem",
       provider        => $provider,
     }
 
