@@ -45,7 +45,7 @@ class classroom (
     'proxy'    : { include classroom::proxy      }
     default    : { fail("Unknown role: ${role}") }
   }
-
+  include classroom::issue
   include classroom::repositories
 
   # trust classroom CA so students can download from the master
