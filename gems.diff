@@ -1,0 +1,61 @@
+diff --git a/manifests/agent/rubygems.pp b/manifests/agent/rubygems.pp
+new file mode 100644
+index 0000000..3cb0e5d
+--- /dev/null
++++ b/manifests/agent/rubygems.pp
+@@ -0,0 +1,40 @@
++class classroom::agent::rubygems (
++  Boolean $offline = false,
++) {
++  if !$offline {
++    # When online, simple package resources work fine
++    package { [ 'rspec-puppet', 'puppetlabs_spec_helper' ]:
++      ensure   => present,
++      provider => 'puppet_gem',
++    }
++
++    package { 'serverspec':
++      ensure   => present,
++      provider => 'gem',
++    }
++  } else {
++    # When offline, install gems from the /var/cache/rubygems directory
++
++    exec { 'install rspec gems':
++      command => 'gem install -l rspec-puppet-2.3.0.gem',
++      cwd     => '/var/cache/rubygems/gems',
++      path    => '/opt/puppetlabs/puppet/bin:/bin',
++      unless  => 'gem list rspec-puppet | grep -q ^rspec-puppet',
++    }
++
++    exec { 'install psh gems':
++      command => 'gem install -l puppetlabs_spec_helper-1.0.1.gem',
++      cwd     => '/var/cache/rubygems/gems',
++      path    => '/opt/puppetlabs/puppet/bin:/bin',
++      unless  => 'gem list puppetlabs_spec_helper | grep -q ^puppetlabs_spec_helper',
++    }
++
++    # Install serverspec with system gem instead of Puppet gem
++    exec { 'install serverspec gems':
++      command => 'gem install -l serverspec-2.27.0.gem',
++      cwd     => '/var/cache/rubygems/gems',
++      path    => '/bin',
++      unless  => 'gem list serverspec | grep -q ^serverspec',
++    }
++  }
++}
+diff --git a/manifests/virtual.pp b/manifests/virtual.pp
+index cc5d1b7..7cfedc1 100644
+--- a/manifests/virtual.pp
++++ b/manifests/virtual.pp
+@@ -21,6 +21,10 @@ class classroom::virtual (
+     # if we ever have universal classification for virtual agents, it will go here
+     include classroom::agent::hiera
+     include classroom::agent::packages
++
++    class { 'classroom::agent::rubygems':
++      offline => $offline,
++    }
+     
+     unless $osfamily == 'windows' {
+       include classroom::agent::postfix_ipv4

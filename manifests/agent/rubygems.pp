@@ -15,7 +15,7 @@ class classroom::agent::rubygems (
   } else {
     # When offline, install gems from the /var/cache/rubygems directory
 
-    exec { 'install rspec gems':
+    exec { 'install rspec-puppet gems':
       command => 'gem install -l rspec-puppet-2.3.0.gem',
       cwd     => '/var/cache/rubygems/gems',
       path    => '/opt/puppetlabs/puppet/bin:/bin',
