@@ -21,7 +21,7 @@ class classroom::agent::hiera {
     }
   }
 
-  $hieradata = "${classroom::codedir}/hieradata"
+  $hieradata = "${classroom::params::codedir}/hieradata"
 
   if $classroom::manage_repos {
     file { $hieradata:
@@ -29,16 +29,16 @@ class classroom::agent::hiera {
       # the hieradata dir is empty so forcing to
       # replace directory with symlink on Win 2012
       force => true,
-      target => "${classroom::workdir}/hieradata",
+      target => "${classroom::params::workdir}/hieradata",
     }
 
-    file { "${classroom::confdir}/hiera.yaml":
+    file { "${classroom::params::confdir}/hiera.yaml":
       ensure => link,
-      target => "${classroom::workdir}/hiera.yaml",
+      target => "${classroom::params::workdir}/hiera.yaml",
       force  => true,
     }
 
-    file { "${classroom::workdir}/hiera.yaml":
+    file { "${classroom::params::workdir}/hiera.yaml":
       ensure  => file,
       content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       replace => false,
@@ -52,7 +52,7 @@ class classroom::agent::hiera {
 
     # Because PE writes a default, we have to do tricks to see if we've already managed this.
     unless defined('$puppetlabs_class') {
-      file { "${classroom::confdir}/hiera.yaml":
+      file { "${classroom::params::confdir}/hiera.yaml":
         ensure  => file,
         content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       }
