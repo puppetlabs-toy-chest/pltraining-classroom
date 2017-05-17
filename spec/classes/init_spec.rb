@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe 'classroom' do
+  #before(:each) {
+  #  Puppet::Parser::Functions.newfunction(:assert_private, :type => :rvalue) {
+  #    true
+  #  }
+  #}
   context 'agent' do
     let(:node) { 'agent.example.com' }
     let(:facts) { { :servername => 'time.nist.gov', } }

@@ -13,16 +13,20 @@ describe 'classroom::master' do
     it { is_expected.to contain_ini_setting('environment timeout') }
 
     context 'online master' do
-      let(:node) { 'master.example.com' }
+      let(:node) { 'master.puppetlabs.vm' }
       let(:facts) { {
+      	:master             => 'master.puppetlabs.vm',
         :servername         => 'time.nist.gov',
         :classroom__offline => false,
         :pe_server_version  => '2016.4.1',
       } }
       let(:params) { { } }
       let(:pre_condition) do
-        [ 'include pe_repo::platform::el_6_i386',
-          'include pe_repo::platform::windows_x86_64' ]
+        [
+          'include pe_repo',
+          'include pe_repo::platform::el_7_x86_64',
+          'include pe_repo::platform::windows_x86_64'
+        ]
       end
 
       it { is_expected.to compile.with_all_deps }
@@ -68,7 +72,7 @@ describe 'classroom::master' do
         [ 'include pe_repo::platform::el_6_i386',
           'include pe_repo::platform::windows_x86_64',
           'include classroom',
-	  'include classroom::master::gitea' ]
+      	  'include classroom::master::gitea' ]
       end
 
       it { is_expected.to compile.with_all_deps }
@@ -118,7 +122,7 @@ describe 'classroom::master' do
           'source' => "puppet:///modules/classroom/classroom.pp",
         })
       }
-  
+
       it { is_expected.to contain_file("/etc/puppetlabs/code/environments").with({
           'ensure' => "directory",
           'mode'   => "1777",
