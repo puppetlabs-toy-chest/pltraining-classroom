@@ -1,20 +1,8 @@
 class classroom::agent::rubygems (
   Boolean $offline = false,
 ) {
-  if !$offline {
-    # When online, simple package resources work fine
-    package { [ 'rspec-puppet', 'puppetlabs_spec_helper' ]:
-      ensure   => present,
-      provider => 'puppet_gem',
-    }
-
-    package { 'serverspec':
-      ensure   => present,
-      provider => 'gem',
-    }
-  } else {
+  if $offline {
     # When offline, install gems from the /var/cache/rubygems directory
-
     exec { 'install rspec-puppet gems':
       command => 'gem install -l rspec-puppet-2.3.0.gem',
       cwd     => '/var/cache/rubygems/gems',
@@ -35,6 +23,18 @@ class classroom::agent::rubygems (
       cwd     => '/var/cache/rubygems/gems',
       path    => '/bin',
       unless  => 'gem list serverspec | grep -q ^serverspec',
+    }
+  }
+  else {
+    # When online, simple package resources work fine
+    package { [ 'rspec-puppet', 'puppetlabs_spec_helper' ]:
+      ensure   => present,
+      provider => 'puppet_gem',
+    }
+
+    package { 'serverspec':
+      ensure   => present,
+      provider => 'gem',
     }
   }
 }
