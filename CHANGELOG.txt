@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.3
+* syntax error in windows dns server manifest
+
 ## v1.7.2
 * Don't use openssl or postfix on windows
 * Make docker registry idempotent
