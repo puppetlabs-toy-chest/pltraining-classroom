@@ -1,4 +1,7 @@
-class classroom::windows::adserver {
+class classroom::windows::adserver (
+  $ad_domainname = $classroom::params::ad_domainname,
+  $ad_dsrmpassword = $classroom::params::ad_dsrmpassword,
+) inherits classroom::params {
   assert_private('This class should not be called directly')
 
   # Local administrator is required to have a password before AD will install
@@ -34,9 +37,9 @@ class classroom::windows::adserver {
 
  # Setup Classroom Domain
   dsc_xaddomain { 'FirstDS':
-    dsc_domainname                    => $classroom::ad_domainname,
-    dsc_domainadministratorcredential => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
-    dsc_safemodeadministratorpassword => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
+    dsc_domainname                    => $ad_domainname,
+    dsc_domainadministratorcredential => {'user' => 'Administrator', 'password' => $ad_dsrmpassword },
+    dsc_safemodeadministratorpassword => {'user' => 'Administrator', 'password' => $ad_dsrmpassword },
     require                           => Dsc_windowsfeature['ADDSInstall'],
   }
 #
@@ -48,8 +51,8 @@ class classroom::windows::adserver {
   }
 #
   dsc_xwaitforaddomain { 'DscForestWait':
-    dsc_domainname           => $classroom::ad_domainname,
-    dsc_domainusercredential => {'user' => 'Administrator', 'password' => $classroom::ad_dsrmpassword },
+    dsc_domainname           => $ad_domainname,
+    dsc_domainusercredential => {'user' => 'Administrator', 'password' => $ad_dsrmpassword },
     dsc_retrycount           => '50',
     dsc_retryintervalsec     => '30',
     require                  => Dsc_xaddomain['FirstDS']
@@ -98,11 +101,11 @@ class classroom::windows::adserver {
   #}
 
   dsc_xaduser { 'admin':
-    dsc_domainname => $classroom::ad_domainname,
+    dsc_domainname => $ad_domainname,
     dsc_domainadministratorcredential =>
       {
         'user' => 'Administrator',
-        'password' => $classroom::ad_dsrmpassword,
+        'password' => $ad_dsrmpassword,
       },
     dsc_username => 'admin',
     dsc_password =>
