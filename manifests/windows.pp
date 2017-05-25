@@ -50,7 +50,7 @@ class classroom::windows {
   if $classroom::role == 'adserver' {
     class { 'classroom::windows::adserver':
       ad_domainname   => $classroom::ad_domainname,
-      ad_dsrmpassword => $classroom::ad_drsmpassword,
+      ad_dsrmpassword => $classroom::ad_dsrmpassword,
     }
     # Export AD server IP to be DNS server for agents
     @@classroom::windows::dns_server { 'primary_ip':
