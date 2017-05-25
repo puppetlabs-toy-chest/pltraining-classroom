@@ -19,7 +19,7 @@ class classroom::windows::adserver (
   }
 
   reboot { 'after_wmf5_install':
-    when => pending,
+    before => Dsc_windowsfeature['ADDSInstall'], 
   }
   # Install AD Server feature
   dsc_windowsfeature { 'ADDSInstall':
