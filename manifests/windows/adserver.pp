@@ -4,13 +4,13 @@ class classroom::windows::adserver {
   # Local administrator is required to have a password before AD will install
   exec { 'RequirePassword':
     command  => 'net user Administrator /passwordreq:yes',
-    unless   => 'if (net user Administrator |select-string -pattern "Password required.*no"){exit 1}',
+    unless   => 'if (net user Administrator |select-string -pattern "Password required.*no"){exit 1} else {exit 0}',
     provider => powershell,
   }
 
   exec { 'Install WMF5':
     command  => file('classroom/install_wmf5.ps1'),
-    unless   => 'if ($PSVersionTable.PSVersion.Major -ne 5){exit 1}',
+    unless   => 'if ($PSVersionTable.PSVersion.Major -ne 5){exit 1} else {exit 0}',
     provider => powershell,
     notify   => Reboot['after_wmf5_install'],
   }
@@ -27,7 +27,7 @@ class classroom::windows::adserver {
 
   #  exec { "add-feature-adserver":
   #  command   => "Import-Module ServerManager; Install-WindowsFeature AD-Domain-Services -IncludeManagementTools -IncludeAllSubFeature -Restart:\$true",
-  #  onlyif    => "Import-Module ServerManager; if (@(Get-WindowsFeature AD-Domain-Services | ?{\$_.Installed -match \'false\'}).count -eq 0) { exit 1 }",
+  #  onlyif    => "Import-Module ServerManager; if (@(Get-WindowsFeature AD-Domain-Services | ?{\$_.Installed -match \'false\'}).count -eq 0) { exit 1 } else { exit 0 }",
   #  provider  => powershell,
   #  before    => Exec['Config ADDS'],
   #}
@@ -59,7 +59,7 @@ class classroom::windows::adserver {
 #  exec { 'Config ADDS':
 #    command     => "Import-Module ADDSDeployment; Install-ADDSForest -Force -DomainName ${classroom::ad_domainname} -DomainMode 6 -DomainNetbiosName ${classroom::ad_netbiosdomainname} -ForestMode 6 -DatabasePath c:\\windows\\ntds -LogPath c:\\windows\\ntds -SysvolPath c:\\windows\\sysvol -SafeModeAdministratorPassword (convertto-securestring '${classroom::ad_dsrmpassword}' -asplaintext -force) -InstallDns",
 #    provider    => powershell,
-#    onlyif      => "if((gwmi WIN32_ComputerSystem).Domain -eq \'${classroom::ad_domainname}\'){exit 1}",
+#    onlyif      => "if((gwmi WIN32_ComputerSystem).Domain -eq \'${classroom::ad_domainname}\'){exit 1} else {exit 0}",
 #    timeout     => '0',
 #    before      => Exec['SetMachineQuota'],
 #  }
@@ -71,7 +71,7 @@ class classroom::windows::adserver {
   # Increase the number of machines that a single user can join to the domain
   exec { 'SetMachineQuota':
     command      => 'get-addomain |set-addomain -Replace @{\'ms-DS-MachineAccountQuota\'=\'99\'}',
-    unless       => 'if ((get-addomain | get-adobject -prop \'ms-DS-MachineAccountQuota\' | select -exp \'ms-DS-MachineAccountQuota\') -lt 99) {exit 1}',
+    unless       => 'if ((get-addomain | get-adobject -prop \'ms-DS-MachineAccountQuota\' | select -exp \'ms-DS-MachineAccountQuota\') -lt 99) {exit 1} else {exit 0}',
     provider     => powershell,
         require => Dsc_xwaitforaddomain['DscForestWait'],
     #    require      => Reboot['after_AD'],
@@ -79,7 +79,7 @@ class classroom::windows::adserver {
 
   exec { 'STUDENTS OU':
     command  => "import-module activedirectory;New-ADOrganizationalUnit -Name 'STUDENTS' -Path 'DC=CLASSROOM,DC=LOCAL' -ProtectedFromAccidentalDeletion \$true",
-    onlyif   => "if([adsi]::Exists(\"LDAP://OU=STUDENTS,DC=CLASSROOM,DC=LOCAL\")){exit 1}",
+    onlyif   => "if([adsi]::Exists(\"LDAP://OU=STUDENTS,DC=CLASSROOM,DC=LOCAL\")){exit 1} else {exit 0}",
     provider => powershell,
     require  => Exec['SetMachineQuota']
   }
@@ -92,7 +92,7 @@ class classroom::windows::adserver {
   }
   #  exec { 'Website Admins Group':
   #  command     => "import-module activedirectory;New-ADGroup -Description 'Website Administrators' -DisplayName 'WebAdmins' -Name 'WebAdmins' -GroupCategory 'Security' -GroupScope 'Global' -Path 'CN=Users,DC=CLASSROOM,DC=LOCAL'",
-  #  onlyif      => "\$groupname = \"WebAdmins\";\$path = \"CN=Users,DC=CLASSROOM,DC=LOCAL\";\$oustring = \"CN=\$groupname,\$path\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1}",
+  #  onlyif      => "\$groupname = \"WebAdmins\";\$path = \"CN=Users,DC=CLASSROOM,DC=LOCAL\";\$oustring = \"CN=\$groupname,\$path\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1} else {exit 0}",
   #  provider    => powershell,
   #  require     => Exec['STUDENTS OU'],
   #}
@@ -116,7 +116,7 @@ class classroom::windows::adserver {
 
   #  exec { "Add User - admin":
   #  command     => "import-module servermanager;add-windowsfeature -name 'rsat-ad-powershell' -includeAllSubFeature;import-module activedirectory;New-ADUser -name 'Classroom Admin' -DisplayName 'Classroom Admin' -GivenName 'Classroom' -SurName 'Admin' -Email 'admin@CLASSROOM.local' -Samaccountname 'admin' -UserPrincipalName 'admin@CLASSROOM.local' -Description 'Classroom Administrator' -PasswordNeverExpires \$true -path 'OU=STUDENTS,DC=CLASSROOM,DC=local' -AccountPassword (ConvertTo-SecureString 'Adm1nP@SSw0rd' -AsPlainText -force) -Enabled \$true;",
-  #  onlyif      => "\$oustring = \"CN=Classroom Admin,OU=STUDENTS,DC=CLASSROOM,DC=local\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1}",
+  #  onlyif      => "\$oustring = \"CN=Classroom Admin,OU=STUDENTS,DC=CLASSROOM,DC=local\"; if([adsi]::Exists(\"LDAP://\$oustring\")){exit 1} else {exit 0}",
   #  provider    => powershell,
   #  require     => Exec['STUDENTS OU'],
   #}
