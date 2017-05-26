@@ -23,5 +23,6 @@ class classroom::master::gitea {
 
   service { 'gitea':
     ensure  => 'running',
+    enable  => true,
   }
 }
