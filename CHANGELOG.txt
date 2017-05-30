@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.2
+* Don't use openssl or postfix on windows
+* Make docker registry idempotent
+* Pin to chocolatey 0.10.3 to fix permissions bug
+
 ## v1.7.1
 * Fix some Unix paths when applied on Windows
 * Don't fail when the augeas fact isn't available
