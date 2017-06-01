@@ -1,6 +1,16 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.4
+* Fix adserver code to use DSC and powershell5
+* Inherit params in hiera class
+* Improve puppet module caching
+* presintall some ruby gems
+* Enable rdp by default on windows
+
+## v1.7.3
+* syntax error in windows dns server manifest
+
 ## v1.7.2
 * Don't use openssl or postfix on windows
 * Make docker registry idempotent
