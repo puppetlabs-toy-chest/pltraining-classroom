@@ -1,7 +1,11 @@
 # Make sure that Hiera is configured for agent nodes so that we
 # can work through the hiera sections without teaching them
 # how to configure it.
-class classroom::agent::hiera {
+class classroom::agent::hiera (
+  $codedir = $classroom::params::codedir,
+  $confdir = $classroom::params::confdir,
+  $workdir = $classroom::params::workdir,
+) inherits classroom::params {
   assert_private('This class should not be called directly')
 
   # Set defaults depending on os
@@ -21,24 +25,24 @@ class classroom::agent::hiera {
     }
   }
 
-  $hieradata = "${classroom::codedir}/hieradata"
+  $hieradata = "${codedir}/hieradata"
 
   if $classroom::manage_repos {
     file { $hieradata:
       ensure => link,
       # the hieradata dir is empty so forcing to
       # replace directory with symlink on Win 2012
-      force => true,
-      target => "${classroom::workdir}/hieradata",
+      force  => true,
+      target => "${workdir}/hieradata",
     }
 
-    file { "${classroom::confdir}/hiera.yaml":
+    file { "${confdir}/hiera.yaml":
       ensure => link,
-      target => "${classroom::workdir}/hiera.yaml",
+      target => "${workdir}/hiera.yaml",
       force  => true,
     }
 
-    file { "${classroom::workdir}/hiera.yaml":
+    file { "${workdir}/hiera.yaml":
       ensure  => file,
       content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       replace => false,
@@ -52,7 +56,7 @@ class classroom::agent::hiera {
 
     # Because PE writes a default, we have to do tricks to see if we've already managed this.
     unless defined('$puppetlabs_class') {
-      file { "${classroom::confdir}/hiera.yaml":
+      file { "${confdir}/hiera.yaml":
         ensure  => file,
         content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
       }
@@ -62,9 +66,9 @@ class classroom::agent::hiera {
   unless $::osfamily == 'windows' {
     file { '/usr/local/bin/hiera_explain.rb':
       ensure => file,
-      owner => 'root',
-      group => 'root',
-      mode  => '0777',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0777',
       source => 'puppet:///modules/classroom/hiera_explain.rb',
     }
   }
