@@ -11,6 +11,12 @@ describe 'classroom::agent' do
     :servername => 'master.puppetlabs.vm',
   } }
   let(:pre_condition) do
+    #<--PRE
+    #  class { 'classroom::params':
+    #    $machine_name => 'pirate.puppetlabs.vm',
+    #  }
+    #  include classroom::params
+    #PRE
     [
       'include classroom',
       'include classroom::params'
