@@ -50,4 +50,7 @@ class classroom (
 
   # trust classroom CA so students can download from the master
   include classroom::cacert
+  
+  # fix augeas lens until it's updated in PE
+  include classroom::agent::augeas
 }

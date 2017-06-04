@@ -22,6 +22,7 @@ group :development, :unit_tests do
   gem 'simplecov',                 :require => false
 end
 group :system_tests do
+  gem 'inifile'
   gem 'beaker-rspec',                  *location_for(ENV['BEAKER_RSPEC_VERSION'] || '>= 3.4')
   gem 'beaker',                        *location_for(ENV['BEAKER_VERSION'])
   gem 'serverspec',                    :require => false

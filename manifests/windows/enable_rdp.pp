@@ -14,7 +14,7 @@ class classroom::windows::enable_rdp {
 
   exec { 'Enable RDP firewall rule':
     command  => 'Enable-NetFirewallRule -DisplayGroup "Remote Desktop"',
-    onlyif   => 'if (((New-Object -ComObject hnetcfg.fwpolicy2).rules | Where-Object {$_.Name -like "Remote Desktop*User*TCP*"}).enabled) { exit 1 }',
+    onlyif   => 'if (((New-Object -ComObject hnetcfg.fwpolicy2).rules | Where-Object {$_.Name -like "Remote Desktop*User*TCP*"}).enabled) { exit 1 } else { exit 0 }',
     provider => 'powershell',
   }
 }

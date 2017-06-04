@@ -27,6 +27,7 @@ fixtures:
       repo: "puppetlabs/ntp"
       ref: "4.2.0"
     pe_puppetserver_gem: "puppetlabs/pe_puppetserver_gem"
+    puppet_enterprise: "geoffwilliams/puppet_enterprise"
     puppetserver_gem: "puppetlabs/puppetserver_gem"
     puppetfactory: "pltraining/puppetfactory"
     stdlib: "puppetlabs/stdlib"
