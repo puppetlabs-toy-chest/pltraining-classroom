@@ -4,14 +4,14 @@ class classroom::agent::rubygems (
   if $offline {
     # When offline, install gems from the /var/cache/rubygems directory
     exec { 'install rspec-puppet gems':
-      command => 'gem install -l rspec-puppet-2.3.0.gem',
+      command => 'gem install -l rspec-puppet-2.5.0.gem',
       cwd     => '/var/cache/rubygems/gems',
       path    => '/opt/puppetlabs/puppet/bin:/bin',
       unless  => 'gem list rspec-puppet | grep -q ^rspec-puppet',
     }
 
     exec { 'install psh gems':
-      command => 'gem install -l puppetlabs_spec_helper-1.0.1.gem',
+      command => 'gem install -l puppetlabs_spec_helper-2.1.2.gem',
       cwd     => '/var/cache/rubygems/gems',
       path    => '/opt/puppetlabs/puppet/bin:/bin',
       unless  => 'gem list puppetlabs_spec_helper | grep -q ^puppetlabs_spec_helper',
@@ -19,7 +19,7 @@ class classroom::agent::rubygems (
 
     # Install serverspec with system gem instead of Puppet gem
     exec { 'install serverspec gems':
-      command => 'gem install -l serverspec-2.27.0.gem',
+      command => 'gem install -l serverspec-2.39.1.gem',
       cwd     => '/var/cache/rubygems/gems',
       path    => '/bin',
       unless  => 'gem list serverspec | grep -q ^serverspec',
