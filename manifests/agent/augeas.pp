@@ -20,4 +20,14 @@ class classroom::agent::augeas {
       }
     }
   }
+
+  # Also install a krb5.conf file that works with the Augeas lab
+  # in the Practitioner course
+  file { '/etc/krb5.conf':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/classroom/krb5.conf',
+  }
 }
