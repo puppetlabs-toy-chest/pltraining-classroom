@@ -6,11 +6,13 @@ class classroom::agent::git {
       $environment = undef
       $path        = 'C:/Program Files/Git/bin'
       $sshpath     = 'C:/Program Files/Git/.ssh'
+      $permissions = undef
     }
     default   : {
       $environment = 'HOME=/root'
       $path        = '/usr/bin:/bin:/user/sbin:/usr/sbin'
       $sshpath     = '/root/.ssh'
+      $permissions = '0600'
     }
   }
   Exec {
@@ -40,13 +42,12 @@ class classroom::agent::git {
     class { '::git':
       before => [ File[$sshpath], Exec['generate_key'] ],
     }
-    
-    # this may be causing odd directory permissions on windows
-    file { $sshpath:
-      ensure => directory,
-      mode   => '0600',
-    }    
   }
+    
+  file { $sshpath:
+    ensure => directory,
+    mode   => $permissions,
+  }    
 
   exec { 'generate_key':
     command => $::osfamily ? {
