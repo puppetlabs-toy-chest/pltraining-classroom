@@ -6,7 +6,9 @@ class classroom::windows {
     groups => ['Administrators'],
   }
 
-  include chocolatey
+  class {'chocolatey':
+    chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
+  }
 
   chocolateyfeature { 'allowEmptyChecksums':
     ensure => enabled,
@@ -46,7 +48,10 @@ class classroom::windows {
   }
 
   if $classroom::role == 'adserver' {
-    include classroom::windows::adserver
+    class { 'classroom::windows::adserver':
+      ad_domainname   => $classroom::ad_domainname,
+      ad_dsrmpassword => $classroom::ad_dsrmpassword,
+    }
     # Export AD server IP to be DNS server for agents
     @@classroom::windows::dns_server { 'primary_ip':
       ip => $::ipaddress,

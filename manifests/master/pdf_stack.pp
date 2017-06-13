@@ -28,9 +28,20 @@ class classroom::master::pdf_stack {
     require             => Yumrepo['robert-gcj'],
   }
 
-  package { ['wkhtmltopdf', 'pdftk']:
+  # Regression in 0.12.4, https://github.com/wkhtmltopdf/wkhtmltopdf/issues/3241
+  package { 'wkhtmltopdf':
+    ensure  => '0.12.3-1',
+    require => Yumrepo['robert-pdftk'],
+  }
+
+  package { 'pdftk':
     ensure  => present,
     require => Yumrepo['robert-pdftk'],
+  }
+
+  package { 'puppet-courseware-manager':
+    ensure   => present,
+    provider => gem,
   }
 
   $fonts = [

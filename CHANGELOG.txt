@@ -1,6 +1,65 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.4
+* Fix adserver code to use DSC and powershell5
+* Inherit params in hiera class
+* Improve puppet module caching
+* presintall some ruby gems
+* Enable rdp by default on windows
+
+## v1.7.3
+* syntax error in windows dns server manifest
+
+## v1.7.2
+* Don't use openssl or postfix on windows
+* Make docker registry idempotent
+* Pin to chocolatey 0.10.3 to fix permissions bug
+
+## v1.7.1
+* Fix some Unix paths when applied on Windows
+* Don't fail when the augeas fact isn't available
+* Fix a few typos
+* Classify the proxy node in virtual classes that use it
+* Include peadmin classification on Practioner student nodes
+* Install a known good version of chocolatey to mitigate recent breakage
+* Control repo fixes for virtual practitioner
+* Configure Gitea automatically in offline mode
+
+## v.1.7.0
+* Use DSC for adserver in windows
+* Virtual Practitioner profile
+* Update Gitea profile and dependencies
+* bug fixes for hiera course
+* bug fixes for windows course
+* bug fixes for kerberos and postfix
+
+## v1.6.14
+* Fix stagedir path for parser and hiera courses
+
+## v1.6.13
+* Fix metrics endpoints
+* Make rubygems work offline
+* Remove unused incompatible dependency module pget
+
+## v1.6.12
+* Use 127.0.0.1 for showoff stunnel to avoid DNS issues
+* Hide the puppetcode dir for parser course
+* Add virtual profile to ID course
+
+## v1.6.11
+* Use centos:7 container
+* Added support for environment-specific Hiera data on master
+* Remove unused go packages
+* Pin wkhtmltopdf to 0.12.3-1
+
+## v1.6.10
+* Pin to known good version of nokogiri
+* Contribution Guidelines
+* Spec tests
+* Gitea rpm instead of gogs docker container
+* Improvments to virtual course profiles
+
 ## v1.6.9
 * Revert removing gem dependencies
 
