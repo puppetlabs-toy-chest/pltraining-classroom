@@ -1,16 +1,31 @@
 ---
+puppet_enterprise::profile::console::proxy::http_redirect::enable_http_redirect: false
+<% if @jvm_tuning_profile != false -%>
 puppet_enterprise::profile::puppetdb::listen_address: '0.0.0.0'
 puppet_enterprise::profile::amq::broker::heap_mb: '<%= @amq_heap_mb %>'
 puppet_enterprise::profile::master::java_args:
-  Xmx: '<%= @master_Xmx %>'
   Xms: '<%= @master_Xms %>'
-  'XX:MaxPermSize': '=<%= @master_MaxPermSize %>'     <%# Yes, the weird extra equal sign is intentional %>
-  'XX:PermSize': '=<%= @master_PermSize %>'           <%# Yes, the weird extra equal sign is intentional %>
+  Xmx: '<%= @master_Xmx %>'
 puppet_enterprise::profile::puppetdb::java_args:
-  Xmx: '<%= @puppetdb_Xmx %>'
   Xms: '<%= @puppetdb_Xms %>'
+  Xmx: '<%= @puppetdb_Xmx %>'
 puppet_enterprise::profile::console::java_args:
-  Xmx: '<%= @console_Xmx %>'
   Xms: '<%= @console_Xms %>'
+  Xmx: '<%= @console_Xmx %>'
 puppet_enterprise::master::puppetserver::jruby_max_active_instances: <%= @jruby_max_active_instances %>
 puppet_enterprise::profile::console::delayed_job_workers: <%= @delayed_job_workers %>
+<% if !(defined?(@enable_app_mgmt)).nil? -%>
+puppet_enterprise::profile::master::app_management: <%= @enable_app_mgmt %>
+<% end -%>
+<% if !(defined?(@enable_orch_service)).nil? -%>
+puppet_enterprise::profile::orchestrator::run_service: <%= @enable_orch_service %>
+<% end -%>
+<% if !(defined?(@console_sync_period)).nil? -%>
+puppet_enterprise::profile::console::classifier_synchronization_period: <%= console_sync_period %>
+<% end -%>
+<% if !(defined?(@orch_Xmx)).nil? and !(defined?(@orch_Xms)).nil? -%>
+puppet_enterprise::profile::orchestrator::java_args:
+  Xms: <%= @orch_Xms %>
+  Xmx: <%= @orch_Xmx %>
+<% end -%>
+<% end -%>

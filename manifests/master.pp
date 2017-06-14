@@ -1,5 +1,7 @@
 # Set up the master with user accounts, environments, etc
-class classroom::master {
+class classroom::master (
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+) {
   assert_private('This class should not be called directly')
 
   File {
@@ -92,8 +94,8 @@ class classroom::master {
   # Ensure that time is set appropriately
   include classroom::master::time
 
-  # configure Hiera environments for the master
-  include classroom::master::hiera
+  # Configure Hiera and install a Hiera data file to control PE configuration
+  include classroom::master::tuning
 
   # Setup Windows Powershell Scripts
   include classroom::master::windows

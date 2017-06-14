@@ -1,13 +1,18 @@
 # common configuration for all virtual classes
 class classroom::virtual (
-  Boolean $offline = false,
+  Boolean $offline    = false,
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
 ) {
   assert_private('This class should not be called directly')
 
   if $classroom::params::role == 'master' {
     include classroom::master::dependencies::rubygems
     include classroom::master::showoff
-    include classroom::master::hiera
+
+    # Configure Hiera and install a Hiera data file to tune PE
+    class { 'classroom::master::tuning':
+      jvm_tuning_profile => $jvm_tuning_profile,
+    }
 
     # Configure performance logging
     include classroom::master::perf_logging
