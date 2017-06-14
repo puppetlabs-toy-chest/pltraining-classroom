@@ -38,9 +38,9 @@ class classroom::master::tuning (
     group         => 'root',
     mode          => '0644',
     content       => template('classroom/tuning.yaml.erb'),
-    notify => Class['puppet_enterprise::profile::master',
-                    'puppet_enterprise::profile::console',
-                    'puppet_enterprise::profile::orchestrator',
-                    'puppet_enterprise::profile::amq::broker'],
+    notify        => Class['puppet_enterprise::profile::master',
+                           'puppet_enterprise::profile::console',
+                           'puppet_enterprise::profile::orchestrator',
+                           'puppet_enterprise::profile::amq::broker'],
   }
 }
