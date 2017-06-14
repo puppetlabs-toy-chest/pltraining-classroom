@@ -21,7 +21,7 @@ puppet_enterprise::profile::master::app_management: <%= @enable_app_mgmt %>
 puppet_enterprise::profile::orchestrator::run_service: <%= @enable_orch_service %>
 <% end -%>
 <% if !(defined?(@console_sync_period)).nil? -%>
-puppet_enterprise::profile::console::classifier_synchronization_period: <%= console_sync_period %>
+puppet_enterprise::profile::console::classifier_synchronization_period: <%= @console_sync_period %>
 <% end -%>
 <% if !(defined?(@orch_Xmx)).nil? and !(defined?(@orch_Xms)).nil? -%>
 puppet_enterprise::profile::orchestrator::java_args:
