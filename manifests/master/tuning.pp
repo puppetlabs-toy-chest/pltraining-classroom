@@ -24,7 +24,7 @@ class classroom::master::tuning (
         $console_sync_period        = 0
       }
       default : {
-        fail("Unknown tuning level, choose one of: 'reduced', false")
+        fail("Unknown tuning level '${jvm_tuning_profile}', choose one of: 'reduced' or false")
       }
     }
 
