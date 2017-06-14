@@ -95,7 +95,9 @@ class classroom::master (
   include classroom::master::time
 
   # Configure Hiera and install a Hiera data file to control PE configuration
-  include classroom::master::tuning
+  class { 'classroom::master::tuning':
+    jvm_tuning_profile => $jvm_tuning_profile,
+  }
 
   # Setup Windows Powershell Scripts
   include classroom::master::windows
