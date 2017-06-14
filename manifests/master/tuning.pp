@@ -27,14 +27,20 @@ class classroom::master::tuning (
         fail("Unknown tuning level '${jvm_tuning_profile}', choose one of: 'reduced' or false")
       }
     }
+  }
 
-    file { "${classroom::params::confdir}/hieradata/tuning.yaml":
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => template('classroom/tuning.yaml.erb'),
-      before  => Class['puppet_enterprise::profile::master', 'puppet_enterprise::profile::console'],
-    }
+  # The tuning file will be installed no matter what because
+  # there are 1+ Hiera keys that remain whatever the tuning
+  # profile is set to.
+  file { "${classroom::params::confdir}/hieradata/tuning.yaml":
+    ensure        => file,
+    owner         => 'root',
+    group         => 'root',
+    mode          => '0644',
+    content       => template('classroom/tuning.yaml.erb'),
+    notify => Class['puppet_enterprise::profile::master',
+                    'puppet_enterprise::profile::console',
+                    'puppet_enterprise::profile::orchestrator',
+                    'puppet_enterprise::profile::amq::broker'],
   }
 }
