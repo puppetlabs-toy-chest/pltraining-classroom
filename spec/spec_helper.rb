@@ -72,5 +72,8 @@ define puppet_enterprise::mcollective::client (
 class pe_repo::platform::el_6_i386 {}
 class pe_repo::platform::ubuntu_1404_amd64 {}
 class pe_repo::platform::windows_x86_64 {}
+class puppet_enterprise::profile::master {}
+class puppet_enterprise::profile::console {}
+class puppet_enterprise::profile::orchestrator {}
+class puppet_enterprise::profile::amq::broker {}
 "
-
