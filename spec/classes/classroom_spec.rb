@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe 'classroom' do
 
+  default_params = { :manage_repos => true,
+                     :time_servers => ["time.apple.com"] }
+
   parameter_matrix = [
     { :offline => true },
-    { :time_servers => ["time.apple.com"] }
+    { :offline => false }
   ]
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
@@ -17,7 +20,7 @@ describe 'classroom' do
       let(:facts) { {
         :servername => 'master.puppetlabs.vm'
       } }
-      let(:params) { params }
+      let(:params) { default_params.merge(params) }
 
       it { should compile }
     end
