@@ -73,4 +73,3 @@ class pe_repo::platform::el_6_i386 {}
 class pe_repo::platform::ubuntu_1404_amd64 {}
 class pe_repo::platform::windows_x86_64 {}
 "
-
