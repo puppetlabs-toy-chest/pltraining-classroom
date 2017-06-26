@@ -1,5 +1,9 @@
 # classroom
 
+#
+# Add a comment
+#
+
 [![Build Status](https://travis-ci.org/puppetlabs/pltraining-classroom.svg?branch=master)](https://travis-ci.org/puppetlabs/pltraining-classroom)
 
 This module is used to configure the classroom environment for all Puppet Labs
