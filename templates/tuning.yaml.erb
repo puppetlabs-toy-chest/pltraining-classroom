@@ -14,16 +14,16 @@ puppet_enterprise::profile::console::java_args:
   Xmx: '<%= @console_Xmx %>'
 puppet_enterprise::master::puppetserver::jruby_max_active_instances: <%= @jruby_max_active_instances %>
 puppet_enterprise::profile::console::delayed_job_workers: <%= @delayed_job_workers %>
-<% if !(defined?(@enable_app_mgmt)).nil? -%>
+<% if defined?(@enable_app_mgmt) -%>
 puppet_enterprise::profile::master::app_management: <%= @enable_app_mgmt %>
 <% end -%>
-<% if !(defined?(@enable_orch_service)).nil? -%>
+<% if defined?(@enable_orch_service) -%>
 puppet_enterprise::profile::orchestrator::run_service: <%= @enable_orch_service %>
 <% end -%>
-<% if !(defined?(@console_sync_period)).nil? -%>
+<% if defined?(@console_sync_period) -%>
 puppet_enterprise::profile::console::classifier_synchronization_period: <%= @console_sync_period %>
 <% end -%>
-<% if !(defined?(@orch_Xmx)).nil? and !(defined?(@orch_Xms)).nil? -%>
+<% if defined?(@orch_Xmx) and defined?(@orch_Xms) -%>
 puppet_enterprise::profile::orchestrator::java_args:
   Xms: <%= @orch_Xms %>
   Xmx: <%= @orch_Xmx %>
