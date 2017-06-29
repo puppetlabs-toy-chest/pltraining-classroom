@@ -9,8 +9,8 @@ describe 'classroom' do
     { :offline => true },
     { :offline => false }
   ]
-  parameter_matrix.each do |params|
-    context "applied to master: #{params.to_s}" do
+  parameter_matrix.each do |param|
+    context "applied to master: #{param.to_s}" do
       let(:pre_condition) {
         "service { 'pe-puppetserver':
           ensure => running,
@@ -20,17 +20,17 @@ describe 'classroom' do
       let(:facts) { {
         :servername => 'master.puppetlabs.vm'
       } }
-      let(:params) { default_params.merge(params) }
+      let(:params) { default_params.merge(param) }
 
       it { should compile }
     end
 
-    context "applied to agent: #{params.to_s}" do
+    context "applied to agent: #{param.to_s}" do
       let(:node) { 'agent.puppetlabs.vm' }
       let(:facts) { {
         :servername => 'master.puppetlabs.vm'
       } }
-      let(:params) { params }
+      let(:params) { default_params.merge(param) }
 
       it { should compile }
     end
