@@ -1,7 +1,7 @@
 # Dependencies for PDF rendering
 class classroom::master::pdf_stack {
 
-  $enabled = $classroom::offline ? {
+  $enabled = defined('$classroom::offline') and $classroom::offline ? {
     true  => '0',
     false => '1',
     undef => '1',   # TODO: this is a terrible temporary hack

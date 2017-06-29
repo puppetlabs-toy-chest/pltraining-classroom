@@ -4,8 +4,7 @@ describe 'classroom::course::virtual::intro' do
 
   context "applied to master" do
     let(:pre_condition) {
-      "include classroom
-       $puppetmaster = 'master.puppetlabs.vm'
+      "$puppetmaster = 'master.puppetlabs.vm'
        $ec2_metadata = undef
        service { 'pe-puppetserver':
           ensure => running,
