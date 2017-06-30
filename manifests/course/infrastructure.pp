@@ -2,11 +2,13 @@
 # the Infrastructure course
 #
 class classroom::course::infrastructure (
-  $training_password = $classroom::params::training_password,
-  $offline           = $classroom::params::offline
+  $training_password  = $classroom::params::training_password,
+  $offline            = $classroom::params::offline,
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
 ) inherits classroom::params {
   class { 'classroom::virtual':
-    offline => $offline,
+    offline            => $offline,
+    jvm_tuning_profile => $jvm_tuning_profile,
   }
   
   $containers = {

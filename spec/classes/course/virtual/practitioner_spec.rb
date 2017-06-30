@@ -9,11 +9,12 @@ describe 'classroom::course::virtual::practitioner' do
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
       let(:pre_condition) {
-        "include classroom
-         $puppetmaster = 'master.puppetlabs.vm'
-         $ec2_metadata = undef
-         service { 'pe-puppetserver':
-          ensure => running,
+         "class classroom { $offline = true }
+          include classroom
+          $puppetmaster = 'master.puppetlabs.vm'
+          $ec2_metadata = undef
+          service { 'pe-puppetserver':
+            ensure => running,
          }" + GLOBAL_PRE
       }
       let(:node) { 'master.puppetlabs.vm' }
@@ -27,11 +28,12 @@ describe 'classroom::course::virtual::practitioner' do
 
     context "applied to agent: #{params.to_s}" do
       let(:pre_condition) {
-        "include classroom
+        "class classroom { $offline = true }
+         include classroom
          $puppetmaster = 'master.puppetlabs.vm'
          $ec2_metadata = undef
          service { 'pe-puppetserver':
-          ensure => running,
+           ensure => running,
          }" + GLOBAL_PRE
       }
       let(:node) { 'agent.puppetlabs.vm' }

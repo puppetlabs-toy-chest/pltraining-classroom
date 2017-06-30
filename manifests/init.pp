@@ -24,13 +24,14 @@
 # $role      : What classroom role this node should play
 #
 class classroom (
-  $offline         = $classroom::params::offline,
-  $role            = $classroom::params::role,
-  $manage_yum      = $classroom::params::manage_yum,
-  $manage_repos    = $classroom::params::manage_repos,
-  $manage_selinux  = $classroom::params::manage_selinux,
-  $time_servers    = $classroom::params::time_servers,
-  $repositories    = $classroom::params::repositories,
+  $offline            = $classroom::params::offline,
+  $role               = $classroom::params::role,
+  $manage_yum         = $classroom::params::manage_yum,
+  $manage_repos       = $classroom::params::manage_repos,
+  $manage_selinux     = $classroom::params::manage_selinux,
+  $time_servers       = $classroom::params::time_servers,
+  $repositories       = $classroom::params::repositories,
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
 ) inherits classroom::params {
   validate_bool($offline)
   validate_bool($manage_yum)
@@ -39,7 +40,10 @@ class classroom (
   validate_array($time_servers)
 
   case $role {
-    'master'   : { include classroom::master     }
+    'master'   : { class { 'classroom::master':
+                     jvm_tuning_profile => $jvm_tuning_profile,
+                   }
+                 }
     'agent'    : { include classroom::agent      }
     'adserver' : { include classroom::agent      }
     'proxy'    : { include classroom::proxy      }

@@ -62,8 +62,7 @@ class classroom::params {
   $ad_dsrmpassword         = 'PuppetLabs1'
 
   # Tuning parameters for classroom master performance
-  $jruby_purge        = false    # See https://tickets.puppetlabs.com/browse/PE-9704
-  $jvm_tuning_profile = false    # Set to 'lvm', 'minimal', 'moderate', 'aggressive', or false to disable
+  $jvm_tuning_profile = false  # Set to 'reduced' or false to disable
 
   # Certname and machine name from cert. Work around broken networks.
   if is_domain_name($::clientcert) {

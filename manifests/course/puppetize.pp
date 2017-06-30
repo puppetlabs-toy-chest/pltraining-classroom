@@ -1,11 +1,13 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
   $control_owner,
-  $offline      = $classroom::params::offline,
-  $session_id   = $classroom::params::session_id,
+  $offline            = $classroom::params::offline,
+  $session_id         = $classroom::params::session_id,
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
 ) inherits classroom::params {
   class { 'classroom::virtual':
-    offline => $offline,
+    offline            => $offline,
+    jvm_tuning_profile => $jvm_tuning_profile,
   }
 
   if $::fqdn == 'master.puppetlabs.vm' {

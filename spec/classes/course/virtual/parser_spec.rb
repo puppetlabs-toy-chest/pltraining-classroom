@@ -4,12 +4,13 @@ describe 'classroom::course::virtual::parser' do
 
   context "applied to master" do
     let(:pre_condition) {
-      "include classroom
+      "class classroom { $offline = true }
+       include classroom
        $puppetmaster = 'master.puppetlabs.vm'
        $ec2_metadata = undef
        service { 'pe-puppetserver':
-          ensure => running,
-        }" + GLOBAL_PRE
+         ensure => running,
+       }" + GLOBAL_PRE
     }
     let(:node) { 'master.puppetlabs.vm' }
     let(:facts) { {
@@ -23,8 +24,8 @@ describe 'classroom::course::virtual::parser' do
     let(:pre_condition) {
       "include classroom
        service { 'pe-puppetserver':
-          ensure => running,
-        }" + GLOBAL_PRE
+         ensure => running,
+       }" + GLOBAL_PRE
     }
     let(:node) { 'agent.puppetlabs.vm' }
     let(:facts) { {
