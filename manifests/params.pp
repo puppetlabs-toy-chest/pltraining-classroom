@@ -109,9 +109,6 @@ class classroom::params {
 
   $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
   $repos = {
-    'base'    => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/os/",
-    'extras'  => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/extras/",
-    'updates' => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/updates/",
-    'epel'    => "/var/yum/mirror/epel/${::operatingsystemmajrelease}/local/",
+    'local'    => "/var/yum/mirror/",
   }
 }
