@@ -61,7 +61,7 @@ class classroom::master::showoff (
     client  => false,
   }
 
-  if defined('$classroom::manage_selinux') and $classroom::manage_selinux {
+  if $classroom::manage_selinux {
     # Source code in stunnel-showoff.te
     file { '/usr/share/selinux/targeted/stunnel-showoff.pp':
       ensure => file,

@@ -10,7 +10,7 @@ describe 'classroom::course::practitioner' do
     context "applied to master: #{params.to_s}" do
       let(:pre_condition) {
         "service { 'pe-puppetserver':
-          ensure => running,
+         ensure => running,
         }" + GLOBAL_PRE
       }
       let(:node) { 'master.puppetlabs.vm' }

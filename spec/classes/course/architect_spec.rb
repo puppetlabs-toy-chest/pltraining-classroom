@@ -10,7 +10,7 @@ describe 'classroom::course::architect' do
     context "applied to master: #{params.to_s}" do
       let(:pre_condition) {
         "service { 'pe-puppetserver':
-          ensure => running,
+         ensure => running,
         }" + GLOBAL_PRE
       }
       let(:node) { 'master.puppetlabs.vm' }
@@ -23,9 +23,9 @@ describe 'classroom::course::architect' do
     end
 
     context "applied to agent: #{params.to_s}" do
-      let(:pre_condition) {"
-        package {'r10k':
-          ensure => present
+      let(:pre_condition) {
+        "package {'r10k':
+         ensure => present
         }"
       }
       let(:node) { 'agent.puppetlabs.vm' }
