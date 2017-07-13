@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.5
+* Pin powershell module to 2.0.3
+
 ## v1.7.4
 * Fix adserver code to use DSC and powershell5
 * Inherit params in hiera class
