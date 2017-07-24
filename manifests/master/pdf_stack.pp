@@ -43,6 +43,7 @@ class classroom::master::pdf_stack {
     'xorg-x11-fonts-75dpi.noarch',
     'xorg-x11-fonts-Type1.noarch',
     'open-sans-fonts.noarch',
+    'google-droid-sans-mono', # cached locally by the bootstrap module
   ]
 
   package { $fonts:
