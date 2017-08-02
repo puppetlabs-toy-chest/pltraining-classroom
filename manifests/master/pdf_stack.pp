@@ -28,13 +28,7 @@ class classroom::master::pdf_stack {
     require             => Yumrepo['robert-gcj'],
   }
 
-  # Regression in 0.12.4, https://github.com/wkhtmltopdf/wkhtmltopdf/issues/3241
-  package { 'wkhtmltopdf':
-    ensure  => '0.12.3-1',
-    require => Yumrepo['robert-pdftk'],
-  }
-
-  package { 'pdftk':
+  package { ['wkhtmltopdf', 'pdftk']:
     ensure  => present,
     require => Yumrepo['robert-pdftk'],
   }
@@ -49,6 +43,7 @@ class classroom::master::pdf_stack {
     'xorg-x11-fonts-75dpi.noarch',
     'xorg-x11-fonts-Type1.noarch',
     'open-sans-fonts.noarch',
+    'google-droid-sans-mono', # cached locally by the bootstrap module
   ]
 
   package { $fonts:

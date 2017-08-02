@@ -62,8 +62,7 @@ class classroom::params {
   $ad_dsrmpassword         = 'PuppetLabs1'
 
   # Tuning parameters for classroom master performance
-  $jruby_purge        = false    # See https://tickets.puppetlabs.com/browse/PE-9704
-  $jvm_tuning_profile = false    # Set to 'lvm', 'minimal', 'moderate', 'aggressive', or false to disable
+  $jvm_tuning_profile = false  # Set to 'reduced' or false to disable
 
   # Certname and machine name from cert. Work around broken networks.
   if is_domain_name($::clientcert) {
@@ -109,10 +108,20 @@ class classroom::params {
   }
 
   $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
-  $repos = {
-    'base'    => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/os/",
-    'extras'  => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/extras/",
-    'updates' => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/updates/",
-    'epel'    => "/var/yum/mirror/epel/${::operatingsystemmajrelease}/local/",
+  
+  # Use the new simplified yum repositories on newer classroom VMs
+  if $::classroom_vm_release and versioncmp($::classroom_vm_release, '5.14') > 0 {
+    $repos = {
+      'local'    => "/var/yum/mirror/",
+    }
   }
+  else {
+   $repos = {
+     'base'    => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/os/",
+     'extras'  => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/extras/",
+     'updates' => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/updates/",
+     'epel'    => "/var/yum/mirror/epel/${::operatingsystemmajrelease}/local/",
+    }
+  }
+  
 }
