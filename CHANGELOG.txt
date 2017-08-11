@@ -1,6 +1,14 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.7.7
+* Unpinned powershell and dsc modules after upstream was fixed
+
+## v1.7.6
+* Updated versions of installed gems
+* JVM tuning profiles
+* Stop using vendored version of wkhtmltopdf
+
 ## v1.7.5
 * Pin powershell module to 2.0.3
 
