@@ -34,12 +34,13 @@ class classroom::master::showoff (
       notify   => Exec['build_pdfs'],
     }
 
-    file { "${courseware}/stats":
+    file { ["${courseware}/stats", "${courseware}/static", "${courseware}/_files/share"]:
       ensure   => directory,
       owner    => $showoff::user,
       group    => 'root',
       mode     => '0644',
       before   => Hash_file['courseware metadata'],
+      notify   => Exec['build_pdfs'],
     }
 
     hash_file { 'courseware metadata':
