@@ -10,7 +10,7 @@ class classroom::course::infrastructure (
     offline            => $offline,
     jvm_tuning_profile => $jvm_tuning_profile,
   }
-  
+
   $containers = {
     'test.puppetlabs.vm'  => ['10080:80'],
     'web1.puppetlabs.vm'  => ['20080:80'],

@@ -66,9 +66,6 @@ class classroom::master (
     include classroom::master::repositories
   }
 
-  # Install showoff on the classroom master
-  include classroom::master::showoff
-
   # Ensure that time is set appropriately
   include classroom::master::time
 
@@ -76,6 +73,9 @@ class classroom::master (
   class { 'classroom::master::tuning':
     jvm_tuning_profile => $jvm_tuning_profile,
   }
+
+  # make sure we have a deployment user
+  include classroom::master::deployer
 
   # Setup Windows Powershell Scripts
   include classroom::master::windows

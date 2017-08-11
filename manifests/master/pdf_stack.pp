@@ -1,4 +1,7 @@
 # Dependencies for PDF rendering
+#
+# NOTE: This class is deprecated, since the bootstrap manages these resources already.
+#
 class classroom::master::pdf_stack {
 
   if(defined('$classroom::offline') and $classroom::offline) {
