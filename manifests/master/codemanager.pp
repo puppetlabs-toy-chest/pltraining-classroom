@@ -2,16 +2,16 @@
 class classroom::master::codemanager (
   $control_repo     = undef,
   $repo_model       = $classroom::params::repo_model,
-  $offline          = $classroom::params::offline,
+  $use_gitea        = $classroom::params::use_gitea,
   $control_owner    = $classroom::params::control_owner,
 ) inherits classroom::params {
   assert_private('This class should not be called directly')
 
   if $control_repo {
     $hieradata = "${classroom::params::confdir}/hieradata"
-    $gitserver = $offline ? {
-      true  => $classroom::params::gitserver['offline'],
-      false => $classroom::params::gitserver['online'],
+    $gitserver = $use_gitea ? {
+      true  => $classroom::params::gitserver['gitea'],
+      false => $classroom::params::gitserver['github'],
     }
 
     pe_hocon_setting { 'enable code manager':
