@@ -1,6 +1,7 @@
 # Dependencies for PDF rendering
 #
 # NOTE: This class is deprecated, since the bootstrap manages these resources already.
+#       Remove this along with classroom::master::showoff::legacy
 #
 class classroom::master::pdf_stack {
 
