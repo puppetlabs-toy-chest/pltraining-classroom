@@ -10,8 +10,9 @@ class classroom::master::showoff (
   require classroom::master::dependencies::rubygems
 
   if $::classroom_vm_release and versioncmp($::classroom_vm_release, '7.0') >= 0 {
-    unless defined('$course')    { fail('The $course is required on VM versions 7.0 and greater.') }
-    unless defined('$event_id')  { fail('The $event_id is required on VM versions 7.0 and greater.') }
+    unless defined('$course')            { fail('The $course is required on VM versions 7.0 and greater.') }
+    unless defined('$event_id')          { fail('The $event_id is required on VM versions 7.0 and greater.') }
+    unless defined('$latest_courseware') { fail('Please run `classroom update` to update your Courseware materials.') }
 
     $presfile   = "${pick($variant, 'showoff')}.json"
     $password   = pick($event_pw, regsubst($event_id, '^(\w*-)?(\w*)$', '\2'))
@@ -59,28 +60,13 @@ class classroom::master::showoff (
       notify   => Exec['build_pdfs'],
     }
 
-    augeas { "courseware protection":
-      lens    => "Json.lns",
-      incl    => "${courseware}/${presfile}",
-      changes => [
-        "set dict/entry[.= 'key'] key",
-        "set dict/entry[.= 'key']/string ${password}",
-        "set dict/entry[.= 'event_id'] event_id",
-        "set dict/entry[.= 'event_id']/string ${event_id}",
-        "set dict/entry[.= 'event_pw'] event_pw",
-        "set dict/entry[.= 'event_pw']/string ${password}",
-        "set dict/entry[.= 'courseware_release'] courseware_release",
-        "set dict/entry[.= 'courseware_release']/string v${version}",
-      ],
-    }
-
     package { 'puppet-courseware-manager':
       ensure   => present,
       provider => gem,
     }
 
     exec { 'build_pdfs':
-      command     => "courseware watermark --output _files/share --no-cache --file ${presfile}",
+      command     => "courseware watermark --output _files/share --no-cache --key ${password} --event-id ${event_id} --file ${presfile}",
       cwd         => $courseware,
       path        => '/bin:/usr/bin:/usr/local/bin',
       user        => $showoff::user,
