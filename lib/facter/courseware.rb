@@ -1,7 +1,8 @@
 Facter.add('latest_courseware') do
   setcode do
-    versions = {}
+    next unless File.directory? '/var/cache/showoff/courseware/.git'
 
+    versions = {}
     Dir.chdir('/var/cache/showoff/courseware') do
       `git tag`.each_line do |line|
         next unless line.match(/^(\w+)-v(\d.\d.\d)$/)
