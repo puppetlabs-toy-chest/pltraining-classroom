@@ -2,14 +2,8 @@
 # pltraining-bootstrap module.
 class classroom::master::gitea {
   package { 'gitea':
-    name     => 'gitea',
-    provider => 'rpm',
-    source   => '/usr/src/rpm_cache/gitea.rpm',
-    before   => File['/home/git/go/bin/custom/conf/app.ini'],
-  }
-  package { 'golang':
     ensure => present,
-    before => Package['gitea'],
+    before => File['/home/git/go/bin/custom/conf/app.ini'],
   }
 
   file { '/home/git/go/bin/custom/conf/app.ini':
