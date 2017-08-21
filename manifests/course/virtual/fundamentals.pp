@@ -10,6 +10,13 @@ class classroom::course::virtual::fundamentals (
     jvm_tuning_profile => $jvm_tuning_profile,
   }
 
+
+  $gitserver = $use_gitea ? {
+    true  => $classroom::params::gitserver['gitea'],
+    false => $classroom::params::gitserver['github'],
+  }
+
+
   if $role == 'master' {
     File {
       owner => 'root',
@@ -28,13 +35,14 @@ class classroom::course::virtual::fundamentals (
     }
 
     class { 'puppetfactory':
-      plugins          => $plugin_list,
-      controlrepo      => 'classroom-control-vf.git',
-      repomodel        => 'single',
-      usersuffix       => $classroom::params::usersuffix,
-      dashboard_path   => "${showoff::root}/courseware/_files/tests",
-      session          => $session_id,
-      privileged       => false,
+      plugins        => $plugin_list,
+      controlrepo    => 'classroom-control-vf.git',
+      repomodel      => 'single',
+      usersuffix     => $classroom::params::usersuffix,
+      dashboard_path => "${showoff::root}/courseware/_files/tests",
+      session        => $session_id,
+      gitserver      => $gitserver,
+      privileged     => false,
     }
 
     class { 'classroom::facts':
