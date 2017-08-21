@@ -26,9 +26,6 @@ class classroom::course::architect (
     # include metrics tools for labs & demos
     include classroom::master::metrics
 
-    # serve our cached yum repositories so we can stop caching them for students
-    include classroom::master::yum_server
-
     # Host docker registiry on master
     include classroom::master::docker_registry
   }
@@ -52,10 +49,6 @@ class classroom::course::architect (
     # Set up agent containers on student masters
     include classroom::containers
 
-    if $manage_yum {
-      # Use classroom master for yum cache
-      include classroom::agent::yum_repos
-    }
   }
 
   class { 'classroom::facts':

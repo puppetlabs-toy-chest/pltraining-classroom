@@ -112,19 +112,4 @@ class classroom::params {
 
   $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
   
-  # Use the new simplified yum repositories on newer classroom VMs
-  if $::classroom_vm_release and versioncmp($::classroom_vm_release, '5.14') > 0 {
-    $repos = {
-      'local'    => "/var/yum/mirror/",
-    }
-  }
-  else {
-   $repos = {
-     'base'    => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/os/",
-     'extras'  => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/extras/",
-     'updates' => "/var/yum/mirror/centos/${::operatingsystemmajrelease}/updates/",
-     'epel'    => "/var/yum/mirror/epel/${::operatingsystemmajrelease}/local/",
-    }
-  }
-  
 }
