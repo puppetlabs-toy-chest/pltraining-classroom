@@ -17,6 +17,9 @@ class classroom::master::codemanager (
     if ($use_gitea) and ($control_owner != 'root') {
       fail('Gitea requires the control_owner be set to "root"') 
     }
+    if ($use_gitea == false) and ($control_owner == 'root') {
+      fail('control_owner is a required parameter for trainings using github')
+    }
     
     pe_hocon_setting { 'enable code manager':
       ensure  => present,
