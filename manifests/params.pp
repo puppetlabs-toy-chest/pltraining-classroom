@@ -5,6 +5,9 @@ class classroom::params {
   # Use the gitea git server
   $use_gitea = false
 
+  # Default to root for gitea
+  $control_owner = 'root'
+
   if $::osfamily == 'windows' {
     # Path to the student's working directory
     $workdir = 'C:/puppetcode'
