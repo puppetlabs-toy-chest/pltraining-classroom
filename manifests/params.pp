@@ -43,7 +43,7 @@ class classroom::params {
   $control_owner    = 'puppetlabs-education'
   $repo_model       = 'single'
   $gitserver        = {
-    'gitub'  => 'https://github.com',
+    'github'  => 'https://github.com',
     'gitea' => 'http://master.puppetlabs.vm:3000',
   }
 
