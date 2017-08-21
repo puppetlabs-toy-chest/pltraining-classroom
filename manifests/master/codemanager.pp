@@ -14,6 +14,10 @@ class classroom::master::codemanager (
       false => $classroom::params::gitserver['github'],
     }
 
+    if ($use_gitea) and ($control_owner != 'root') {
+      fail('Gitea requires the control_owner be set to "root"') 
+    }
+    
     pe_hocon_setting { 'enable code manager':
       ensure  => present,
       path    => '/etc/puppetlabs/enterprise/conf.d/common.conf',
