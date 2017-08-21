@@ -16,9 +16,10 @@ class classroom::master (
     target => '/usr/bin/pip',
   }
 
+  # Install the Gitea hosted git repository service
+  include classroom::master::gitea
+
   if $classroom::offline {
-    # Install the Gitea hosted git repository service
-    include classroom::master::gitea
 
     # Reconfigure the gemrc files for offline use
     $gemrc_files = [ '/root/.gemrc', '/opt/puppetlabs/puppet/etc/gemrc' ]
