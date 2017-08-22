@@ -69,7 +69,6 @@ class classroom::master::showoff (
       command     => "courseware watermark --output _files/share --no-cache --key ${password} --event-id ${event_id} --file ${presfile}",
       cwd         => $courseware,
       path        => '/bin:/usr/bin:/usr/local/bin',
-      user        => $showoff::user,
       environment => ['HOME=/tmp'],
       refreshonly => true,
       require     => Package['puppet-courseware-manager'],
