@@ -8,8 +8,7 @@ class classroom::master::perf_logging {
 
   cron { 'snapshot performance':
     ensure  => present,
-    command => 'classroom performance snapshot',
-    path    => '/bin:/usr/bin:/usr/local/bin',
+    command => '/usr/local/bin/classroom performance snapshot',
     minute  => ['12', '42'],
   }
 
