@@ -14,8 +14,4 @@ class classroom::master::reporting_tools {
     source => 'puppet:///modules/classroom/get_environment_version.sh',
   }
 
-  file { '/usr/local/bin/process_reports.rb':
-    ensure => file,
-    source => 'puppet:///modules/classroom/process_reports.rb',
-  }
 }
