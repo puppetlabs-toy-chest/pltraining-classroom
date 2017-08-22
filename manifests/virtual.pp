@@ -52,6 +52,7 @@ class classroom::virtual (
       usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",
       session          => $session_id,
+      master           => $fqdn,
       privileged       => false,
     }
 
