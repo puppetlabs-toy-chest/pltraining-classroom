@@ -1,13 +1,13 @@
 # common configuration for all virtual classes
 class classroom::virtual (
-  String            $control_repository,
-  String            $control_owner,
-  Optional[String]  $event_id            = undef,
-  Optional[String]  $event_id            = undef,
-  Boolean           $offline             = $classroom::params::offline,
-  Boolean           $use_gitea           = $classroom::params::use_gitea,
-  Array             $plugin_list         = $classroom::params::plugin_list,
-  String            $jvm_tuning_profile  = $classroom::params::jvm_tuning_profile,
+  String                            $control_repo,
+  String                            $control_owner,
+  Optional[String]                  $event_id           = undef,
+  Optional[String]                  $event_pw           = undef,
+  Boolean                           $offline            = $classroom::params::offline,
+  Boolean                           $use_gitea          = $classroom::params::use_gitea,
+  Array                             $plugin_list        = $classroom::params::plugin_list,
+  Variant[Enum['reduced'], Boolean] $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
 ) inherits classroom::params {
   assert_private('This class should not be called directly')
 
