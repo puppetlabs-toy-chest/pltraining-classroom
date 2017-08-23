@@ -3,7 +3,7 @@ class classroom::params {
   $offline   = false
 
   # Use the gitea git server
-  $use_gitea = false
+  $use_gitea = true
 
   # Default to root for gitea
   $control_owner = 'root'
