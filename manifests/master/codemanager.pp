@@ -43,5 +43,4 @@ class classroom::master::codemanager (
                                       'control_owner' => $control_owner,
                                       'control_repo'  => $control_repo }),
   }
-
 }
