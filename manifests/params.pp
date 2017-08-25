@@ -3,7 +3,10 @@ class classroom::params {
   $offline   = false
 
   # Use the gitea git server
-  $use_gitea = false
+  $use_gitea = true
+
+  # Default to root for gitea
+  $control_owner = 'root'
 
   if $::osfamily == 'windows' {
     # Path to the student's working directory
@@ -40,7 +43,6 @@ class classroom::params {
 
   # git configuration for the web-based alternative git workflow
   $usersuffix       = 'puppetlabs.vm'
-  $control_owner    = 'puppetlabs-education'
   $repo_model       = 'single'
   $gitserver        = {
     'github'  => 'https://github.com',

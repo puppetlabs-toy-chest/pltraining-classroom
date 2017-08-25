@@ -1,9 +1,10 @@
 # This is a wrapper class to include all the bits needed for Puppetizing infrastructure
 class classroom::course::puppetize (
-  $control_owner,
+  $control_owner      = $classroom::params::control_owner,
   $offline            = $classroom::params::offline,
   $session_id         = $classroom::params::session_id,
   $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $use_gitea          = $classroom::params::use_gitea,
 ) inherits classroom::params {
   class { 'classroom::virtual':
     offline            => $offline,
@@ -23,7 +24,7 @@ class classroom::course::puppetize (
 
     $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ]
 
-    if $offline {
+    if $use_gitea {
       $plugin_list = flatten([$base_plugin_list, "Gitea" ])
     } else {
       $plugin_list = $base_plugin_list
@@ -47,7 +48,7 @@ class classroom::course::puppetize (
     class { 'classroom::master::codemanager':
       control_owner => $control_owner,
       control_repo  => 'classroom-control-pi.git',
-      offline       => $offline,
+      use_gitea     => $use_gitea,
     }
 
   }
