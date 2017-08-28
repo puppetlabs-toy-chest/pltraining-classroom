@@ -10,9 +10,9 @@ class classroom::master::showoff (
   require classroom::master::dependencies::rubygems
 
   if $::classroom_vm_release and versioncmp($::classroom_vm_release, '7.0') >= 0 {
-    unless defined('$course')            { fail('The $course is required on VM versions 7.0 and greater.') }
-    unless defined('$event_id')          { fail('The $event_id is required on VM versions 7.0 and greater.') }
-    unless defined('$latest_courseware') { fail('Please run `classroom update` to update your Courseware materials.') }
+    unless $course            { fail('The $course is required on VM versions 7.0 and greater.') }
+    unless $event_id          { fail('The $event_id is required on VM versions 7.0 and greater.') }
+    unless $latest_courseware { fail('Please run `classroom update` to update your Courseware materials.') }
 
     $presfile   = "${pick($variant, 'showoff')}.json"
     $password   = pick($event_pw, regsubst($event_id, '^(\w*-)?(\w*)$', '\2'))
@@ -82,9 +82,9 @@ class classroom::master::showoff (
 
   }
   else {
-    if defined('$variant')  { notify { '$variant is not supported on VM < 7.0': }  }
-    if defined('$version')  { notify { '$version is not supported on VM < 7.0': }  }
-    if defined('$event_id') { notify { '$event_id is not supported on VM < 7.0': } }
+    if $variant  { notify { '$variant is not supported on VM < 7.0': }  }
+    if $version  { notify { '$version is not supported on VM < 7.0': }  }
+    if $event_id { notify { '$event_id is not supported on VM < 7.0': } }
 
     include classroom::master::showoff::legacy
   }
