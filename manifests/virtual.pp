@@ -46,8 +46,8 @@ class classroom::virtual (
 
     class { 'puppetfactory':
       plugins          => $full_plugin_list,
-      controlrepo      => $control_repository,
       gitserver        => $gitserver,
+      controlrepo      => $control_repo,
       repomodel        => 'single',
       usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",

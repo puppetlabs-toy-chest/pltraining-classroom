@@ -82,7 +82,6 @@ class classroom::master::showoff (
 
   }
   else {
-    if $variant  { notify { '$variant is not supported on VM < 7.0': }  }
     if $version  { notify { '$version is not supported on VM < 7.0': }  }
     if $event_id { notify { '$event_id is not supported on VM < 7.0': } }
 
