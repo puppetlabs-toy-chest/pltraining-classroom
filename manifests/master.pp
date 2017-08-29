@@ -111,5 +111,11 @@ class classroom::master (
 
   # Configure performance logging
   include classroom::master::perf_logging
+  
+  # Export DNS entry for master on windows adserver
+  @@dsc::dsc_xdnsrecord { 'master.puppetlabs.vm':
+    dsc_target => $ipaddress,
+    dsc_type => 'ARecord',
+  }
 
 }

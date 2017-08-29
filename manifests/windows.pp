@@ -56,6 +56,7 @@ class classroom::windows {
     @@classroom::windows::dns_server { 'primary_ip':
       ip => $::ipaddress,
     }
+    Dsc::Dsc_xdnsrecord <<||>>
   }
   else {
     Classroom::Windows::Dns_server <<||>>
