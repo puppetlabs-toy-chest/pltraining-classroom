@@ -17,9 +17,9 @@ class classroom::virtual (
     # Configure performance logging
     include classroom::master::perf_logging
 
-    if $offline {
-      include classroom::master::gitea
-    }
+    # Set up gitea server
+    include classroom::master::gitea
+
   } elsif $classroom::params::role == 'proxy' {
     include classroom::proxy
   } else {

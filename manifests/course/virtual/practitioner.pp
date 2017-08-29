@@ -1,8 +1,9 @@
 class classroom::course::virtual::practitioner (
-  $control_owner,
+  $control_owner      = $classroom::params::control_owner,
   $offline            = $classroom::params::offline,
   $session_id         = $classroom::params::session_id,
   $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $use_gitea          = $classroom::params::use_gitea,
 ) inherits classroom::params {
   class { 'classroom::virtual':
     offline            => $offline,
@@ -21,7 +22,7 @@ class classroom::course::virtual::practitioner (
 
     $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
 
-    if $offline {
+    if $use_gitea {
       $plugin_list = flatten([$base_plugin_list, "Gitea" ])
     } else {
       $plugin_list = $base_plugin_list
@@ -44,7 +45,7 @@ class classroom::course::virtual::practitioner (
     class { 'classroom::master::codemanager':
       control_owner => $control_owner,
       control_repo  => 'classroom-control-vp.git',
-      offline       => $offline,
+      use_gitea     => $use_gitea,
     }
 
   }

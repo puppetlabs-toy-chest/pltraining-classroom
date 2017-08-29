@@ -2,6 +2,12 @@ class classroom::params {
   # Configure NTP (and other services) to run in standalone mode
   $offline   = false
 
+  # Use the gitea git server
+  $use_gitea = true
+
+  # Default to root for gitea
+  $control_owner = 'root'
+
   if $::osfamily == 'windows' {
     # Path to the student's working directory
     $workdir = 'C:/puppetcode'
@@ -37,11 +43,10 @@ class classroom::params {
 
   # git configuration for the web-based alternative git workflow
   $usersuffix       = 'puppetlabs.vm'
-  $control_owner    = 'puppetlabs-education'
   $repo_model       = 'single'
   $gitserver        = {
-    'online'  => 'https://github.com',
-    'offline' => 'http://master.puppetlabs.vm:3000',
+    'github'  => 'https://github.com',
+    'gitea' => 'http://master.puppetlabs.vm:3000',
   }
 
   # time servers to use if we've got network
@@ -108,7 +113,5 @@ class classroom::params {
   }
 
   $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
-  $repos = {
-    'local'    => "/var/yum/mirror/",
-  }
+  
 }

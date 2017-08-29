@@ -1,6 +1,6 @@
 {
   "name": "pltraining-classroom",
-  "version": "1.7.4",
+  "version": "1.7.7",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",
@@ -57,7 +57,7 @@
 
     {"name":"puppetlabs/acl",                 "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/dsc",                 "version_requirement":">= 1.0.0"},
-    {"name":"puppetlabs/powershell",          "version_requirement":">= 1.0.0"},
+    {"name":"puppetlabs/powershell",          "version_requirement":">= 2.0.0"},
     {"name":"puppetlabs/reboot",              "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/registry",            "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/wsus_client",         "version_requirement":">= 1.0.0"},

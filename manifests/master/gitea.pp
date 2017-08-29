@@ -1,23 +1,53 @@
 # This assumes that the gitea rpm and dependencies have been cached by the
 # pltraining-bootstrap module.
 class classroom::master::gitea {
-  package { 'gitea':
-    name     => 'gitea',
-    provider => 'rpm',
-    source   => '/usr/src/rpm_cache/gitea.rpm',
-    before   => File['/home/git/go/bin/custom/conf/app.ini'],
-  }
-  package { 'golang':
-    ensure => present,
-    before => Package['gitea'],
+
+  # Use public IP for ec2 hosted trainings
+  $gitea_address = $facts['ec2_metadata'] ? {
+        undef   => $ipaddress,
+        default => $facts['ec2_metadata']['public-ipv4']
   }
 
-  file { '/home/git/go/bin/custom/conf/app.ini':
-    ensure  => file,
-    owner   => 'git',
-    group   => 'git',
-    mode    => '0644',
-    source  => 'puppet:///modules/classroom/app.ini',
+  package { 'gitea':
+    ensure => present,
+  }
+
+  ini_setting { "database user":
+    ensure  => present,
+    path    => '/home/git/go/bin/custom/conf/app.ini',
+    section => 'database',
+    setting => 'user',
+    value   => 'root',
+    require => Package['gitea'],
+    notify  => Service['gitea'],
+  }
+
+  ini_setting { "ssh domain":
+    ensure  => present,
+    path    => '/home/git/go/bin/custom/conf/app.ini',
+    section => 'server',
+    setting => 'SSH_DOMAIN',
+    value => $gitea_address,
+    require => Package['gitea'],
+    notify  => Service['gitea'],
+  }
+
+  ini_setting { "domain":
+    ensure  => present,
+    path    => '/home/git/go/bin/custom/conf/app.ini',
+    section => 'server',
+    setting => 'DOMAIN',
+    value => $gitea_address,
+    require => Package['gitea'],
+    notify  => Service['gitea'],
+  }
+  ini_setting { "root url":
+    ensure  => present,
+    path    => '/home/git/go/bin/custom/conf/app.ini',
+    section => 'server',
+    setting => 'ROOT_URL',
+    value => "http://${gitea_address}:3000/",
+    require => Package['gitea'],
     notify  => Service['gitea'],
   }
 
