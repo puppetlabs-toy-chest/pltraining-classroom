@@ -4,6 +4,7 @@ fixtures:
     dockeragent: "git://github.com/puppetlabs/pltraining-dockeragent.git"
     rbac: "git://github.com/puppetlabs/pltraining-rbac.git"
     userprefs: "git://github.com/puppetlabs/pltraining-userprefs.git"
+    pe_repo: "git@github.com:puppetlabs/puppetlabs-pe_repo.git"
   forge_modules:
     abalone: "binford2k/abalone"
     firewall: "puppetlabs/firewall"
