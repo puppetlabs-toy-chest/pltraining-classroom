@@ -7,7 +7,6 @@ class classroom::containers {
 
   class { 'dockeragent':
     registry  => 'master.puppetlabs.vm:5000',
-    yum_cache => true,
   }
 
   dockeragent::node { "agent1.${::fqdn}":

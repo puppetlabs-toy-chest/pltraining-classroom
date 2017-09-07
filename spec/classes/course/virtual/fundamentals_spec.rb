@@ -3,13 +3,18 @@ require 'spec_helper'
 describe 'classroom::course::virtual::fundamentals' do
 
   parameter_matrix = [
-    { :offline => true, :control_owner => 'puppetlabs-education' },
-    { :control_owner => 'puppetlabs-education' }
+    {},
+    { :offline => true, },
+    { :offline => false, :control_owner => 'puppetlabs-education', :use_gitea => false }
   ]
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
       let(:pre_condition) {
-        "service { 'pe-puppetserver':
+         "class classroom { $offline = true }
+          include classroom
+          $puppetmaster = 'master.puppetlabs.vm'
+          $ec2_metadata = undef
+          service { 'pe-puppetserver':
           ensure => running,
         }" + GLOBAL_PRE
       }
@@ -23,6 +28,9 @@ describe 'classroom::course::virtual::fundamentals' do
     end
 
     context "applied to agent: #{params.to_s}" do
+      let(:pre_condition) {
+        "include classroom"
+      }
       let(:node) { 'agent.puppetlabs.vm' }
       let(:facts) { {
         :servername => 'master.puppetlabs.vm'

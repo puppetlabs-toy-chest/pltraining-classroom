@@ -1,11 +1,21 @@
 class classroom::course::virtual::fundamentals (
-  $control_owner,
-  $offline       = $classroom::params::offline,
-  $session_id    = $classroom::params::session_id,
+  $control_owner      = $classroom::params::control_owner,
+  $offline            = $classroom::params::offline,
+  $session_id         = $classroom::params::session_id,
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $use_gitea          = $classroom::params::use_gitea,
 ) inherits classroom::params {
   class { 'classroom::virtual':
-    offline => $offline,
+    offline            => $offline,
+    jvm_tuning_profile => $jvm_tuning_profile,
   }
+
+
+  $gitserver = $use_gitea ? {
+    true  => $classroom::params::gitserver['gitea'],
+    false => $classroom::params::gitserver['github'],
+  }
+
 
   if $role == 'master' {
     File {
@@ -18,20 +28,21 @@ class classroom::course::virtual::fundamentals (
 
     $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
 
-    if $offline {
+    if $use_gitea {
       $plugin_list = flatten([$base_plugin_list, "Gitea" ])
     } else {
       $plugin_list = $base_plugin_list
     }
 
     class { 'puppetfactory':
-      plugins          => $plugin_list,
-      controlrepo      => 'classroom-control-vf.git',
-      repomodel        => 'single',
-      usersuffix       => $classroom::params::usersuffix,
-      dashboard_path   => "${showoff::root}/courseware/_files/tests",
-      session          => $session_id,
-      privileged       => false,
+      plugins        => $plugin_list,
+      controlrepo    => 'classroom-control-vf.git',
+      repomodel      => 'single',
+      usersuffix     => $classroom::params::usersuffix,
+      dashboard_path => "${showoff::root}/courseware/_files/tests",
+      session        => $session_id,
+      gitserver      => $gitserver,
+      privileged     => false,
     }
 
     class { 'classroom::facts':
@@ -41,7 +52,7 @@ class classroom::course::virtual::fundamentals (
     class { 'classroom::master::codemanager':
       control_owner => $control_owner,
       control_repo  => 'classroom-control-vf.git',
-      offline       => $offline,
+      use_gitea     => $use_gitea,
     }
 
   }

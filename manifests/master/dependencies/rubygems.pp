@@ -11,14 +11,20 @@ class classroom::master::dependencies::rubygems {
     ensure   => present,
     provider => puppet_gem,
   }
-  
-  # The new nokogiri won't run on RHEL or CentOS. Because reasons.
+
+  # Several gems won't run OOTB on RHEL or CentOS. Because reasons.
+  package { 'public_suffix':
+    ensure   => '2.0.5',
+    provider => gem,
+  }
   # https://github.com/sparklemotion/nokogiri/blob/master/CHANGELOG.md#170--2016-12-26
   package { 'nokogiri':
     ensure   => '1.6.8.1',
     provider => gem,
   }
+
   # This is a soft relationship. It won't fail if showoff isn't included.
-  Package['nokogiri'] -> Package<| title == 'showoff' |>
-  
+  Package['nokogiri']      -> Package<| title == 'showoff' |>
+  Package['public_suffix'] -> Package<| title == 'showoff' |>
+
 }

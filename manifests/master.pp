@@ -1,5 +1,7 @@
 # Set up the master with user accounts, environments, etc
-class classroom::master {
+class classroom::master (
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+) {
   assert_private('This class should not be called directly')
 
   File {
@@ -14,9 +16,10 @@ class classroom::master {
     target => '/usr/bin/pip',
   }
 
+  # Install the Gitea hosted git repository service
+  include classroom::master::gitea
+
   if $classroom::offline {
-    # Install the Gitea hosted git repository service
-    include classroom::master::gitea
 
     # Reconfigure the gemrc files for offline use
     $gemrc_files = [ '/root/.gemrc', '/opt/puppetlabs/puppet/etc/gemrc' ]
@@ -92,8 +95,10 @@ class classroom::master {
   # Ensure that time is set appropriately
   include classroom::master::time
 
-  # configure Hiera environments for the master
-  include classroom::master::hiera
+  # Configure Hiera and install a Hiera data file to control PE configuration
+  class { 'classroom::master::tuning':
+    jvm_tuning_profile => $jvm_tuning_profile,
+  }
 
   # Setup Windows Powershell Scripts
   include classroom::master::windows

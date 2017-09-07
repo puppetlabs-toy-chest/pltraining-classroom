@@ -64,11 +64,18 @@ class classroom::master::graphite {
     ],
     before => Class['graphite'],
   }
+  
+  # because graphite is terrible and tries to manage **gcc** unless you disable packages :-/
+  # This conflicts with our own classroom::master::dependencies::rubygems class
+  package { ['python-devel', 'python2-pip']:
+    ensure => present,
+  }
 
   class { 'graphite':
-    gr_web_server           => 'none',
-    gr_disable_webapp_cache => true,
-    gr_storage_schemas      => [
+    gr_web_server             => 'none',
+    gr_disable_webapp_cache   => true,
+    gr_manage_python_packages => false, # see above.
+    gr_storage_schemas        => [
       {
         name       => 'carbon',
         pattern    => '^carbon\.',
