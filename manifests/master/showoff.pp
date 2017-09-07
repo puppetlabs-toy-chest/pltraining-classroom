@@ -59,6 +59,11 @@ class classroom::master::showoff (
       mode     => '0644',
       notify   => Exec['build_pdfs'],
     }
+    file { 'pagerduty metadata':
+      ensure   => link,
+      path     => '/opt/pltraining/etc/classroom.json',
+      target   => "${courseware}/stats/metadata.json",
+    }
 
     package { 'puppet-courseware-manager':
       ensure   => present,
