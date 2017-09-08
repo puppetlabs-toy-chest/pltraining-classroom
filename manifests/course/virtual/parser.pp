@@ -1,38 +1,33 @@
 class classroom::course::virtual::parser (
-  $session_id         = $classroom::params::session_id,
-  $role               = $classroom::params::role,
+  $control_owner      = $classroom::params::control_owner,
   $offline            = $classroom::params::offline,
+  $session_id         = $classroom::params::session_id,
   $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $use_gitea          = $classroom::params::use_gitea,
+  $event_id           = undef,
+  $event_pw           = undef,
+  $version            = undef,
 ) inherits classroom::params {
   class { 'classroom::virtual':
     offline            => $offline,
+    use_gitea          => $use_gitea,
     jvm_tuning_profile => $jvm_tuning_profile,
+    control_owner      => $control_owner,
+    control_repo       => 'classroom-control-intro.git',
+    event_id           => $event_id,
+    event_pw           => $event_pw,
   }
 
   if $role == 'master' {
+    class { 'classroom::facts':
+      coursename => 'puppet4parser',
+    }
 
-    class { 'puppetfactory':
-      plugins          => [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "ShellUser", "UserEnvironment" ],
-      puppetcode       => '/var/puppetcode',
-      stagedir         => '/etc/puppetlabs/code',
-      modulepath       => 'readwrite',
-      usersuffix       => $classroom::params::usersuffix,
-      session          => $session_id,
-      privileged       => false,
-    }
-  }
-  else {
-    file { '/usr/local/bin/course_selector':
-      ensure => present,
-      mode   => '0755',
-      source => '/usr/src/courseware-lms-content/scripts/course_selector.rb',
-      require => Vcsrepo['/usr/src/courseware-lms-content'],
-    }
-    # Clone the courseware and copy example files to appropriate places
-    vcsrepo { '/usr/src/courseware-lms-content':
-      ensure   => present,
-      provider => git,
-      source   => 'https://github.com/puppetlabs/courseware-lms-content.git',
+    class { 'classroom::master::showoff':
+      course             => 'Puppet4Parser',
+      event_id           => $event_id,
+      event_pw           => $event_pw,
+      version            => $version,
     }
   }
 

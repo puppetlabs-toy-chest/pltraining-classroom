@@ -12,6 +12,7 @@ class classroom::virtual (
   assert_private('This class should not be called directly')
 
   if $classroom::params::role == 'master' {
+    include showoff
     include classroom::master::dependencies::rubygems
 
     # Configure Hiera and install a Hiera data file to tune PE
@@ -26,11 +27,19 @@ class classroom::virtual (
     include classroom::master::gitea
 
     if $offline or $use_gitea {
-      $full_plugin_list = flatten([$base_plugin_list, "Gitea" ])
+      $full_plugin_list = flatten([$plugin_list, "Gitea" ])
       $gitserver        = $classroom::params::gitserver['gitea']
+
+      if($control_owner != $classroom::params::control_owner) {
+        fail('Control owner cannot be set when using gitea')
+      }
     } else {
       $full_plugin_list = $plugin_list
       $gitserver        = $classroom::params::gitserver['github']
+
+      if($control_owner == $classroom::params::control_owner) {
+        fail('control_owner is a required parameter for trainings using github')
+      }
     }
 
     if $event_id {

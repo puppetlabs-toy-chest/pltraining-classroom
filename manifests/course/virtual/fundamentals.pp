@@ -19,12 +19,6 @@ class classroom::course::virtual::fundamentals (
   }
 
   if $role == 'master' {
-    File {
-      owner => 'root',
-      group => 'root',
-      mode  => '0644',
-    }
-
     class { 'classroom::facts':
       coursename => 'fundamentals',
     }
