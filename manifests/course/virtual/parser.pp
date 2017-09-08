@@ -13,7 +13,7 @@ class classroom::course::virtual::parser (
     use_gitea          => $use_gitea,
     jvm_tuning_profile => $jvm_tuning_profile,
     control_owner      => $control_owner,
-    control_repo       => 'classroom-control-intro.git',
+    control_repo       => 'classroom-control-p4.git',
     event_id           => $event_id,
     event_pw           => $event_pw,
   }
