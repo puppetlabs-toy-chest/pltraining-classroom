@@ -5,6 +5,7 @@
 #
 class classroom::master::pdf_stack {
 
+  # ugh
   if(defined('$classroom::offline') and $classroom::offline) {
     $enabled = '0'
   }
