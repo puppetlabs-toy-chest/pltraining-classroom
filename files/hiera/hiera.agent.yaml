@@ -1,0 +1,10 @@
+---
+version: 5
+hierarchy:
+  - name: Yaml data
+    datadir: hieradata
+    data_hash: yaml_data
+    paths:
+      - "%{::trusted.certname}.yaml"
+      - "%{environment}.yaml"
+      - "common.yaml"
