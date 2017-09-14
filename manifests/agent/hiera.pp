@@ -42,9 +42,15 @@ class classroom::agent::hiera (
       force  => true,
     }
 
+    file { "${confdir}/hieradata":
+      ensure => link,
+      target => "${workdir}/hieradata",
+      force  => true,
+    }
+
     file { "${workdir}/hiera.yaml":
       ensure  => file,
-      content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
+      source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
       replace => false,
     }
 
@@ -58,7 +64,7 @@ class classroom::agent::hiera (
     unless defined('$puppetlabs_class') {
       file { "${confdir}/hiera.yaml":
         ensure  => file,
-        content => epp('classroom/hiera/hiera.agent.yaml.epp', { 'hieradata' => $hieradata }),
+        source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
       }
     }
   }
