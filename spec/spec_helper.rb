@@ -83,3 +83,12 @@ include puppet_enterprise::profile::console
 include puppet_enterprise::profile::orchestrator
 include puppet_enterprise::profile::amq::broker
 "
+
+# TODO: This is terrible bad and should be taken out and shot
+VIRTUAL_PRE = "
+class classroom {
+  $manage_selinux = true
+  $manage_repos   = true
+}
+include classroom
+"
