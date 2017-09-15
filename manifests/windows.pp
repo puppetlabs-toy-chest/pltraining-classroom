@@ -20,9 +20,6 @@ class classroom::windows {
   include classroom::windows::disable_esc
   include classroom::windows::alias
 
-  # TODO: remove this abomination once the PE stack is updated
-  include classroom::windows::rubygems_update
-
   windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin' : }
 
   include userprefs::npp

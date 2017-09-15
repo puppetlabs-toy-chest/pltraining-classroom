@@ -19,29 +19,6 @@ class classroom::master (
   # Install the Gitea hosted git repository service
   include classroom::master::gitea
 
-  if $classroom::offline {
-
-    # Reconfigure the gemrc files for offline use
-    $gemrc_files = [ '/root/.gemrc', '/opt/puppetlabs/puppet/etc/gemrc' ]
-
-    $gemrc_files.each |$gemrc_file| {
-      file { $gemrc_file:
-        ensure => file,
-      }
-
-      # Remove this line so "gem install" doesn't try to access
-      # the rubygems.org site, even though the local gem cache
-      # is configured. Seems to work better if this line is removed
-      # altogether.
-      file_line { "Remove rubygems.org from ${gemrc_file} when offline":
-        ensure            => absent,
-        path              => $gemrc_file,
-        match             => '\-\ https:\/\/rubygems\.org',
-        match_for_absence => true,
-      }
-    }
-  }
-
   # Add the installer files for student agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386
