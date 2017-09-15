@@ -1,10 +1,11 @@
 # Dependencies for PDF rendering
 class classroom::master::pdf_stack {
 
-  $enabled = $classroom::offline ? {
-    true  => '0',
-    false => '1',
-    undef => '1',   # TODO: this is a terrible temporary hack
+  if(defined('$classroom::offline') and $classroom::offline) {
+    $enabled = '0'
+  }
+  else {
+    $enabled = '1'
   }
 
   yumrepo { 'robert-gcj':

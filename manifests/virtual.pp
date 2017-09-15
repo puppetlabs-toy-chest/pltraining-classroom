@@ -26,14 +26,16 @@ class classroom::virtual (
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera
     include classroom::agent::packages
+    include classroom::agent::rubygems
 
-    class { 'classroom::agent::rubygems':
-      offline => $offline,
-    }
-    
     unless $osfamily == 'windows' {
       include classroom::agent::postfix_ipv4
     }
+  }
+
+  # configure gem installs
+  class { 'classroom::gemrc':
+    offline => $offline,
   }
 
   if $::osfamily == 'windows' {
