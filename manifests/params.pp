@@ -3,7 +3,7 @@ class classroom::params {
   $offline   = false
 
   # Use the gitea git server
-  $use_gitea = true
+  $use_gitea = false
 
   # Default to root for gitea
   $control_owner = 'root'
@@ -85,15 +85,31 @@ class classroom::params {
   # Default session ID for Puppetfactory classes
   $session_id    = '12345'
 
+  # Default plugin list for Puppetfactory classes
+  $plugin_list   = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
+
+
   # Showoff and printing stack configuration
   $training_user  = 'training'
   $manage_selinux = true
 
-  $role = $::hostname ? {
-    /^(master|classroom|puppetfactory)$/ => 'master',
-    'proxy'                                => 'proxy',
-    'adserver'                             => 'adserver',
-    default                                => 'agent'
+  # TODO: this logic is gross and should be cleaned up as soon as we transition fully to the auto provisioner.
+  if dig($trusted, 'extensions', 'pp_role') {
+    $role = $trusted['extensions']['pp_role'] ? {
+      'training' => 'master',
+      'master'   => 'master',
+      'proxy'    => 'proxy',
+      # intentionally fail if we get any other values since these
+      # are the only roles that can autoprovision right now.
+    }
+  }
+  else {
+    $role = $::hostname ? {
+      /^(localhost|master|classroom|puppetfactory)$/ => 'master',
+      'proxy'                                => 'proxy',
+      'adserver'                             => 'adserver',
+      default                                => 'agent'
+    }
   }
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
@@ -113,5 +129,5 @@ class classroom::params {
   }
 
   $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
-  
+
 }

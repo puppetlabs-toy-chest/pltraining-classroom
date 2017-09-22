@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'classroom::course::virtual::practitioner' do
 
   parameter_matrix = [
-    { },
+    { :control_owner => 'puppetlabs-education', },
     { :offline => true},
     { :offline => false, :control_owner => 'puppetlabs-education', :use_gitea => false }
   ]

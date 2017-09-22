@@ -6,22 +6,9 @@ class classroom::master::perf_logging {
     ensure => present,
   }
 
-  package { 'aws-sdk':
-    ensure   => present,
-    provider => gem,
-  }
-
-  file { '/usr/local/bin/classroom_performance':
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    source => 'puppet:///modules/classroom/classroom_performance',
-  }
-
   cron { 'snapshot performance':
     ensure  => present,
-    command => '/usr/local/bin/classroom_performance snapshot',
+    command => '/usr/local/bin/classroom performance snapshot',
     minute  => ['12', '42'],
   }
 
