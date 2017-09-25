@@ -1,6 +1,14 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.8.0
+* Port to Hiera 5 configs
+* Ported to work with upcoming auto-provisioned VMs
+* Standardize on local Gitea server whenever possible
+* Simplified RubyGem management a bit
+* Cleaned out a bunch of deprecated scripts, to be replaced with the
+  `classroom` command.
+
 ## v1.7.7
 * Unpinned powershell and dsc modules after upstream was fixed
 
