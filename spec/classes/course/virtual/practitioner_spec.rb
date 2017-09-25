@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'classroom::course::virtual::practitioner' do
 
   parameter_matrix = [
-    { :control_owner => 'puppetlabs-education', },
     { :offline => true},
-    { :offline => false, :control_owner => 'puppetlabs-education', :use_gitea => false }
+    { :offline => false, :use_gitea => true },
+    { :offline => false, :use_gitea => false, :control_owner => 'puppetlabs-education', },
   ]
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
