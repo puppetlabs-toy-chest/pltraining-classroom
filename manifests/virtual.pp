@@ -67,7 +67,7 @@ class classroom::virtual (
 
     class { 'classroom::master::codemanager':
       control_owner => $control_owner,
-      control_repo  => 'classroom-control-vf.git',
+      control_repo  => $control_repo,
       gitserver     => $gitserver,
     }
 
