@@ -42,12 +42,7 @@ class classroom::virtual (
       }
     }
 
-    if $event_id {
-      $session_id = pick($event_pw, regsubst($event_id, '^(\w*-)?(\w*)$', '\2'))
-    }
-    else {
-      $session_id = $classroom::params::session_id
-    }
+    $session_id = pick($event_pw, regsubst(String($event_id), '^(?:\w*-)+(\w*)$', '\1'), $classroom::params::session_id)
 
     if 'Dashboard' in $full_plugin_list {
       include classroom::master::dependencies::dashboard
