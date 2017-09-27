@@ -17,7 +17,7 @@ class classroom::gemrc (
       ensure => directory,
       owner  => 'root',
       group  => 'root',
-      mode   => '0644',
+      mode   => '0755',
     }
 
     file { ['/root/.gemrc', '/.gemrc', '/etc/gemrc', '/opt/puppetlabs/puppet/etc/gemrc']:
