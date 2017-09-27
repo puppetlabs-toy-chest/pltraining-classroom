@@ -13,6 +13,13 @@ class classroom::gemrc (
     }
   }
   else {
+    file { '/opt/puppetlabs/puppet/etc':
+      ensure => directory,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0755',
+    }
+
     file { ['/root/.gemrc', '/.gemrc', '/etc/gemrc', '/opt/puppetlabs/puppet/etc/gemrc']:
       ensure  => file,
       owner   => 'root',
