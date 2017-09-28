@@ -9,8 +9,8 @@ class classroom::master::student_environment {
   $environment     = "${environmentpath}/${environmentname}"
 
   File {
-    owner   => 'root',
-    group   => 'root',
+    owner   => 'pe-puppet',
+    group   => 'pe-puppet',
     mode    => '0644',
     require => Dirtree['environment path'],
   }
@@ -48,22 +48,10 @@ class classroom::master::student_environment {
     }
   }
 
-  # Ensure the environment cache is disabled and restart if needed
-  ini_setting {'environment_timeout':
-    ensure  => present,
-    path    => "${classroom::confdir}/puppet.conf",
-    section => 'main',
-    setting => 'environment_timeout',
-    value   => '0',
-  }
-
-  # Ensure the environmentpath is configured and restart if needed
-  ini_setting {'environmentpath':
-    ensure  => present,
-    path    => "${classroom::confdir}/puppet.conf",
-    section => 'main',
-    setting => 'environmentpath',
-    value   => $environmentpath,
+  # As of PE-14670, environment timeout is always managed... but not the way we need.
+  # Turn it off, so students can see the effects of their code
+  Pe_ini_setting<| title == 'puppetconf environment_timeout setting' |> {
+    value => '0',
   }
 
 }
