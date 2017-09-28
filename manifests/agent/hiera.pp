@@ -18,8 +18,8 @@ class classroom::agent::hiera (
     }
     default   : {
       File {
-        owner => 'root',
-        group => 'root',
+        owner => 'pe-puppet',
+        group => 'pe-puppet',
         mode  => '0644',
       }
     }

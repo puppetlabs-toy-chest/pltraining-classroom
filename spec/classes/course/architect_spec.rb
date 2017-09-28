@@ -26,7 +26,7 @@ describe 'classroom::course::architect' do
       let(:pre_condition) {
         "package {'r10k':
          ensure => present
-        }"
+        }" + GLOBAL_PRE
       }
       let(:node) { 'agent.puppetlabs.vm' }
       let(:facts) { {
