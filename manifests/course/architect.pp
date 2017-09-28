@@ -41,7 +41,6 @@ class classroom::course::architect (
   }
   elsif $role == 'agent' {
     # tools used in class
-    include classroom::agent::r10k
     include classroom::master::reporting_tools
 
     # Collect all hosts
