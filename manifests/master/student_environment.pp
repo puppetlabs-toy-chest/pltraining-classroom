@@ -30,15 +30,15 @@ class classroom::master::student_environment {
     ensure => directory,
   }
 
-  # This is a copy of site.pp used for the architect class
-  file { "${environment}/manifests/site.pp":
-    ensure  => file,
-    source  => 'puppet:///modules/classroom/site-architect.pp',
-    replace => false,
-  }
-
   # We only want to write this once so it isn't confusing later on.
   unless ($::puppetlabs_class) {
+    # This is a copy of site.pp used for the architect class
+    file { "${environment}/manifests/site.pp":
+      ensure  => file,
+      source  => 'puppet:///modules/classroom/site-architect.pp',
+      replace => false,
+    }
+
     # intentionally broken example code
     file { "${environment}/modules/cowsay":
       ensure  => directory,
