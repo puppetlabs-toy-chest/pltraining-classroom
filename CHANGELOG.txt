@@ -1,6 +1,14 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.8.1
+* Use the proper control repo in virtual classes
+* Calculate session IDs better
+* Clean up idempotency so architect masters don't fail the first few runs
+* Manage student environment in architect better
+* Removed some long defunct code
+* Idempotency fixes so the master doesn't restart itself every 30m
+
 ## v1.8.0
 * Port to Hiera 5 configs
 * Ported to work with upcoming auto-provisioned VMs
