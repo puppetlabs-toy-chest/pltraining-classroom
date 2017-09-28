@@ -9,9 +9,12 @@ class classroom::master::metrics {
     mode  => '0777',
   }
 
-  package { ['jmx', 'table_print']:
-    ensure   => present,
-    provider => puppetserver_gem,
+  # these will only work once the machine has been promoted to a master
+  if defined('$pe_server_version') {
+    package { ['jmx', 'table_print']:
+      ensure   => present,
+      provider => puppetserver_gem,
+    }
   }
 
   file { '/usr/local/bin/puppetserver_compiles':
