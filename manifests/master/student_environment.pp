@@ -48,10 +48,4 @@ class classroom::master::student_environment {
     }
   }
 
-  # As of PE-14670, environment timeout is always managed... but not the way we need.
-  # Turn it off, so students can see the effects of their code
-  Pe_ini_setting<| title == 'puppetconf environment_timeout setting' |> {
-    value => '0',
-  }
-
 }
