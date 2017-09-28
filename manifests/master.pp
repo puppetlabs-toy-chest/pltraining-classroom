@@ -4,12 +4,6 @@ class classroom::master (
 ) {
   assert_private('This class should not be called directly')
 
-  File {
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-  }
-
   # Workaround for pip
   file {'/usr/bin/pip-python':
     ensure => link,
@@ -24,22 +18,12 @@ class classroom::master (
   include pe_repo::platform::el_6_i386
   include pe_repo::platform::windows_x86_64
 
-  # Ensure the environment cache is disabled and restart if needed
-  ini_setting {'environment timeout':
-    ensure  => present,
-    path    => "${classroom::confdir}/puppet.conf",
-    section => 'main',
-    setting => 'environment_timeout',
-    value   => '0',
-    notify  => Service['pe-puppetserver'],
-  }
-
-  # This is stupid, but it allows the rspec-puppet tests to pass
-#  Ini_setting['environment timeout'] -> Service<| title == 'pe-puppetserver' |>
-
   # Anything that needs to be top scope
   file { "${classroom::codedir}/environments/production/manifests/classroom.pp":
     ensure => file,
+    owner  => 'pe-puppet',
+    group  => 'pe-puppet',
+    mode   => '0644',
     source => 'puppet:///modules/classroom/classroom.pp',
   }
 
