@@ -70,6 +70,11 @@ class classroom::virtual (
     include classroom::proxy
 
   } else {
+    # ensure all nodes have this user, since it's used for file ownership in places
+    user { 'pe-puppet':
+      ensure => present,
+    }
+
     # if we ever have universal classification for virtual agents, it will go here
     include classroom::agent::hiera
     include classroom::agent::packages

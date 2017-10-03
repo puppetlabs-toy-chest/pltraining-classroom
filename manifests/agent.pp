@@ -23,6 +23,11 @@ class classroom::agent {
     }
   }
 
+  # ensure all nodes have this user, since it's used for file ownership in places
+  user { 'pe-puppet':
+    ensure => present,
+  }
+
   # make sure our git environment is set up and usable
   include classroom::agent::git
 
