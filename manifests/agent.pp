@@ -42,6 +42,9 @@ class classroom::agent {
   # Configure basemodulepath for online or offline instruction
   include classroom::agent::modulecache
 
+  # set up the ssh authorization for the training user
+  include classroom::agent::sshauth
+
   # export a classroom::user with our ssh key.
   #
   # !!!! THIS MAY EXPORT AN EMPTY KEY ON THE FIRST RUN !!!!

@@ -79,6 +79,7 @@ class classroom::virtual (
     include classroom::agent::hiera
     include classroom::agent::packages
     include classroom::agent::rubygems
+    include classroom::agent::sshauth
 
     unless $osfamily == 'windows' {
       include classroom::agent::postfix_ipv4
