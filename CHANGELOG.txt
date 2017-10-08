@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.8.2
+* Fix missing pe-puppet issue
+
 ## v1.8.1
 * Use the proper control repo in virtual classes
 * Calculate session IDs better
