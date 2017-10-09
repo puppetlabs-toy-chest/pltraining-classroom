@@ -82,6 +82,16 @@ class classroom::virtual (
 
     unless $osfamily == 'windows' {
       include classroom::agent::postfix_ipv4
+
+      # enable the local yum cache configured by puppetfactory
+      yumrepo { 'local':
+        ensure   => 'present',
+        baseurl  => 'file:///var/yum/mirror',
+        enabled  => '1',
+        gpgcheck => '0',
+        priority => '1',
+      }
+
     }
   }
 
