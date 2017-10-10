@@ -66,6 +66,10 @@ class classroom::master (
 
   # Now create all of the users who've checked in
   Classroom::User <<||>>
+  # But prevent students from overwriting the login ssh key
+  user { 'training':
+    ensure => present,
+  }
 
   # Add files required for labs (mostly for offline mode)
   include classroom::master::lab_files
