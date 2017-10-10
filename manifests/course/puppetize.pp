@@ -17,6 +17,7 @@ class classroom::course::puppetize (
     control_repo       => 'classroom-control-pi.git',
     event_id           => $event_id,
     event_pw           => $event_pw,
+    plugin_list        => flatten([$classroom::params::plugin_list, "Gitviz" ]),
   }
 
   if $role == 'master' {
