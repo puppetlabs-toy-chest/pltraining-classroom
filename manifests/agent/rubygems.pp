@@ -6,7 +6,7 @@ class classroom::agent::rubygems {
     provider => 'puppet_gem',
   }
 
-  package { 'serverspec':
+  package { ['serverspec', 'rake']:
     ensure   => present,
     provider => 'gem',
   }
