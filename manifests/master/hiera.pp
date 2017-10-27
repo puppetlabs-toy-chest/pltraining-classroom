@@ -13,6 +13,8 @@ class classroom::master::hiera {
 
   # Because PE writes a default, we have to do tricks to see if we've already managed this.
   # We don't want to stomp on instructors doing demonstrations.
+  # TODO: manage unconditionally as soon as we get Hiera 5 excercises. We'll demo
+  #       with environment hiera.yamls.
   unless defined('$puppetlabs_class') {
     file { "${classroom::params::confdir}/hiera.yaml":
       ensure  => file,
@@ -34,16 +36,17 @@ class classroom::master::hiera {
     target => "${classroom::params::codedir}/environments",
   }
 
-  file { "${hieradata}/common.yaml":
-    ensure  => file,
-    source  => 'puppet:///modules/classroom/hiera/data/common.yaml',
-    replace => false,
-  }
-
-  # classroom parameters
+  # classroom parameters: if the instructor must override these for some reason
+  #                       they can use the `overrides` level.
   file { "${hieradata}/classroom.yaml":
     ensure  => file,
     source  => 'puppet:///modules/classroom/hiera/data/classroom.yaml',
+  }
+
+  # This is designed for editing during classroom demos. Don't overwrite it.
+  file { "${hieradata}/common.yaml":
+    ensure  => file,
+    source  => 'puppet:///modules/classroom/hiera/data/common.yaml',
     replace => false,
   }
 
