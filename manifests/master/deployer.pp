@@ -19,5 +19,11 @@ class classroom::master::deployer (
     require  => Rbac_user['deployer'],
   }
 
+  exec { 'deploy codebase':
+    command     => 'puppet code deploy --all --wait',
+    path        => '/bin:/usr/bin:/opt/puppetlabs/bin',
+    refreshonly => true,
+    subscribe   => Exec['create token'],
+  }
 }
 
