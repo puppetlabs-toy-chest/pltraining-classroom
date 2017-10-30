@@ -20,6 +20,9 @@ class classroom::virtual (
       jvm_tuning_profile => $jvm_tuning_profile,
     }
 
+    # make sure we have a deployment user
+    include classroom::master::deployer
+
     # Configure performance logging
     include classroom::master::perf_logging
 
