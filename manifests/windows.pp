@@ -1,20 +1,6 @@
 class classroom::windows {
   assert_private('This class should not be called directly')
 
-  user { 'Administrator':
-    ensure => present,
-    groups => ['Administrators'],
-  }
-
-  class {'chocolatey':
-    chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
-  }
-
-  chocolateyfeature { 'allowEmptyChecksums':
-    ensure => enabled,
-  }
-  Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
-
   include classroom::windows::geotrust
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
