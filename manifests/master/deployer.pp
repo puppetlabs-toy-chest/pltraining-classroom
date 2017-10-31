@@ -18,12 +18,24 @@ class classroom::master::deployer (
     provider => 'posix',
     require  => Rbac_user['deployer'],
   }
-
-  exec { 'deploy codebase':
-    command     => 'puppet code deploy --all --wait',
-    path        => '/bin:/usr/bin:/opt/puppetlabs/bin',
-    refreshonly => true,
-    subscribe   => Exec['create token'],
+  
+  file { '/etc/puppetlabs/code-staging/.deployed':
+    ensure => file,
+    owner  => 'pe-puppet',
+    group  => 'pe-puppet',
+    mode   => '0644',
+    before => Exec['deploy codebase'],
   }
+
+  # We run the deploy command on each Puppet run until Code Manager enables itself and the deployment succeeds.
+  # This should never show up as a failed run.
+  exec { 'deploy codebase':
+    command => 'puppet code deploy --all --wait',
+    path    => '/bin:/usr/bin:/opt/puppetlabs/bin',
+    creates => '/etc/puppetlabs/code/.deployed',
+    returns => [ 0, 1 ], # we "don't care" if it succeeds, just keep trying until it deploys
+    require => Exec['create token'],
+  }
+  
 }
 
