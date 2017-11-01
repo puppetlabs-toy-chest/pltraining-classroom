@@ -1,6 +1,15 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.8.3
+* Ensures a proper codebase deployment takes place for virtual classes
+* Pins `stahnma/epel` to a working release
+* Slightly simplifies the Hiera setup and ensures that it works for virtual classes
+* Prevents students from exporting a `training` user and breaking the instructor login
+* Enables the `Gitviz` plugin for Puppetizing Infrastructure
+* Enables the yum repository that Puppetfactory expects
+
+
 ## v1.8.2
 * Fix missing pe-puppet issue
 
