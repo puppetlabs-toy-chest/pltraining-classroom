@@ -23,8 +23,9 @@ class classroom::agent::git {
 
     package { ['git', 'kdiff3']:
       ensure   => present,
-      before   => [ File[$sshpath], Exec['generate_key'] ],
       provider => 'chocolatey',
+      before   => [ File[$sshpath], Exec['generate_key'] ],
+      require  => Package['chocolatey'],
     }
 
     file { 'C:/Users/Administrator/.ssh/':
