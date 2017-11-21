@@ -11,9 +11,7 @@ class classroom::course::windows (
 ) inherits classroom::params {
   class { 'classroom::virtual':
     offline            => $offline,
-    use_gitea          => $use_gitea,
     jvm_tuning_profile => $jvm_tuning_profile,
-    control_owner      => $control_owner,
     control_repo       => 'classroom-control-we.git',
     event_id           => $event_id,
     event_pw           => $event_pw,
