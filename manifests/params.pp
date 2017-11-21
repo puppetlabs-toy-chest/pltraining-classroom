@@ -2,9 +2,6 @@ class classroom::params {
   # Configure NTP (and other services) to run in standalone mode
   $offline   = false
 
-  # Use the gitea git server
-  $use_gitea = true
-
   # Default to root for gitea
   $control_owner = 'root'
 
@@ -41,12 +38,9 @@ class classroom::params {
   $manage_repos = true
 
   # git configuration for the web-based alternative git workflow
-  $usersuffix       = 'puppetlabs.vm'
-  $repo_model       = 'single'
-  $gitserver        = {
-    'github'  => 'https://github.com',
-    'gitea' => 'http://master.puppetlabs.vm:3000',
-  }
+  $usersuffix   = 'puppetlabs.vm'
+  $repo_model   = 'single'
+  $gitserver    = 'http://master.puppetlabs.vm:3000'
 
   # time servers to use if we've got network
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']

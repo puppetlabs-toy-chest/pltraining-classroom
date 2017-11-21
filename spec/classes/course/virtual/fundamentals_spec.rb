@@ -4,8 +4,7 @@ describe 'classroom::course::virtual::fundamentals' do
 
   parameter_matrix = [
     { :offline => true},
-    { :offline => false, :use_gitea => true },
-    { :offline => false, :use_gitea => false, :control_owner => 'puppetlabs-education', },
+    { :offline => false},
   ]
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
