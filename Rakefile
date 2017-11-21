@@ -5,4 +5,8 @@ task :release do
     `hub pull-request -h puppetlabs/education-builds:master -b puppetlabs/education-builds:release`
 end
 
-
+desc "Run spec tests without cleaning the fixtures directory"
+task :cached_spec do
+  Rake::Task[:spec_prep].invoke
+  Rake::Task[:spec_standalone].invoke
+end

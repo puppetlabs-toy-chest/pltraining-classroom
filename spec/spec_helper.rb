@@ -25,6 +25,7 @@ RSpec.configure do |c|
     :root_ssh_key => 'foo',
     :pe_build => '2016.4',
     :classroom_vm_release => '5.7',
+    :code_manager_enabled => false,
     :puppetserver => 'master.puppetlabs.vm',
     :staging_http_get => '/staging',
     :augeas => {
