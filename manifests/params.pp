@@ -27,7 +27,6 @@ class classroom::params {
   # default user password
   $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
   $consolepw = 'puppetlabs'
-  $training_password = '$6$salt$rmd1JvAa.v2uesiL5xR9OTcyDAcSTc1A9IeXJo00CMK0s.svJC/tshztZ7BkqVzZHaxK6.6XBnEGfdaI1jK4O1'
 
   # Should we manage upstream yum repositories in the classroom?
   $manage_yum = $::osfamily ? {
@@ -55,9 +54,6 @@ class classroom::params {
   # for where the agent installer tarball and windows powershell scripts go.
   $publicdir = '/opt/puppetlabs/server/data/packages/public'
 
-  # The directory where the VM caches stuff locally
-  $cachedir = '/usr/src/installer'
-
   # Default timeout for operations requiring downloads or the like
   $timeout = 600
 
@@ -78,16 +74,11 @@ class classroom::params {
     $machine_name = $::clientcert
   }
 
-  # r10k setup for architect classes
-  $r10k_remote  = '/root/environments'
-  $r10k_basedir = "${confdir}/environments"
-
   # Default session ID for Puppetfactory classes
   $session_id    = '12345'
 
   # Default plugin list for Puppetfactory classes
   $plugin_list   = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
-
 
   # Showoff and printing stack configuration
   $training_user  = 'training'
