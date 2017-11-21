@@ -1,38 +1,28 @@
 class classroom::windows {
   assert_private('This class should not be called directly')
 
-  user { 'Administrator':
-    ensure => present,
-    groups => ['Administrators'],
-  }
-
-  class {'chocolatey':
-    chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
-  }
-
-  chocolateyfeature { 'allowEmptyChecksums':
-    ensure => enabled,
-  }
-  Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
-
   include classroom::windows::geotrust
   include classroom::windows::password_policy
   include classroom::windows::disable_esc
   include classroom::windows::alias
-
-  windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin' : }
 
   include userprefs::npp
 
   package { ['console2', 'putty', 'unzip', 'devbox-common.extension']:
     ensure   => present,
     provider => 'chocolatey',
+    require  => [ Class['chocolatey'], Package['chocolatey'] ],
+  }
+
+  package { 'chocolatey':
+    ensure   => latest,
+    provider => 'chocolatey',
     require  => Class['chocolatey'],
   }
 
   ini_setting { 'certname':
     ensure  => present,
-    path    => "${classroom::confdir}/puppet.conf",
+    path    => "${classroom::params::confdir}/puppet.conf",
     section => 'main',
     setting => 'certname',
     value   => "${::hostname}.puppetlabs.vm",
@@ -41,7 +31,7 @@ class classroom::windows {
   # Symlink on the user desktop
   file { 'C:/Users/Administrator/Desktop/puppet_confdir':
     ensure => link,
-    target => $classroom::confdir,
+    target => $classroom::params::confdir,
   }
 
   if $classroom::role == 'adserver' {
