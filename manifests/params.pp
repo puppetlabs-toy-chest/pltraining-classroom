@@ -72,7 +72,7 @@ class classroom::params {
   $session_id    = '12345'
 
   # Default plugin list for Puppetfactory classes
-  $plugin_list   = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser" ]
+  $plugin_list   = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "Gitea", "ShellUser" ]
 
   # Showoff and printing stack configuration
   $training_user  = 'training'
