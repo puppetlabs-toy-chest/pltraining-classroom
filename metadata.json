@@ -54,7 +54,6 @@
     {"name":"puppetlabs/vcsrepo",             "version_requirement":">= 1.1.0"},
     {"name":"stahnma/epel",                   "version_requirement":"1.2.2"},
     {"name":"zack/exports",                   "version_requirement":">= 0.0.4"},
-    {"name":"zack/r10k",                      "version_requirement":">= 2.3.0"},
 
     {"name":"puppetlabs/acl",                 "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/dsc",                 "version_requirement":">= 1.0.0"},
