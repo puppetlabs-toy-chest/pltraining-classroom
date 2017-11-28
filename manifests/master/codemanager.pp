@@ -1,12 +1,11 @@
 # Configuration for PE code manager to avoid chicken -> egg -> chicken
 class classroom::master::codemanager (
-  $gitserver,
   $control_repo,
-  $repo_model       = $classroom::params::repo_model,
-  $use_gitea        = $classroom::params::use_gitea,
-  $control_owner    = $classroom::params::control_owner,
 ) inherits classroom::params {
   assert_private('This class should not be called directly')
+
+  $control_owner = $classroom::params::control_owner
+  $gitserver     = $classroom::params::gitserver
 
   pe_hocon_setting { 'enable code manager':
     ensure  => present,
@@ -22,15 +21,17 @@ class classroom::master::codemanager (
     value   => { 'remote' => "${gitserver}/${control_owner}/${control_repo}" },
   }
 
+
+  # duplicated in a hiera datasource. because reasons.
   $hieradata = "${classroom::params::confdir}/hieradata"
-  $replace   = $repo_model ? {
+  # we will likely never go back to the per-user fork model, but we should keep
+  # this until we rip it out across the board.
+  $replace   = $classroom::params::repo_model ? {
     'single'  => true,
     'peruser' => false, # the puppetfactory hook must be able to update this list!
   }
-  # duplicated in a hiera datasource. because reasons.
   file { "${hieradata}/sources.yaml":
     ensure  => file,
-    replace => $replace,
     content => epp('classroom/hiera/data/sources.yaml.epp', {
                                       'gitserver'     => $gitserver,
                                       'control_owner' => $control_owner,

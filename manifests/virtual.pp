@@ -1,19 +1,18 @@
 # common configuration for all virtual classes
 class classroom::virtual (
-  String                            $control_repo,
-  String                            $control_owner,
-  Optional[String]                  $event_id           = undef,
-  Optional[String]                  $event_pw           = undef,
-  Boolean                           $offline            = $classroom::params::offline,
-  Boolean                           $use_gitea          = $classroom::params::use_gitea,
-  Array                             $plugin_list        = $classroom::params::plugin_list,
-  Variant[Enum['reduced'], Boolean] $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  String                                  $control_repo,
+  Optional[Pattern[/\A(?:\w*-)+(\w*)\Z/]] $event_id           = undef,
+  Optional[String]                        $event_pw           = undef,
+  Variant[Enum['reduced'], Boolean]       $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  Boolean                                 $offline            = $classroom::params::offline,
+  Array                                   $plugin_list        = $classroom::params::plugin_list,
 ) inherits classroom::params {
   assert_private('This class should not be called directly')
 
   if $classroom::params::role == 'master' {
     include showoff
     include classroom::master::dependencies::rubygems
+    include classroom::master::dependencies::dashboard
 
     # Configure Hiera and install a Hiera data file to tune PE
     class { 'classroom::master::tuning':
@@ -29,33 +28,13 @@ class classroom::virtual (
     # Set up gitea server
     include classroom::master::gitea
 
-    if $offline or $use_gitea {
-      $full_plugin_list = flatten([$plugin_list, "Gitea" ])
-      $gitserver        = $classroom::params::gitserver['gitea']
-
-      if($control_owner != $classroom::params::control_owner) {
-        fail('Control owner cannot be set when using gitea')
-      }
-    } else {
-      $full_plugin_list = $plugin_list
-      $gitserver        = $classroom::params::gitserver['github']
-
-      if($control_owner == $classroom::params::control_owner) {
-        fail('control_owner is a required parameter for trainings using github')
-      }
-    }
-
     $session_id = pick($event_pw, regsubst(String($event_id), '^(?:\w*-)+(\w*)$', '\1'), $classroom::params::session_id)
 
-    if 'Dashboard' in $full_plugin_list {
-      include classroom::master::dependencies::dashboard
-    }
-
     class { 'puppetfactory':
-      plugins          => $full_plugin_list,
-      gitserver        => $gitserver,
       controlrepo      => $control_repo,
-      repomodel        => 'single',
+      plugins          => $plugin_list,
+      gitserver        => $classroom::params::gitserver,
+      repomodel        => $classroom::params::repo_model,
       usersuffix       => $classroom::params::usersuffix,
       dashboard_path   => "${showoff::root}/courseware/_files/tests",
       session          => $session_id,
@@ -64,9 +43,7 @@ class classroom::virtual (
     }
 
     class { 'classroom::master::codemanager':
-      control_owner => $control_owner,
-      control_repo  => $control_repo,
-      gitserver     => $gitserver,
+      control_repo => $control_repo,
     }
 
   } elsif $classroom::params::role == 'proxy' {
