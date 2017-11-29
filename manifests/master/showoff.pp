@@ -111,19 +111,17 @@ class classroom::master::showoff (
     client  => false,
   }
 
-  if $classroom::manage_selinux {
-    # Source code in stunnel-showoff.te
-    file { '/usr/share/selinux/targeted/stunnel-showoff.pp':
-      ensure => file,
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-      source => 'puppet:///modules/classroom/selinux/stunnel-showoff.pp',
-    }
+  # Source code in stunnel-showoff.te
+  file { '/usr/share/selinux/targeted/stunnel-showoff.pp':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/classroom/selinux/stunnel-showoff.pp',
+  }
 
-    selmodule { 'stunnel-showoff':
-      ensure => present,
-    }
+  selmodule { 'stunnel-showoff':
+    ensure => present,
   }
 
 }

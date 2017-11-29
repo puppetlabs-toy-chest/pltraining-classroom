@@ -2,8 +2,6 @@
 #
 class classroom::course::windows (
   $offline            = $classroom::params::offline,
-  $manage_yum         = $classroom::params::manage_yum,
-  $time_servers       = $classroom::params::time_servers,
   $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
   $event_id           = undef,
   $event_pw           = undef,

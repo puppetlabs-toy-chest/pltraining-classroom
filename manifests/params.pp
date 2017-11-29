@@ -23,30 +23,11 @@ class classroom::params {
 
   # default user password
   $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
-  $consolepw = 'puppetlabs'
-
-  # Should we manage upstream yum repositories in the classroom?
-  $manage_yum = $::osfamily ? {
-    'RedHat' => true,
-    default  => false,
-  }
-
-  # Upstream yum repositories
-  $repositories = [ 'base', 'extras', 'updates' ]
-
-  # manage git repositories for the student and the master
-  $manage_repos = true
 
   # git configuration for the web-based alternative git workflow
   $usersuffix   = 'puppetlabs.vm'
   $repo_model   = 'single'
   $gitserver    = 'http://master.puppetlabs.vm:3000'
-
-  # time servers to use if we've got network
-  $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
-
-  # for where the agent installer tarball and windows powershell scripts go.
-  $publicdir = '/opt/puppetlabs/server/data/packages/public'
 
   # Default timeout for operations requiring downloads or the like
   $timeout = 600
@@ -73,10 +54,6 @@ class classroom::params {
 
   # Default plugin list for Puppetfactory classes
   $plugin_list   = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "Gitea", "ShellUser" ]
-
-  # Showoff and printing stack configuration
-  $training_user  = 'training'
-  $manage_selinux = true
 
   # TODO: this logic is gross and should be cleaned up as soon as we transition fully to the auto provisioner.
   if dig($trusted, 'extensions', 'pp_role') {
@@ -112,7 +89,5 @@ class classroom::params {
       fail("Your VM is out of date. ${download}/puppet-student.ova/\n\n")
     }
   }
-
-  $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
 
 }
