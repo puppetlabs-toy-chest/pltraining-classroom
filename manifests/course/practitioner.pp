@@ -1,14 +1,14 @@
 # This is a wrapper class for the legacy config
 #
 class classroom::course::practitioner (
-  $offline            = $classroom::params::offline,
-  $manage_yum         = $classroom::params::manage_yum,
-  $time_servers       = $classroom::params::time_servers,
-  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $offline            = undef,
+  $manage_yum         = undef,
+  $time_servers       = undef,
+  $jvm_tuning_profile = undef,
   $event_id           = undef,
   $event_pw           = undef,
   $version            = undef,
-) inherits classroom::params {
+) {
   # just wrap the classroom class
   class { 'classroom_legacy::course::practitioner':
     offline            => $offline,

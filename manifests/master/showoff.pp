@@ -90,7 +90,7 @@ class classroom::master::showoff (
     if $version  { notify { '$version is not supported on VM < 7.0': }  }
     if $event_id { notify { '$event_id is not supported on VM < 7.0': } }
 
-    include classroom::master::showoff::legacy
+    include classroom_legacy::master::showoff::legacy
   }
 
 
