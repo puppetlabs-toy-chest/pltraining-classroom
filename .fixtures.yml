@@ -4,11 +4,12 @@ fixtures:
     dockeragent: "git://github.com/puppetlabs/pltraining-dockeragent.git"
     rbac: "git://github.com/puppetlabs/pltraining-rbac.git"
     userprefs: "git://github.com/puppetlabs/pltraining-userprefs.git"
+    classroom_legacy: "git://github.com/puppetlabs/pltraining-classroom_legacy.git"
   forge_modules:
     abalone: "binford2k/abalone"
     firewall: "puppetlabs/firewall"
     chocolatey: "chocolatey/chocolatey"
-    graphite: 
+    graphite:
       repo: "dwerder/graphite"
       ref: "5.16.1"
     grafana: "dwerder/grafana"
@@ -22,7 +23,7 @@ fixtures:
     haproxy: "puppetlabs/haproxy"
     inifile: "puppetlabs/inifile"
     mysql: "puppetlabs/mysql"
-    ntp: 
+    ntp:
       repo: "puppetlabs/ntp"
       ref: "4.2.0"
     pe_puppetserver_gem: "puppetlabs/pe_puppetserver_gem"
