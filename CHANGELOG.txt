@@ -1,6 +1,10 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.8.4
+* Corrected rubygem dependency issues.
+* Streamlined spec tests a bit.
+
 ## v1.8.3
 * Ensures a proper codebase deployment takes place for virtual classes
 * Pins `stahnma/epel` to a working release
