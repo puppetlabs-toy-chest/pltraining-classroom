@@ -22,9 +22,18 @@ class classroom::master::dependencies::rubygems {
     ensure   => '1.6.8.1',
     provider => gem,
   }
+  package { 'rack':
+    ensure   => '1.6.8',
+    provider => gem,
+  }
+  package { 'rack-contrib':
+    ensure   => '1.8.0',
+    provider => gem,
+  }
 
   # This is a soft relationship. It won't fail if showoff isn't included.
   Package['nokogiri']      -> Package<| title == 'showoff' |>
   Package['public_suffix'] -> Package<| title == 'showoff' |>
-
+  Package['rack']          -> Package<| title == 'showoff' |>
+  Package['rack-contrib']  -> Package<| title == 'showoff' |>
 }

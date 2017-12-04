@@ -8,8 +8,9 @@ class classroom::master::docker_registry {
   }
 
   docker::run {'registry':
-    image            => 'registry:2',
-    ports            => ['5000:5000'],
+    image  => 'registry:2',
+    ports  => ['5000:5000'],
+    before => Exec['docker push'],
   }
 
   $image_name = 'centos'
@@ -24,7 +25,8 @@ class classroom::master::docker_registry {
     unless  => "docker images | grep localhost:5000/${image_name}",
     require => [Docker::Image[$image_name_full],Docker::Image['registry']],
   }
-  exec { "docker push localhost:5000/${image_name_full}":
+  exec { 'docker push':
+    command => "docker push localhost:5000/${image_name_full}",
     path    => $::path,
     unless  => "curl -Is -X GET http://localhost:5000/v2/centos/manifests/${::operatingsystemmajrelease} | grep '200 OK'",
     require => Exec["docker tag ${image_name_full} localhost:5000/${image_name_full}"]

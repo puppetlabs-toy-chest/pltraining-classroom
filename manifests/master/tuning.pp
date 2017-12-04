@@ -1,11 +1,11 @@
 class classroom::master::tuning (
-  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  Variant[String, Boolean] $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
 ) inherits classroom::params {
   assert_private('This class should not be called directly')
 
   require classroom::master::hiera
 
-  if $jvm_tuning_profile != false {
+  if $jvm_tuning_profile {
     case $jvm_tuning_profile {
       'reduced': {
         $amq_heap_mb                = '256'
@@ -27,20 +27,18 @@ class classroom::master::tuning (
         fail("Unknown tuning level '${jvm_tuning_profile}', choose one of: 'reduced' or false")
       }
     }
+
+    file { "${classroom::params::confdir}/hieradata/tuning.yaml":
+      ensure        => file,
+      owner         => 'root',
+      group         => 'root',
+      mode          => '0644',
+      content       => template('classroom/hiera/data/tuning.yaml.erb'),
+      notify        => Class['puppet_enterprise::profile::master',
+                             'puppet_enterprise::profile::console',
+                             'puppet_enterprise::profile::orchestrator',
+                             'puppet_enterprise::profile::amq::broker'],
+    }
   }
 
-  # The tuning file will be installed no matter what because
-  # there are 1+ Hiera keys that remain whatever the tuning
-  # profile is set to.
-  file { "${classroom::params::confdir}/hieradata/tuning.yaml":
-    ensure        => file,
-    owner         => 'root',
-    group         => 'root',
-    mode          => '0644',
-    content       => template('classroom/tuning.yaml.erb'),
-    notify        => Class['puppet_enterprise::profile::master',
-                           'puppet_enterprise::profile::console',
-                           'puppet_enterprise::profile::orchestrator',
-                           'puppet_enterprise::profile::amq::broker'],
-  }
 }

@@ -1,10 +1,16 @@
 # Dependencies for PDF rendering
+#
+# NOTE: This class is deprecated, since the bootstrap manages these resources already.
+#       Remove this along with classroom::master::showoff::legacy
+#
 class classroom::master::pdf_stack {
 
-  $enabled = $classroom::offline ? {
-    true  => '0',
-    false => '1',
-    undef => '1',   # TODO: this is a terrible temporary hack
+  # ugh
+  if(defined('$classroom::offline') and $classroom::offline) {
+    $enabled = '0'
+  }
+  else {
+    $enabled = '1'
   }
 
   yumrepo { 'robert-gcj':
@@ -43,11 +49,16 @@ class classroom::master::pdf_stack {
     'xorg-x11-fonts-75dpi.noarch',
     'xorg-x11-fonts-Type1.noarch',
     'open-sans-fonts.noarch',
-    'google-droid-sans-mono', # cached locally by the bootstrap module
   ]
 
   package { $fonts:
     ensure => present,
   }
 
+  # TODO: merge this with ^^ in a couple releases
+  if $::classroom_vm_release and versioncmp($::classroom_vm_release, '7.0') >= 0 {
+    package { 'google-droid-sans-mono': # cached locally by the bootstrap module
+      ensure => present,
+    }
+  }
 }

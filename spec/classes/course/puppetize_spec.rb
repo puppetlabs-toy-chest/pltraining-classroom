@@ -1,17 +1,19 @@
 require 'spec_helper'
 
-describe 'classroom::course::architect' do
+describe 'classroom::course::puppetize' do
 
   parameter_matrix = [
-    { :offline => true },
-    { :time_servers => ["time.apple.com"] }
+    { :offline => true},
+    { :offline => false},
   ]
   parameter_matrix.each do |params|
     context "applied to master: #{params.to_s}" do
       let(:pre_condition) {
-        "service { 'pe-puppetserver':
-         ensure => running,
-        }" + GLOBAL_PRE
+         "$puppetmaster = 'master.puppetlabs.vm'
+          $ec2_metadata = undef
+          service { 'pe-puppetserver':
+            ensure => running,
+         }" + GLOBAL_PRE + VIRTUAL_PRE
       }
       let(:node) { 'master.puppetlabs.vm' }
       let(:facts) { {
@@ -24,17 +26,18 @@ describe 'classroom::course::architect' do
 
     context "applied to agent: #{params.to_s}" do
       let(:pre_condition) {
-        "package {'r10k':
-         ensure => present
-        }" + GLOBAL_PRE
+        "$puppetmaster = 'master.puppetlabs.vm'
+         $ec2_metadata = undef
+         service { 'pe-puppetserver':
+           ensure => running,
+         }" + GLOBAL_PRE + VIRTUAL_PRE
       }
       let(:node) { 'agent.puppetlabs.vm' }
       let(:facts) { {
-        :servername => 'master.puppetlabs.vm',
-        :puppetlabs_class => 'architect',
-        :ipaddress_docker0 => '172.16.42.1'
+        :servername => 'master.puppetlabs.vm'
       } }
       let(:params) { params }
+      let(:node) { 'master.puppetlabs.vm' }
 
       it { should compile }
     end

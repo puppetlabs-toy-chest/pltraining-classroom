@@ -1,42 +1,39 @@
-# This is a wrapper class to include all the bits needed for Puppetizing infrastructure
+# typing the parameters doesn't actually gain us anything, since the
+# Console doesn't provide any hinting. Subclasses validate types.
 class classroom::course::puppetize (
-  $control_owner      = $classroom::params::control_owner,
-  $offline            = $classroom::params::offline,
-  $session_id         = $classroom::params::session_id,
+  $event_id           = undef,
+  $event_pw           = undef,
   $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
-  $use_gitea          = $classroom::params::use_gitea,
+  $offline            = $classroom::params::offline,
+  $version            = undef,
 ) inherits classroom::params {
   class { 'classroom::virtual':
     offline            => $offline,
     jvm_tuning_profile => $jvm_tuning_profile,
+    control_repo       => 'classroom-control-pi.git',
+    event_id           => $event_id,
+    event_pw           => $event_pw,
+    plugin_list        => flatten([$classroom::params::plugin_list, "Gitviz" ]),
   }
 
-  if $::fqdn == 'master.puppetlabs.vm' {
-    # Classroom Master
+  if $role == 'master' {
     File {
       owner => 'root',
       group => 'root',
       mode  => '0644',
     }
 
-    include classroom::master::dependencies::dashboard
     include classroom::master::hiera
 
-    $base_plugin_list = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "ShellUser", "Gitviz" ]
-
-    if $use_gitea {
-      $plugin_list = flatten([$base_plugin_list, "Gitea" ])
-    } else {
-      $plugin_list = $base_plugin_list
+    class { 'classroom::facts':
+      coursename => 'puppetizing',
     }
 
-    class { 'puppetfactory':
-      plugins          => $plugin_list,
-      controlrepo      => 'classroom-control-pi.git',
-      repomodel        => 'single',
-      usersuffix       => $classroom::params::usersuffix,
-      session          => $session_id,
-      privileged       => false,
+    class { 'classroom::master::showoff':
+      course             => 'Puppetize',
+      event_id           => $event_id,
+      event_pw           => $event_pw,
+      version            => $version,
     }
 
     file { '/usr/local/bin/validate_classification.rb':
@@ -44,19 +41,8 @@ class classroom::course::puppetize (
       mode   => '0755',
       source => 'puppet:///modules/classroom/validation/puppetize.rb',
     }
-
-    class { 'classroom::master::codemanager':
-      control_owner => $control_owner,
-      control_repo  => 'classroom-control-pi.git',
-      use_gitea     => $use_gitea,
-    }
-
   }
 
   # All nodes
   include classroom::agent::git
-  class { 'classroom::facts':
-    coursename => 'puppetizing',
-  }
-
 }

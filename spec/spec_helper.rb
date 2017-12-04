@@ -25,6 +25,7 @@ RSpec.configure do |c|
     :root_ssh_key => 'foo',
     :pe_build => '2016.4',
     :classroom_vm_release => '5.7',
+    :code_manager_enabled => false,
     :puppetserver => 'master.puppetlabs.vm',
     :staging_http_get => '/staging',
     :augeas => {
@@ -82,4 +83,13 @@ include puppet_enterprise::profile::master
 include puppet_enterprise::profile::console
 include puppet_enterprise::profile::orchestrator
 include puppet_enterprise::profile::amq::broker
+"
+
+# TODO: This is terrible bad and should be taken out and shot
+VIRTUAL_PRE = "
+class classroom {
+  $manage_selinux = true
+  $manage_repos   = true
+}
+include classroom
 "

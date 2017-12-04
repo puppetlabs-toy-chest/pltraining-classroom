@@ -52,9 +52,14 @@ class classroom (
 
   include classroom::repositories
 
+  # configure gem installs
+  class { 'classroom::gemrc':
+    offline => $offline,
+  }
+
   # trust classroom CA so students can download from the master
   include classroom::cacert
-  
+
   # fix augeas lens until it's updated in PE
   include classroom::agent::augeas
 }

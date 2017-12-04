@@ -5,6 +5,9 @@ class classroom::course::practitioner (
   $manage_yum         = $classroom::params::manage_yum,
   $time_servers       = $classroom::params::time_servers,
   $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $event_id           = undef,
+  $event_pw           = undef,
+  $version            = undef,
 ) inherits classroom::params {
   # just wrap the classroom class
   class { 'classroom':
@@ -19,6 +22,13 @@ class classroom::course::practitioner (
     # master gets reporting scripts
     include classroom::master::reporting_tools
     include classroom::master::sudoers
+
+    class { 'classroom::master::showoff':
+      course             => 'Practitioner',
+      event_id           => $event_id,
+      event_pw           => $event_pw,
+      version            => $version,
+    }
   }
   elsif $role == 'agent' {
     puppet_enterprise::mcollective::client { 'peadmin':

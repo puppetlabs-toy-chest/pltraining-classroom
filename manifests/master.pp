@@ -4,12 +4,6 @@ class classroom::master (
 ) {
   assert_private('This class should not be called directly')
 
-  File {
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-  }
-
   # Workaround for pip
   file {'/usr/bin/pip-python':
     ensure => link,
@@ -19,50 +13,17 @@ class classroom::master (
   # Install the Gitea hosted git repository service
   include classroom::master::gitea
 
-  if $classroom::offline {
-
-    # Reconfigure the gemrc files for offline use
-    $gemrc_files = [ '/root/.gemrc', '/opt/puppetlabs/puppet/etc/gemrc' ]
-
-    $gemrc_files.each |$gemrc_file| {
-      file { $gemrc_file:
-        ensure => file,
-      }
-
-      # Remove this line so "gem install" doesn't try to access
-      # the rubygems.org site, even though the local gem cache
-      # is configured. Seems to work better if this line is removed
-      # altogether.
-      file_line { "Remove rubygems.org from ${gemrc_file} when offline":
-        ensure            => absent,
-        path              => $gemrc_file,
-        match             => '\-\ https:\/\/rubygems\.org',
-        match_for_absence => true,
-      }
-    }
-  }
-
   # Add the installer files for student agents
   # These files are cached by the build, so this will work offline
   include pe_repo::platform::el_6_i386
   include pe_repo::platform::windows_x86_64
 
-  # Ensure the environment cache is disabled and restart if needed
-  ini_setting {'environment timeout':
-    ensure  => present,
-    path    => "${classroom::confdir}/puppet.conf",
-    section => 'main',
-    setting => 'environment_timeout',
-    value   => '0',
-    notify  => Service['pe-puppetserver'],
-  }
-
-  # This is stupid, but it allows the rspec-puppet tests to pass
-#  Ini_setting['environment timeout'] -> Service<| title == 'pe-puppetserver' |>
-
   # Anything that needs to be top scope
   file { "${classroom::codedir}/environments/production/manifests/classroom.pp":
     ensure => file,
+    owner  => 'pe-puppet',
+    group  => 'pe-puppet',
+    mode   => '0644',
     source => 'puppet:///modules/classroom/classroom.pp',
   }
 
@@ -89,9 +50,6 @@ class classroom::master (
     include classroom::master::repositories
   }
 
-  # Install showoff on the classroom master
-  include classroom::master::showoff
-
   # Ensure that time is set appropriately
   include classroom::master::time
 
@@ -100,11 +58,18 @@ class classroom::master (
     jvm_tuning_profile => $jvm_tuning_profile,
   }
 
+  # make sure we have a deployment user
+  include classroom::master::deployer
+
   # Setup Windows Powershell Scripts
   include classroom::master::windows
 
   # Now create all of the users who've checked in
   Classroom::User <<||>>
+  # But prevent students from overwriting the login ssh key
+  user { 'training':
+    ensure => present,
+  }
 
   # Add files required for labs (mostly for offline mode)
   include classroom::master::lab_files

@@ -2,9 +2,6 @@ class classroom::params {
   # Configure NTP (and other services) to run in standalone mode
   $offline   = false
 
-  # Use the gitea git server
-  $use_gitea = true
-
   # Default to root for gitea
   $control_owner = 'root'
 
@@ -27,7 +24,6 @@ class classroom::params {
   # default user password
   $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
   $consolepw = 'puppetlabs'
-  $training_password = '$6$salt$rmd1JvAa.v2uesiL5xR9OTcyDAcSTc1A9IeXJo00CMK0s.svJC/tshztZ7BkqVzZHaxK6.6XBnEGfdaI1jK4O1'
 
   # Should we manage upstream yum repositories in the classroom?
   $manage_yum = $::osfamily ? {
@@ -42,21 +38,15 @@ class classroom::params {
   $manage_repos = true
 
   # git configuration for the web-based alternative git workflow
-  $usersuffix       = 'puppetlabs.vm'
-  $repo_model       = 'single'
-  $gitserver        = {
-    'github'  => 'https://github.com',
-    'gitea' => 'http://master.puppetlabs.vm:3000',
-  }
+  $usersuffix   = 'puppetlabs.vm'
+  $repo_model   = 'single'
+  $gitserver    = 'http://master.puppetlabs.vm:3000'
 
   # time servers to use if we've got network
   $time_servers = ['0.pool.ntp.org iburst', '1.pool.ntp.org iburst', '2.pool.ntp.org iburst', '3.pool.ntp.org']
 
   # for where the agent installer tarball and windows powershell scripts go.
   $publicdir = '/opt/puppetlabs/server/data/packages/public'
-
-  # The directory where the VM caches stuff locally
-  $cachedir = '/usr/src/installer'
 
   # Default timeout for operations requiring downloads or the like
   $timeout = 600
@@ -78,22 +68,33 @@ class classroom::params {
     $machine_name = $::clientcert
   }
 
-  # r10k setup for architect classes
-  $r10k_remote  = '/root/environments'
-  $r10k_basedir = "${confdir}/environments"
-
   # Default session ID for Puppetfactory classes
   $session_id    = '12345'
+
+  # Default plugin list for Puppetfactory classes
+  $plugin_list   = [ "Certificates", "Classification", "ConsoleUser", "Docker", "Logs", "Dashboard", "CodeManager", "Gitea", "ShellUser" ]
 
   # Showoff and printing stack configuration
   $training_user  = 'training'
   $manage_selinux = true
 
-  $role = $::hostname ? {
-    /^(master|classroom|puppetfactory)$/ => 'master',
-    'proxy'                                => 'proxy',
-    'adserver'                             => 'adserver',
-    default                                => 'agent'
+  # TODO: this logic is gross and should be cleaned up as soon as we transition fully to the auto provisioner.
+  if dig($trusted, 'extensions', 'pp_role') {
+    $role = $trusted['extensions']['pp_role'] ? {
+      'training' => 'master',
+      'master'   => 'master',
+      'proxy'    => 'proxy',
+      # intentionally fail if we get any other values since these
+      # are the only roles that can autoprovision right now.
+    }
+  }
+  else {
+    $role = $::hostname ? {
+      /^(localhost|master|classroom|puppetfactory)$/ => 'master',
+      'proxy'                                => 'proxy',
+      'adserver'                             => 'adserver',
+      default                                => 'agent'
+    }
   }
 
   $download = "\n\nPlease download a new VM: http://downloads.puppetlabs.com/training"
@@ -113,5 +114,5 @@ class classroom::params {
   }
 
   $repo_base_path = '/opt/puppetlabs/server/data/packages/public/yum'
-  
+
 }

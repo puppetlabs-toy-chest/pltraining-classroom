@@ -1,6 +1,4 @@
 ---
-puppet_enterprise::profile::console::proxy::http_redirect::enable_http_redirect: false
-<% if @jvm_tuning_profile != false -%>
 puppet_enterprise::profile::puppetdb::listen_address: '0.0.0.0'
 puppet_enterprise::profile::amq::broker::heap_mb: '<%= @amq_heap_mb %>'
 puppet_enterprise::profile::master::java_args:
@@ -27,5 +25,4 @@ puppet_enterprise::profile::console::classifier_synchronization_period: <%= @con
 puppet_enterprise::profile::orchestrator::java_args:
   Xms: <%= @orch_Xms %>
   Xmx: <%= @orch_Xmx %>
-<% end -%>
 <% end -%>

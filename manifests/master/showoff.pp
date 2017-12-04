@@ -1,48 +1,98 @@
 class classroom::master::showoff (
-  String $training_user = $classroom::params::training_user,
+  Optional[String] $course   = undef,
+  Optional[String] $event_id = undef,
+  Optional[String] $event_pw = undef,
+  Optional[String] $variant  = undef,
+  Optional[String] $version  = undef,
 ) inherits classroom::params {
   include stunnel
-  require classroom::master::dependencies::rubygems
   require showoff
-  require classroom::master::pdf_stack
+  require classroom::master::dependencies::rubygems
 
-  # where the source files are uploaded by the instructor's tooling
-  $courseware_source = "/home/${training_user}/courseware"
+  if $::classroom_vm_release and versioncmp($::classroom_vm_release, '7.0') >= 0 {
+    unless $course            { fail('The $course is required on VM versions 7.0 and greater.') }
+    unless $event_id          { fail('The $event_id is required on VM versions 7.0 and greater.') }
+    unless $latest_courseware { fail('Please run `classroom update` to update your Courseware materials.') }
 
-  # We use this resource so that any time an instructor uploads new content,
-  # the PDF files will be rebuilt via the dependent exec statement
-  # This source path will be created via a courseware rake task.
-  file { "${showoff::root}/courseware":
-    ensure  => directory,
-    owner   => $showoff::user,
-    mode    => '0644',
-    recurse => remote,
-    source  => $courseware_source,
-    notify  => Exec['build_pdfs'],
-    require => File[$courseware_source],
+    $presfile   = "${pick($variant, 'showoff')}.json"
+    $password   = pick($event_pw, regsubst($event_id, '^(\w*-)?(\w*)$', '\2'))
+    $revision   = pick($version, $latest_courseware[$course])
+    $pathname   = regsubst($course, '^(Virtual)(\w+)$', '\2').downcase
+    $courseware = "${showoff::root}/courseware/${pathname}"
+    $metadata = {
+      'email'    => pick($trusted.dig('extensions', 'pp_created_by'), $clientcert),
+      'course'   => $course,
+      'version'  => $revision,
+      'event_id' => $event_id,
+      'event_pw' => $password,
+    }
+
+    vcsrepo { "${showoff::root}/courseware":
+      ensure   => present,
+      revision => "${course}-v${revision}",
+      provider => git,
+      before   => Hash_file['courseware metadata'],
+      notify   => Exec['build_pdfs'],
+    }
+
+    file { ["${courseware}/stats", "${courseware}/_files/share"]:
+      ensure   => directory,
+      owner    => $showoff::user,
+      group    => 'root',
+      mode     => '0644',
+      before   => Hash_file['courseware metadata'],
+      notify   => Exec['build_pdfs'],
+    }
+
+    hash_file { 'courseware metadata':
+      path     => "${courseware}/stats/metadata.json",
+      value    => $metadata,
+      provider => 'json',
+      before   => File['courseware metadata'],
+      notify   => Exec['build_pdfs'],
+    }
+
+    file { 'courseware metadata':
+      path     => "${courseware}/stats/metadata.json",
+      owner    => $showoff::user,
+      group    => 'root',
+      mode     => '0644',
+      notify   => Exec['build_pdfs'],
+    }
+    file { 'pagerduty metadata':
+      ensure   => link,
+      path     => '/opt/pltraining/etc/classroom.json',
+      target   => "${courseware}/stats/metadata.json",
+    }
+
+    package { 'puppet-courseware-manager':
+      ensure   => present,
+      provider => gem,
+    }
+
+    exec { 'build_pdfs':
+      command     => "courseware watermark --output _files/share --no-cache --key ${password} --event-id ${event_id} --file ${presfile}",
+      cwd         => $courseware,
+      path        => '/bin:/usr/bin:/usr/local/bin',
+      environment => ['HOME=/tmp'],
+      refreshonly => true,
+      require     => Package['puppet-courseware-manager'],
+    }
+
+    showoff::presentation { 'courseware':
+      path      => $courseware,
+      file      => $presfile,
+      subscribe => Exec['build_pdfs'],
+    }
+
+  }
+  else {
+    if $version  { notify { '$version is not supported on VM < 7.0': }  }
+    if $event_id { notify { '$event_id is not supported on VM < 7.0': } }
+
+    include classroom::master::showoff::legacy
   }
 
-  # Create the courseware_source dir so the first puppet run doesn't error.
-  # The rake task will upload content to this dir for the presentation.
-  file { $courseware_source:
-    ensure => directory,
-    owner   => $training_user,
-    mode    => '0644',
-  }
-
-  exec { 'build_pdfs':
-    command     => "courseware watermark --output _files/share --no-cache",
-    cwd         => "${showoff::root}/courseware/",
-    path        => '/bin:/usr/bin:/usr/local/bin',
-    user        => $showoff::user,
-    environment => ['HOME=/tmp'],
-    refreshonly => true,
-  }
-
-  showoff::presentation { 'courseware':
-    path      => "${showoff::root}/courseware/",
-    subscribe => File["${showoff::root}/courseware"],
-  }
 
   file { '/etc/stunnel/showoff.pem':
     ensure => 'file',

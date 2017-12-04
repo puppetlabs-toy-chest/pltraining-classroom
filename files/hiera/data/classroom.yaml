@@ -1,6 +1,7 @@
 ---
-puppet_enterprise::profile::console::rbac_session_timeout: 4320
-puppet_enterprise::profile::puppetdb::listen_address: '0.0.0.0'
 pe_repo::compile_master_pool_address: 'https://master.puppetlabs.vm'
 puppet_enterprise::master::puppetserver::jruby_environment_class_cache_enabled: true
 puppet_enterprise::profile::console::classifier_synchronization_period: 300
+puppet_enterprise::profile::console::proxy::http_redirect::enable_http_redirect: false
+puppet_enterprise::profile::console::rbac_session_timeout: 4320
+puppet_enterprise::profile::puppetdb::listen_address: '0.0.0.0'
