@@ -34,4 +34,6 @@ class classroom::master::dependencies::rubygems {
   # This is a soft relationship. It won't fail if showoff isn't included.
   Package['nokogiri']      -> Package<| title == 'showoff' |>
   Package['public_suffix'] -> Package<| title == 'showoff' |>
+  Package['rack']          -> Package<| title == 'showoff' |>
+  Package['rack-contrib']  -> Package<| title == 'showoff' |>
 }
