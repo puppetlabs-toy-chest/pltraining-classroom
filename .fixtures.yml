@@ -1,7 +1,6 @@
 fixtures:
-  repositories:
-    classroom_legacy: "git://github.com/puppetlabs/pltraining-classroom_legacy.git"
   forge_modules:
+    classroom_legacy: "pltraining/classroom_legacy"
     abalone: "binford2k/abalone"
     dirtree: "pltraining/dirtree"
     dockeragent: "pltraining/dockeragent"
