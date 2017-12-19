@@ -24,8 +24,14 @@ class classroom::agent::hiera (
       }
     }
   }
-
   $hieradata = "${codedir}/hieradata"
+  
+  # ensure we've got a target to point our shortcuts to
+  dirtree { "${workdir}/hieradata":
+    ensure  => present,
+    parents => true,
+  }
+ 
   file { $hieradata:
     ensure => link,
     # the hieradata dir is empty so forcing to
