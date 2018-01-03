@@ -1,6 +1,9 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.9.1
+* Manage the `/root/puppetcode` directory properly for virtual agents.
+
 ## v1.9.0
 Despite the MINOR version bump, this is a small release that adds no user
 visible functionality. Instead, it removes most of the legacy functionality that
