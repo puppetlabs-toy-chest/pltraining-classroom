@@ -83,7 +83,9 @@ class classroom::virtual (
   if $::osfamily == 'windows' {
     include classroom::windows
   }
+  else {
+    # fix augeas lens until it's updated in PE
+    include classroom::agent::augeas
+  }
 
-  # fix augeas lens until it's updated in PE
-  include classroom::agent::augeas
 }

@@ -1,6 +1,7 @@
 class classroom::windows {
   assert_private('This class should not be called directly')
 
+  # TODO: the following classes fail spec tests due to providers unable to load win32/registry
   require chocolatey
 
   include classroom::windows::geotrust
@@ -8,6 +9,7 @@ class classroom::windows {
   include classroom::windows::disable_esc
   include classroom::windows::alias
   include classroom::windows::enable_rdp
+  # End failing classes
 
   include userprefs::npp
 
@@ -20,6 +22,7 @@ class classroom::windows {
   windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
 
   # Not all choco packages we use have been updated with checksums
+  # TODO: fails spec tests due to providers unable to load win32/registry
   chocolateyfeature { 'allowEmptyChecksums':
     ensure => enabled,
   }
@@ -28,7 +31,7 @@ class classroom::windows {
   package { ['console2', 'putty', 'unzip', 'devbox-common.extension']:
     ensure   => present,
     provider => 'chocolatey',
-    require  => [ Class['chocolatey'], Package['chocolatey'] ],
+    require  => Class['chocolatey'],
   }
 
   ini_setting { 'certname':
@@ -45,7 +48,7 @@ class classroom::windows {
     target => $classroom::params::confdir,
   }
 
-  if $classroom::role == 'adserver' {
+  if $classroom::params::role == 'adserver' {
     class { 'classroom::windows::adserver':
       ad_domainname   => $classroom::ad_domainname,
       ad_dsrmpassword => $classroom::ad_dsrmpassword,
