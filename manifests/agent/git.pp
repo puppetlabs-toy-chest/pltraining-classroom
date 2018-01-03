@@ -19,20 +19,19 @@ class classroom::agent::git {
   }
 
   if $::osfamily == 'windows'{
-    require chocolatey
+    require classroom::windows
 
     package { ['git', 'kdiff3']:
       ensure   => present,
       provider => 'chocolatey',
       before   => [ File[$sshpath], Exec['generate_key'] ],
-      require  => Package['chocolatey'],
     }
 
     file { 'C:/Users/Administrator/.ssh/':
       ensure  => directory,
       source  => $sshpath,
       recurse => true,
-      require => [File[$sshpath],Exec['generate_key'],User['Administrator']],
+      require => [ File[$sshpath], Exec['generate_key'] ],
     }
 
     windows_env { 'PATH=C:\Program Files\Git\bin': }
