@@ -27,6 +27,8 @@ class classroom::agent::git {
       before   => [ File[$sshpath], Exec['generate_key'] ],
     }
 
+    # TODO: the source param fails spec testing
+    #       Failed to convert 'C:/Program Files/Git/.ssh' to URI: bad component(expected absolute path component)
     file { 'C:/Users/Administrator/.ssh/':
       ensure  => directory,
       source  => $sshpath,
