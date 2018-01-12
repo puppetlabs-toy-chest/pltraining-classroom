@@ -21,20 +21,21 @@ class classroom::agent::git {
   }
 
   if $::osfamily == 'windows'{
-    require chocolatey
+    require classroom::windows
 
     package { ['git', 'kdiff3']:
       ensure   => present,
       provider => 'chocolatey',
       before   => [ File[$sshpath], Exec['generate_key'] ],
-      require  => Package['chocolatey'],
     }
 
+    # TODO: the source param fails spec testing
+    #       Failed to convert 'C:/Program Files/Git/.ssh' to URI: bad component(expected absolute path component)
     file { 'C:/Users/Administrator/.ssh/':
       ensure  => directory,
       source  => $sshpath,
       recurse => true,
-      require => [File[$sshpath],Exec['generate_key'],User['Administrator']],
+      require => [ File[$sshpath], Exec['generate_key'] ],
     }
 
     windows_env { 'PATH=C:\Program Files\Git\bin': }

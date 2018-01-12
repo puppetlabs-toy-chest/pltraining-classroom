@@ -5,7 +5,7 @@ class classroom::windows::geotrust {
     command  => '$wc = New-Object System.Net.WebClient;$wc.DownloadFile("https://www.geotrust.com/resources/root_certificates/certificates/GeoTrust_Global_CA.pem","C:\Windows\Temp\GeoTrust_Glocal_CA.pem")',
     creates  => 'C:/Windows/Temp/GeoTrust_Glocal_CA.pem',
     provider => powershell,
-    timeout  => $classroom::timeout,
+    timeout  => $classroom::params::timeout,
   }
   exec { 'install-geotrust-cert':
     command     => 'certutil -addstore root C:\Windows\Temp\GeoTrust_Glocal_CA.pem',

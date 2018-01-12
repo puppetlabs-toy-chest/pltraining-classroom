@@ -24,50 +24,40 @@ class classroom::agent::hiera (
       }
     }
   }
-
   $hieradata = "${codedir}/hieradata"
-
-  if $classroom::manage_repos {
-    file { $hieradata:
-      ensure => link,
-      # the hieradata dir is empty so forcing to
-      # replace directory with symlink on Win 2012
-      force  => true,
-      target => "${workdir}/hieradata",
-    }
-
-    file { "${confdir}/hiera.yaml":
-      ensure => link,
-      target => "${workdir}/hiera.yaml",
-      force  => true,
-    }
-
-    file { "${confdir}/hieradata":
-      ensure => link,
-      target => "${workdir}/hieradata",
-      force  => true,
-    }
-
-    file { "${workdir}/hiera.yaml":
-      ensure  => file,
-      source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
-      replace => false,
-    }
-
+  
+  # ensure we've got a target to point our shortcuts to
+  dirtree { "${workdir}/hieradata":
+    ensure  => present,
+    parents => true,
   }
-  else {
-    file { $hieradata:
-      ensure => directory,
-    }
-
-    # Because PE writes a default, we have to do tricks to see if we've already managed this.
-    unless defined('$puppetlabs_class') {
-      file { "${confdir}/hiera.yaml":
-        ensure  => file,
-        source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
-      }
-    }
+ 
+  file { $hieradata:
+    ensure => link,
+    # the hieradata dir is empty so forcing to
+    # replace directory with symlink on Win 2012
+    force  => true,
+    target => "${workdir}/hieradata",
   }
+
+  file { "${confdir}/hiera.yaml":
+    ensure => link,
+    target => "${workdir}/hiera.yaml",
+    force  => true,
+  }
+
+  file { "${confdir}/hieradata":
+    ensure => link,
+    target => "${workdir}/hieradata",
+    force  => true,
+  }
+
+  file { "${workdir}/hiera.yaml":
+    ensure  => file,
+    source  => 'puppet:///modules/classroom/hiera/hiera.agent.yaml',
+    replace => false,
+  }
+
 
   unless $::osfamily == 'windows' {
     file { '/usr/local/bin/hiera_explain.rb':

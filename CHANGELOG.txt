@@ -1,6 +1,17 @@
 # pltraining/classroom
 ## Release Notes
 
+## v1.9.1
+* Manage the `/root/puppetcode` directory properly for virtual agents.
+
+## v1.9.0
+Despite the MINOR version bump, this is a small release that adds no user
+visible functionality. Instead, it removes most of the legacy functionality that
+we'll be trimming out soon and abstracts that into a separate classroom_legacy
+module. Existing functionality is 100% maintained via shim classes, so unless
+things break, there should be no visible changes at all.
+
+
 ## v1.8.4
 * Corrected rubygem dependency issues.
 * Streamlined spec tests a bit.

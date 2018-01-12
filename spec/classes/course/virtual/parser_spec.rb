@@ -8,7 +8,7 @@ describe 'classroom::course::virtual::parser' do
        $ec2_metadata = undef
        service { 'pe-puppetserver':
          ensure => running,
-       }" + GLOBAL_PRE + VIRTUAL_PRE
+       }" + GLOBAL_PRE
     }
     let(:node) { 'master.puppetlabs.vm' }
     let(:facts) { {
@@ -22,7 +22,7 @@ describe 'classroom::course::virtual::parser' do
     let(:pre_condition) {
       "service { 'pe-puppetserver':
          ensure => running,
-       }" + GLOBAL_PRE + VIRTUAL_PRE
+       }" + GLOBAL_PRE
     }
     let(:node) { 'agent.puppetlabs.vm' }
     let(:facts) { {

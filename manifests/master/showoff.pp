@@ -90,7 +90,7 @@ class classroom::master::showoff (
     if $version  { notify { '$version is not supported on VM < 7.0': }  }
     if $event_id { notify { '$event_id is not supported on VM < 7.0': } }
 
-    include classroom::master::showoff::legacy
+    include classroom_legacy::master::showoff::legacy
   }
 
 
@@ -111,19 +111,17 @@ class classroom::master::showoff (
     client  => false,
   }
 
-  if $classroom::manage_selinux {
-    # Source code in stunnel-showoff.te
-    file { '/usr/share/selinux/targeted/stunnel-showoff.pp':
-      ensure => file,
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-      source => 'puppet:///modules/classroom/selinux/stunnel-showoff.pp',
-    }
+  # Source code in stunnel-showoff.te
+  file { '/usr/share/selinux/targeted/stunnel-showoff.pp':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    source => 'puppet:///modules/classroom/selinux/stunnel-showoff.pp',
+  }
 
-    selmodule { 'stunnel-showoff':
-      ensure => present,
-    }
+  selmodule { 'stunnel-showoff':
+    ensure => present,
   }
 
 }

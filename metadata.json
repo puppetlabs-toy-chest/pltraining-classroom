@@ -1,6 +1,6 @@
 {
   "name": "pltraining-classroom",
-  "version": "1.8.4",
+  "version": "1.9.1",
   "author": "pltraining",
   "summary": "Manages Puppet Labs training classroom environments",
   "license": "Apache 2.0",
@@ -25,14 +25,11 @@
     }
   ],
   "dependencies": [
+    {"name":"pltraining/classroom_legacy",    "version_requirement":">= 1.8.3"},
+
     {"name":"arusso/stunnel",                 "version_requirement":">= 2.1.2"},
-    {"name":"binford2k/abalone"},
-    {"name":"puppetlabs/chocolatey",          "version_requirement":">= 0.8.0"},
-    {"name":"dwerder/graphite",               "version_requirement":"5.16.1"},
-    {"name":"dwerder/grafana",                "version_requirement":">= 1.2.0"},
     {"name":"fiddyspence/hash_file",          "version_requirement":">= 1.0.3"},
     {"name":"garethr/docker",                 "version_requirement":">= 4.0.2"},
-    {"name":"hunner/wordpress",               "version_requirement":">= 0.6.0"},
     {"name":"jordan/fileshare",               "version_requirement":">= 1.1.1"},
     {"name":"pltraining/dirtree",             "version_requirement":">= 0.2.2"},
     {"name":"pltraining/dockeragent",         "version_requirement":">= 0.0.3"},
@@ -40,32 +37,29 @@
     {"name":"pltraining/rbac",                "version_requirement":">= 0.0.2"},
     {"name":"pltraining/showoff",             "version_requirement":">= 0.0.1"},
     {"name":"pltraining/userprefs",           "version_requirement":">= 1.0.15"},
-    {"name":"puppetlabs/apache",              "version_requirement":">= 1.1.1"},
-    {"name":"puppetlabs/concat",              "version_requirement":">= 1.1.1"},
     {"name":"puppetlabs/git",                 "version_requirement":">= 0.2.0"},
-    {"name":"puppetlabs/haproxy",             "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/inifile",             "version_requirement":">= 1.0.0"},
-    {"name":"puppetlabs/mysql",               "version_requirement":">= 2.3.1"},
-    {"name":"puppetlabs/ntp",                 "version_requirement":"< 6.0.0"},
     {"name":"puppetlabs/pe_gem",              "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/pe_puppetserver_gem", "version_requirement":">= 0.0.1"},
     {"name":"puppetlabs/puppetserver_gem",    "version_requirement":">= 0.1.0"},
     {"name":"puppetlabs/stdlib",              "version_requirement":">= 4.7.0"},
     {"name":"puppetlabs/vcsrepo",             "version_requirement":">= 1.1.0"},
-    {"name":"stahnma/epel",                   "version_requirement":"1.2.2"},
-    {"name":"zack/exports",                   "version_requirement":">= 0.0.4"},
 
     {"name":"puppetlabs/acl",                 "version_requirement":">= 1.0.0"},
+    {"name":"puppetlabs/chocolatey",          "version_requirement":">= 0.8.0"},
     {"name":"puppetlabs/dsc",                 "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/powershell",          "version_requirement":">= 2.0.0"},
     {"name":"puppetlabs/reboot",              "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/registry",            "version_requirement":">= 1.0.0"},
-    {"name":"puppetlabs/wsus_client",         "version_requirement":">= 1.0.0"},
+    {"name":"puppet/staging",                 "version_requirement":">= 2.0.1"},
     {"name":"badgerious/windows_env",         "version_requirement":">= 2.0.0"},
-    {"name":"puppetlabs/chocolatey",          "version_requirement":">= 0.8.0"},
-    {"name":"puppet/download_file",           "version_requirement":">= 1.0.0"},
-    {"name":"puppet/iis",                     "version_requirement":">= 2.0.0"},
     {"name":"puppet/windowsfeature",          "version_requirement":">= 1.0.0"},
-    {"name":"puppet/staging",                 "version_requirement":">= 2.0.1"}
+
+
+    {"name":"hunner/wordpress",               "version_requirement":">= 0.6.0"},
+    {"name":"puppetlabs/apache",              "version_requirement":">= 1.1.1"},
+    {"name":"puppetlabs/haproxy",             "version_requirement":">= 1.0.0"},
+    {"name":"puppet/iis",                     "version_requirement":">= 2.0.0"},
+    {"name":"zack/exports",                   "version_requirement":">= 0.0.4"}
   ]
 }

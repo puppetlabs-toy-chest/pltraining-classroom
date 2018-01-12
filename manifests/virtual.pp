@@ -81,28 +81,11 @@ class classroom::virtual (
   }
 
   if $::osfamily == 'windows' {
-    # TODO: copied from classroom::windows; we should refactor both classes for reusability
-    user { 'Administrator':
-      ensure => present,
-      groups => ['Administrators'],
-    }
-
-    chocolateyfeature { 'allowEmptyChecksums':
-      ensure => enabled,
-    }
-    Chocolateyfeature['allowEmptyChecksums'] -> Package<| provider == 'chocolatey' |>
-
-    # Windows Agents
-    class {'chocolatey':
-      chocolatey_download_url => 'https://chocolatey.org/api/v2/package/chocolatey/0.10.3',
-    }
-
-    include classroom::windows::disable_esc
-    include classroom::windows::enable_rdp
-    include classroom::windows::geotrust
-    windows_env { 'PATH=C:\Program Files\Puppet Labs\Puppet\sys\ruby\bin': }
+    include classroom::windows
+  }
+  else {
+    # fix augeas lens until it's updated in PE
+    include classroom::agent::augeas
   }
 
-  # fix augeas lens until it's updated in PE
-  include classroom::agent::augeas
 }
