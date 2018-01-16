@@ -15,7 +15,7 @@ class classroom::master::showoff (
     unless $latest_courseware { fail('Please run `classroom update` to update your Courseware materials.') }
 
     $presfile   = "${pick($variant, 'showoff')}.json"
-    $password   = pick($event_pw, regsubst($event_id, '^(\w*-)?(\w*)$', '\2'))
+    $password   = pick($event_pw, regsubst($event_id, '^(?:\w*-)*(\w*)$', '\1'))
     $revision   = pick($version, $latest_courseware[$course])
     $pathname   = regsubst($course, '^(Virtual)(\w+)$', '\2').downcase
     $courseware = "${showoff::root}/courseware/${pathname}"
