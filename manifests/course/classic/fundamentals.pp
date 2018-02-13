@@ -1,6 +1,6 @@
 # This is a wrapper class for the legacy config
 #
-class classroom::course::legacy::practitioner (
+class classroom::course::classic::fundamentals (
   $offline            = undef,
   $manage_yum         = undef,
   $time_servers       = undef,
@@ -10,7 +10,7 @@ class classroom::course::legacy::practitioner (
   $version            = undef,
 ) {
   # just wrap the classroom class
-  class { 'classroom_legacy::course::practitioner':
+  class { 'classroom_legacy::course::fundamentals':
     offline            => $offline,
     manage_yum         => $manage_yum,
     time_servers       => $time_servers,
