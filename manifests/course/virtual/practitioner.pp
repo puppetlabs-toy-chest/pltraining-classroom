@@ -29,7 +29,7 @@ class classroom::course::virtual::practitioner (
     }
 
     class { 'classroom::master::showoff':
-      course             => 'VirtualPractitioner',
+      course             => 'Practitioner',
       event_id           => $event_id,
       event_pw           => $event_pw,
       variant            => 'virtual',

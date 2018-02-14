@@ -21,7 +21,7 @@ class classroom::course::virtual::fundamentals (
     }
 
     class { 'classroom::master::showoff':
-      course             => 'VirtualFundamentals',
+      course             => 'Fundamentals',
       event_id           => $event_id,
       event_pw           => $event_pw,
       variant            => 'virtual',

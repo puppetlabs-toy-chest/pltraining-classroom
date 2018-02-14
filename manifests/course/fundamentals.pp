@@ -1,22 +1,31 @@
-# This is a wrapper class for the legacy config
-#
+# typing the parameters doesn't actually gain us anything, since the
+# Console doesn't provide any hinting. Subclasses validate types.
 class classroom::course::fundamentals (
-  $offline            = undef,
-  $manage_yum         = undef,
-  $time_servers       = undef,
-  $jvm_tuning_profile = undef,
   $event_id           = undef,
   $event_pw           = undef,
+  $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
+  $offline            = $classroom::params::offline,
   $version            = undef,
-) {
-  # just wrap the classroom class
-  class { 'classroom_legacy::course::fundamentals':
+) inherits classroom::params {
+  class { 'classroom::virtual':
     offline            => $offline,
-    manage_yum         => $manage_yum,
-    time_servers       => $time_servers,
     jvm_tuning_profile => $jvm_tuning_profile,
+    control_repo       => 'classroom-control-vf.git',
     event_id           => $event_id,
     event_pw           => $event_pw,
-    version            => $version,
+  }
+
+  if $role == 'master' {
+    class { 'classroom::facts':
+      coursename => 'fundamentals',
+    }
+
+    class { 'classroom::master::showoff':
+      course             => 'Fundamentals',
+      event_id           => $event_id,
+      event_pw           => $event_pw,
+      variant            => 'showoff',
+      version            => $version,
+    }
   }
 }
