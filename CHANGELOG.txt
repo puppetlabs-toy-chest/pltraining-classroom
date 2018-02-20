@@ -1,6 +1,16 @@
 # pltraining/classroom
 ## Release Notes
 
+## v2.0.0
+* Switch to Virtual First, with each older course available as a Classic variant
+    * Fundamentals local / virtual / classic (deprecated)
+    * Practitioner local / virtual / classic (deprecated)
+    * See docs at https://github.com/puppet-training/courseware/blob/master/README.md
+* Simplify the Event ID to password translation
+    * Password will always be the part of the event ID after the last hyphen.
+* Windows spec tests (not complete due to rspec issues)
+* Manage Chocolatey properly for Windows clients
+
 ## v1.9.1
 * Manage the `/root/puppetcode` directory properly for virtual agents.
 
