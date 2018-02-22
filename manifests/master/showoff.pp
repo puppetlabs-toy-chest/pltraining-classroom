@@ -79,6 +79,22 @@ class classroom::master::showoff (
       require     => Package['puppet-courseware-manager'],
     }
 
+    # The remote many of our presenters use sends PageUP/DOWN keycodes
+    file { "/home/${showoff::user}/.showoff":
+      ensure   => directory,
+      owner    => $showoff::user,
+      group    => 'root',
+      mode     => '0644',
+      before   => Hash_file['custom showoff configuration'],
+    }
+
+    hash_file { 'custom showoff configuration':
+      path     => "/home/${showoff::user}/.showoff/keymap.json",
+      value    => {"pageup" => "PREV", "pagedown" => "NEXT"},
+      provider => 'json',
+      notify   => Showoff::Presentation['courseware'],
+    }
+
     showoff::presentation { 'courseware':
       path      => $courseware,
       file      => $presfile,
