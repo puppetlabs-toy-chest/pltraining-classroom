@@ -14,7 +14,6 @@ class classroom::windows::adserver (
 	package { 'powershell':
     ensure   => '5.1.14409.20170510',
   	provider => 'chocolatey',
-  	require => Package['chocolatey'],
   }
 
 	# We need a reboot before DSC can use WMF5.
