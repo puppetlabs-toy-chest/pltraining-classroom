@@ -62,5 +62,26 @@ describe 'classroom::course::puppetize' do
 #       it { should compile }
 #     end
 
+#     context "applied to Windows AD server: #{params.to_s}" do
+#       let(:pre_condition) {
+#         "$puppetmaster = 'master.puppetlabs.vm'
+#          $ec2_metadata = undef
+#          service { 'pe-puppetserver':
+#            ensure => running,
+#          }" + GLOBAL_PRE
+#       }
+#       let(:node) { 'adserver.puppetlabs.vm' }
+#       let(:facts) { {
+#         :osfamily           => 'windows',
+#         :operatingsystem    => 'windows',
+#         :servername         => 'master.puppetlabs.vm',
+#         :choco_install_path => 'C:\ProgramData\chocolatey',
+#         :chocolateyversion  => '0.10.3',
+#       } }
+#       let(:params) { params }
+#
+#       it { should compile }
+#     end
+
   end
 end
