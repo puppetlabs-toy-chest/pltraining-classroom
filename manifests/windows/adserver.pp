@@ -1,5 +1,5 @@
 class classroom::windows::adserver (
-  $ad_domainname = $classroom::params::ad_domainname,
+  $ad_domainname   = $classroom::params::ad_domainname,
   $ad_dsrmpassword = $classroom::params::ad_dsrmpassword,
 ) inherits classroom::params {
 
@@ -12,7 +12,7 @@ class classroom::windows::adserver (
 	# This will get us WMF5, which is required for DSC to work.
   # Pinning to a version, can change this to a more recent version in the future after testing.
 	package { 'powershell':
-  	ensure => '5.1.14409.20170510',
+    ensure   => '5.1.14409.20170510',
   	provider => 'chocolatey',
   	require => Package['chocolatey'],
   }
@@ -49,10 +49,10 @@ class classroom::windows::adserver (
 	}
 
 	exec { 'SetMachineQuota':
-		command      => 'get-addomain |set-addomain -Replace @{\'ms-DS-MachineAccountQuota\'=\'99\'}',
-		unless       => 'if ((get-addomain | get-adobject -prop \'ms-DS-MachineAccountQuota\' | select -exp \'ms-DS-MachineAccountQuota\') -lt 99) {exit 1} else {exit 0}',
-		provider     => powershell,
-		require => Dsc_xaddomain['FirstDS'],
+		command  => 'get-addomain |set-addomain -Replace @{\'ms-DS-MachineAccountQuota\'=\'99\'}',
+		unless   => 'if ((get-addomain | get-adobject -prop \'ms-DS-MachineAccountQuota\' | select -exp \'ms-DS-MachineAccountQuota\') -lt 99) {exit 1} else {exit 0}',
+		provider => powershell,
+		require  => Dsc_xaddomain['FirstDS'],
 	}
 
 	exec { 'STUDENTS OU':
@@ -63,28 +63,20 @@ class classroom::windows::adserver (
 	}
 
 	dsc_xadgroup { 'WebsiteAdmins':
-		dsc_groupname => 'WebsiteAdmins',
-		dsc_groupscope => 'Global',
-		dsc_description => 'Web Admins',
 		dsc_ensure      => 'Present',
-		require => Dsc_xaddomain['FirstDS'],
+		dsc_groupname   => 'WebsiteAdmins',
+		dsc_groupscope  => 'Global',
+		dsc_description => 'Web Admins',
+		require         => Dsc_xaddomain['FirstDS'],
 	}
 
 	dsc_xaduser { 'admin':
-		dsc_domainname => $ad_domainname,
-		dsc_domainadministratorcredential =>
-		{
-			'user' => 'Administrator',
-			'password' => $ad_dsrmpassword,
-		},
-		dsc_username => 'admin',
-		dsc_password =>
-		{
-			'user' => 'admin',
-			'password' => 'M1Gr3atP@ssw0rd',
-		},
-		dsc_ensure => 'present',
-		require => Dsc_xaddomain['FirstDS'],
+		dsc_ensure                        => 'present',
+		dsc_domainname                    => $ad_domainname,
+		dsc_domainadministratorcredential => { 'user' => 'Administrator', 'password' => $ad_dsrmpassword  },
+		dsc_password                      => { 'user' => 'admin',         'password' => 'M1Gr3atP@ssw0rd' },
+		dsc_username                      => 'admin',
+		require                           => Dsc_xaddomain['FirstDS'],
 	}
 
   # Download install for brackets lab
