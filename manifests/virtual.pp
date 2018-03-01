@@ -1,7 +1,7 @@
 # common configuration for all virtual classes
 class classroom::virtual (
   String                                  $control_repo,
-  Optional[Pattern[/\A(?:\w*-)+(\w*)\Z/]] $event_id           = undef,
+  Optional[Pattern[/\A(?:\w*-)*(\w*)\Z/]] $event_id           = undef,
   Optional[String]                        $event_pw           = undef,
   Variant[Enum['reduced'], Boolean]       $jvm_tuning_profile = $classroom::params::jvm_tuning_profile,
   Boolean                                 $offline            = $classroom::params::offline,
