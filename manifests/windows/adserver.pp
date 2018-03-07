@@ -91,12 +91,9 @@ class classroom::windows::adserver (
     ensure => directory,
   }
 
-  class { 'staging':
-    path    => 'C:/shares',
-  }
-  staging::file { 'Brackets.msi':
+  archive { 'C:/shares/Brackets.msi':
     source  => 'https://github.com/adobe/brackets/releases/download/release-1.3/Brackets.Release.1.3.msi',
-    require => Class['staging'],
+    require => File['C:/shares'],
   }
 
   # Windows file share for UNC lab
@@ -104,7 +101,7 @@ class classroom::windows::adserver (
   fileshare { 'installer':
     ensure  => present,
     path    => 'C:/shares/classroom',
-    require => Class['staging'],
+    require => File['C:/shares/classroom'],
   }
 
   acl { 'c:/shares/classroom/Brackets.msi':

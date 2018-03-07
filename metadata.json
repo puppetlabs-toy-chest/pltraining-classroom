@@ -51,7 +51,7 @@
     {"name":"puppetlabs/powershell",          "version_requirement":">= 2.0.0"},
     {"name":"puppetlabs/reboot",              "version_requirement":">= 1.0.0"},
     {"name":"puppetlabs/registry",            "version_requirement":">= 1.0.0"},
-    {"name":"puppet/staging",                 "version_requirement":">= 2.0.1"},
+    {"name":"puppet/archive",                 "version_requirement":">= 2.1.0"},
     {"name":"badgerious/windows_env",         "version_requirement":">= 2.0.0"},
     {"name":"puppet/windowsfeature",          "version_requirement":">= 1.0.0"},
 
