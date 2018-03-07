@@ -47,6 +47,10 @@ class classroom::course::practitioner (
       stomp_port       => 61613,
       stomp_user       => 'mcollective',
     }
+
+    package { 'jq':
+      ensure => present,
+    }
   }
 
 }
