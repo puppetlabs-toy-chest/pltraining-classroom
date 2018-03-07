@@ -1,6 +1,11 @@
 # pltraining/classroom
 ## Release Notes
 
+## v2.0.1
+* Update expired certificate
+* Correct event IDs
+* Correct Windows AD & DNS configuration.
+
 ## v2.0.0
 * Switch to Virtual First, with each older course available as a Classic variant
     * Fundamentals local / virtual / classic (deprecated)
