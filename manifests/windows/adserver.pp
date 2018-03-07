@@ -91,9 +91,9 @@ class classroom::windows::adserver (
     ensure => directory,
   }
 
-  archive { 'C:/shares/Brackets.msi':
+  archive { 'C:/shares/classroom/Brackets.msi':
     source  => 'https://github.com/adobe/brackets/releases/download/release-1.3/Brackets.Release.1.3.msi',
-    require => File['C:/shares'],
+    require => File['C:/shares/classroom'],
   }
 
   # Windows file share for UNC lab
