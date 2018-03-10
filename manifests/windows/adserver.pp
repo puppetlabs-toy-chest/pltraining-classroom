@@ -101,7 +101,7 @@ class classroom::windows::adserver (
       { identity => 'Administrator', rights => ['full'] },
       { identity => 'Everyone',      rights => ['read','execute'] },
     ],
-    require     => Staging::File['Brackets.msi'],
+    require     => Archive['C:/shares/classroom/Brackets.msi'],
   }
 
 }
