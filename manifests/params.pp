@@ -22,7 +22,7 @@ class classroom::params {
   }
 
   # default user password
-  $password  = '$1$Tge1IxzI$kyx2gPUvWmXwrCQrac8/m0' # puppetlabs
+  $password  = hiera(default_user_password) # puppetlabs
 
   # git configuration for the web-based alternative git workflow
   $usersuffix   = 'puppetlabs.vm'
@@ -35,7 +35,7 @@ class classroom::params {
   # Windows active directory setup parameters
   $ad_domainname           = 'CLASSROOM.local'
   $ad_netbiosdomainname    = 'CLASSROOM'
-  $ad_dsrmpassword         = 'PuppetLabs1'
+  $ad_dsrmpassword         = hiera('ad_dsrmpassword')
 
   # Tuning parameters for classroom master performance
   $jvm_tuning_profile = false  # Set to 'reduced' or false to disable
