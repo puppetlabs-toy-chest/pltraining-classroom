@@ -30,6 +30,10 @@ class classroom::master::dependencies::rubygems {
     ensure   => '1.8.0',
     provider => gem,
   }
+  package { 'specinfra':
+    ensure   => '2.74.0',
+    provider => gem,
+  }
 
   # This is a soft relationship. It won't fail if showoff isn't included.
   Package['nokogiri']      -> Package<| title == 'showoff' |>
