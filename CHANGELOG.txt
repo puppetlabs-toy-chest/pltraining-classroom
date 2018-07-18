@@ -1,8 +1,5 @@
 # pltraining/classroom
 ## Release Notes
-## v2.0.3
-* ipcrm: Pinning specinfra to 2.74.0 to solve for the net-ssh 5.x ruby >= 2.2.6 issue
-
 ## v2.0.2
 
 ## v2.0.1
