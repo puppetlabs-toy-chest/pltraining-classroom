@@ -1,5 +1,7 @@
 # pltraining/classroom
 ## Release Notes
+## v2.0.3
+* (TRAINTECH-6701) Updating agent rubygems code to use specific version of specinfra
 ## v2.0.2
 
 ## v2.0.1
