@@ -1,5 +1,7 @@
 # pltraining/classroom
 ## Release Notes
+## v2.0.5
+* (TRAINTECH-6714) Updating agent rubygems code to use specific version of net-telnet
 ## v2.0.4
 * (TRAINTECH-6701) Updating agent rubygems code to use specific version of specinfra
 ## v2.0.3
